@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity">
+
+    <item android:id="@+id/full_dust_check_result"
+        android:title="@string/fs_svc_full_dust_check_result"
+        android:icon="@drawable/ic_full_dust_check"
+        app:showAsAction="withText|ifRoom" />
+
+</menu>
