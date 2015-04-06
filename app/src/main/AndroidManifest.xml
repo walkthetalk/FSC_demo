@@ -16,6 +16,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ParameterFileListActivity"
+            android:label="@string/title_parameterfile_list"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ll.fsc_demo.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ParameterFileDetailActivity"
+            android:label="@string/title_parameterfile_detail"
+            android:parentActivityName=".ParameterFileListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ll.fsc_demo.ParameterFileListActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -1,0 +1,20 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include android:id="@+id/fsc_toolbar"
+        layout="@layout/fsc_toolbar" />
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/parameterfile_list"
+        android:name="com.example.ll.fsc_demo.ParameterFileListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        tools:context="com.example.ll.fsc_demo.ParameterFileListActivity"
+        tools:layout="@android:layout/list_content"
+        android:layout_below="@+id/fsc_toolbar" />
+</RelativeLayout>

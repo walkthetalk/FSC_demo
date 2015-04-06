@@ -1,0 +1,17 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include android:id="@+id/fsc_toolbar"
+        layout="@layout/fsc_toolbar" />
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/parameterfile_detail_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.ll.fsc_demo.ParameterFileDetailActivity"
+        tools:ignore="MergeRootFrame"
+        android:layout_below="@+id/fsc_toolbar" />
+</RelativeLayout>

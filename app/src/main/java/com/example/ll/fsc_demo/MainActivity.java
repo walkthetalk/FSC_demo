@@ -1,6 +1,7 @@
 package com.example.ll.fsc_demo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -100,10 +101,16 @@ public class MainActivity extends ActionBarActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.fusion_splice_param:
+                Intent intent = new Intent(this, ParameterFileListActivity.class);
+                intent.putExtra("list_adapter", "fs_param_file");
+                startActivity(intent);
+                break;
+            default:
+                break;
         }
 
         return super.onOptionsItemSelected(item);

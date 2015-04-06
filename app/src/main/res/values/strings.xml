@@ -49,4 +49,6 @@
 
     <!-- misc -->
     <string name="fs_svc_icon_desc">Fusion Splice Service Icon Description</string>
+    <string name="title_parameterfile_list">Parameter Files</string>
+    <string name="title_parameterfile_detail">Parameter File Detail</string>
 </resources>
