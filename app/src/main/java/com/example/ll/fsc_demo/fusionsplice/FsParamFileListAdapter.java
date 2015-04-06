@@ -3,19 +3,20 @@ package com.example.ll.fsc_demo.fusionsplice;
 /**
  * Created by ll on 4/6/15.
  */
-import android.widget.BaseAdapter;
+import android.database.Cursor;
+import android.support.v4.widget.CursorAdapter;
 
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ll.fsc_demo.R;
+import com.example.ll.fsc_demo.database.FsDbHelper;
 
-public class FsParamFileListAdapter extends BaseAdapter {
+public class FsParamFileListAdapter extends CursorAdapter {
     private static final int TYPE_NORMAL = 0;
     private static final int TYPE_ACTIVATED = 1;
     private static final int TYPE_COUNT = TYPE_ACTIVATED + 1;
@@ -23,6 +24,10 @@ public class FsParamFileListAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
 
     public FsParamFileListAdapter(Context context) {
+        FsDbHelper helper = new FsDbHelper(context, 1);
+        helper.getWritableDatabase().query();
+        Cursor cursor;
+        super(context, cursor);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -93,7 +98,7 @@ public class FsParamFileListAdapter extends BaseAdapter {
         switch (type) {
             case TYPE_NORMAL: {
                 ViewHolderNormal viewHolderNormal = (ViewHolderNormal)convertView.getTag();
-                viewHolderNormal.id.setText(item.id);
+                viewHolderNormal.id.setText(String.valueOf(item.id));
                 viewHolderNormal.name.setText(item.name);
                 viewHolderNormal.mode.setText(String.valueOf(item.mode));
                 viewHolderNormal.fiberType.setText(String.valueOf(item.fiberType));
@@ -101,7 +106,7 @@ public class FsParamFileListAdapter extends BaseAdapter {
             }
             case TYPE_ACTIVATED: {
                 ViewHolderActivated viewHolderActivated = (ViewHolderActivated)convertView.getTag();
-                viewHolderActivated.id.setText(item.id);
+                viewHolderActivated.id.setText(String.valueOf(item.id));
                 viewHolderActivated.name.setText(item.name);
                 viewHolderActivated.mode.setText(String.valueOf(item.mode));
                 viewHolderActivated.fiberType.setText(String.valueOf(item.fiberType));
