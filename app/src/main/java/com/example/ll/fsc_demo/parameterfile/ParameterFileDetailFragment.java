@@ -1,4 +1,4 @@
-package com.example.ll.fsc_demo;
+package com.example.ll.fsc_demo.parameterfile;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import com.example.ll.fsc_demo.R;
 import com.example.ll.fsc_demo.dummy.DummyContent;
 
 /**

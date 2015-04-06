@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity$PlaceholderFragment">
+
+    <ImageView android:id="@+id/fs_parameterfile_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_blank" />
+
+    <TextView android:id="@+id/fs_parameterfile_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:layout_toEndOf="@id/fs_parameterfile_icon"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin" />
+
+    <TextView android:id="@+id/fs_parameterfile_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceListItem"
+        android:layout_toEndOf="@id/fs_parameterfile_number" />
+    <TextView android:id="@+id/fs_parameterfile_model"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+        android:layout_below="@id/fs_parameterfile_name"
+        android:layout_alignStart="@id/fs_parameterfile_name"
+        android:layout_marginEnd="@dimen/abc_button_padding_horizontal_material" />
+    <TextView android:id="@+id/fs_parameterfile_fiber_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+        android:layout_toEndOf="@id/fs_parameterfile_model"
+        android:layout_below="@+id/fs_parameterfile_name" />
+
+</RelativeLayout>

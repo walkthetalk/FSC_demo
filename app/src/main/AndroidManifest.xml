@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ParameterFileListActivity"
+            android:name=".parameterfile.ParameterFileListActivity"
             android:label="@string/title_parameterfile_list"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -25,12 +25,12 @@
                 android:value="com.example.ll.fsc_demo.MainActivity" />
         </activity>
         <activity
-            android:name=".ParameterFileDetailActivity"
+            android:name=".parameterfile.ParameterFileDetailActivity"
             android:label="@string/title_parameterfile_detail"
-            android:parentActivityName=".ParameterFileListActivity" >
+            android:parentActivityName=".parameterfile.ParameterFileListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.ll.fsc_demo.ParameterFileListActivity" />
+                android:value=".parameterfile.ParameterFileListActivity" />
         </activity>
     </application>
 
