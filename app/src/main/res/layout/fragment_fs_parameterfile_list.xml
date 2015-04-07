@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceListItem"
         android:layout_toEndOf="@id/fs_parameterfile_number" />
-    <TextView android:id="@+id/fs_parameterfile_model"
+    <TextView android:id="@+id/fs_parameterfile_mode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceListItemSecondary"
@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceListItemSecondary"
-        android:layout_toEndOf="@id/fs_parameterfile_model"
+        android:layout_toEndOf="@id/fs_parameterfile_mode"
         android:layout_below="@+id/fs_parameterfile_name" />
 
 </RelativeLayout>

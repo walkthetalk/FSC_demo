@@ -4,6 +4,7 @@ package com.example.ll.fsc_demo.fusionsplice;
  * Created by ll on 4/6/15.
  */
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.widget.CursorAdapter;
 
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.example.ll.fsc_demo.R;
 import com.example.ll.fsc_demo.database.FsDbHelper;
 
+/*
 public class FsParamFileListAdapter extends CursorAdapter {
     private static final int TYPE_NORMAL = 0;
     private static final int TYPE_ACTIVATED = 1;
@@ -23,10 +25,7 @@ public class FsParamFileListAdapter extends CursorAdapter {
 
     private LayoutInflater mInflater;
 
-    public FsParamFileListAdapter(Context context) {
-        FsDbHelper helper = new FsDbHelper(context, 1);
-        helper.getWritableDatabase().query();
-        Cursor cursor;
+    public FsParamFileListAdapter(Context context, Cursor cursor) {
         super(context, cursor);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -56,7 +55,7 @@ public class FsParamFileListAdapter extends CursorAdapter {
         return TYPE_COUNT;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View newView(int position, View convertView, ViewGroup parent) {
         int type = getItemViewType(position);
 
         // Only inflate the view if convertView is null
@@ -69,7 +68,7 @@ public class FsParamFileListAdapter extends CursorAdapter {
                         ViewHolderNormal viewHolderNormal = new ViewHolderNormal();
                         viewHolderNormal.id = (TextView) convertView.findViewById(R.id.fs_parameterfile_number);
                         viewHolderNormal.name = (TextView) convertView.findViewById(R.id.fs_parameterfile_name);
-                        viewHolderNormal.mode = (TextView) convertView.findViewById(R.id.fs_parameterfile_model);
+                        viewHolderNormal.mode = (TextView) convertView.findViewById(R.id.fs_parameterfile_mode);
                         viewHolderNormal.fiberType = (TextView) convertView.findViewById(R.id.fs_parameterfile_fiber_type);
 
                         convertView.setTag(viewHolderNormal);
@@ -81,7 +80,7 @@ public class FsParamFileListAdapter extends CursorAdapter {
                         ViewHolderActivated viewHolderActivated = new ViewHolderActivated();
                         viewHolderActivated.id = (TextView) convertView.findViewById(R.id.fs_parameterfile_number);
                         viewHolderActivated.name = (TextView) convertView.findViewById(R.id.fs_parameterfile_name);
-                        viewHolderActivated.mode = (TextView) convertView.findViewById(R.id.fs_parameterfile_model);
+                        viewHolderActivated.mode = (TextView) convertView.findViewById(R.id.fs_parameterfile_mode);
                         viewHolderActivated.fiberType = (TextView) convertView.findViewById(R.id.fs_parameterfile_fiber_type);
 
                         convertView.setTag(viewHolderActivated);
@@ -131,3 +130,4 @@ public class FsParamFileListAdapter extends CursorAdapter {
         TextView fiberType;
     }
 }
+*/

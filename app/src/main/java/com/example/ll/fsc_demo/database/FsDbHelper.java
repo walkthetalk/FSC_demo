@@ -8,29 +8,21 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by ll on 4/7/15.
  */
 public class FsDbHelper extends SQLiteOpenHelper {
-    public static String TABLE_NAME = "fusion_splice_param";
-    public static String COL_ID = "_id";
-    public static String COL_NAME = "name";
-    public static String COL_MODE = "mode";
-    public static String COL_FIBER_TYPE = "fiber_type";
+    private static String DB_NAME = "fsc.db";
+    private static int DB_VERSION = 2;
 
-    public FsDbHelper(Context context, int version) {
-        super(context, DatabaseInfo.MAIN_DB_FILE_NAME, null, version);
+    public FsDbHelper(Context context) {
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE " + TABLE_NAME + " ("
-                + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COL_NAME + " VARCHAR(20),"
-                + COL_MODE + " VARCHAR(20),"
-                + COL_FIBER_TYPE + " VARCHAR(20),"
-                + ")";
-        db.execSQL(sql);
+        FsParamTbl.onCreate(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
+        FsParamTbl.onUpgrade(db, oldVersion, newVersion);
     }
 }
