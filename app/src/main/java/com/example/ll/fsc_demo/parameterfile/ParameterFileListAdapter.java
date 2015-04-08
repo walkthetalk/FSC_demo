@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +29,10 @@ public class ParameterFileListAdapter extends SimpleCursorAdapter {
 
     private final int mActId;
     private final int mActLayout;
+    private final int mCheckableId;
+    private final CheckedInfo mCheckedInfo;
+
+    private boolean mIsInActionMode = false;
 
     /**
      * it is same as it in base class.
@@ -34,10 +40,12 @@ public class ParameterFileListAdapter extends SimpleCursorAdapter {
     private LayoutInflater mInflater;
 
     public ParameterFileListAdapter(Context context, int layout, Cursor c, String[] from,
-                                    int[] to, int flags, int actId, int actLayout) {
+                                    int[] to, int flags, int actId, int actLayout, int checkableId, CheckedInfo checkedInfo) {
         super(context, layout, c, from, to, flags);
         mActId = actId;
         mActLayout = actLayout;
+        mCheckableId = checkableId;
+        mCheckedInfo = checkedInfo;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -86,6 +94,8 @@ public class ParameterFileListAdapter extends SimpleCursorAdapter {
         for (int i = 0; i < mTo.length; ++i) {
             holder.hold[i] = convertView.findViewById(mTo[i]);
         }
+        holder.checkable = convertView.findViewById(mCheckableId);
+        Log.i("HOLDER.CHECKABLE ", holder.checkable == null ? " IS NULL" : "NOT NULL");
 
         convertView.setTag(holder);
 
@@ -114,14 +124,29 @@ public class ParameterFileListAdapter extends SimpleCursorAdapter {
             }
         }
 
+        /**
+         * NOTE: we should ensure {@link Cursor.getPosition} is stable.
+         */
+        holder.checkable.setVisibility(mIsInActionMode ? View.VISIBLE : View.GONE);
+        ((Checkable) holder.checkable).setChecked(mCheckedInfo.isItemChecked(cursor.getPosition()));
+
         return;
+    }
+
+    public void setActionMode(boolean enable) {
+        mIsInActionMode = enable;
     }
 
     static private class ViewHolder {
         View hold[];
+        View checkable;
 
         ViewHolder(int n) {
             hold = new View[n];
         }
+    }
+
+    public interface CheckedInfo {
+        public boolean isItemChecked(int position);
     }
 }

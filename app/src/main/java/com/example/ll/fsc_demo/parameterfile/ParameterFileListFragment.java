@@ -7,12 +7,15 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.internal.widget.AdapterViewCompat;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Checkable;
 import android.widget.ListView;
 
 
@@ -119,6 +122,7 @@ public class ParameterFileListFragment extends ListFragment {
                 // Inflate the menu for the CAB
                 MenuInflater inflater = mode.getMenuInflater();
                 inflater.inflate(R.menu.parameter_file_list, menu);
+                mAdapter.setActionMode(true);
                 return true;
             }
 
@@ -126,6 +130,7 @@ public class ParameterFileListFragment extends ListFragment {
             public void onDestroyActionMode(ActionMode mode) {
                 // Here you can make any necessary updates to the activity when
                 // the CAB is removed. By default, selected items are deselected/unchecked.
+                mAdapter.setActionMode(false);
             }
 
             @Override
@@ -133,6 +138,20 @@ public class ParameterFileListFragment extends ListFragment {
                 // Here you can perform updates to the CAB due to
                 // an invalidate() request
                 return false;
+            }
+        });
+
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                ListView listView = (ListView) parent;
+                HashMap<String, String> map = (HashMap<String, String>) listView.getItemAtPosition(position);
+                String userid = map.get("userid");
+                String name = map.get("name");
+                String age = map.get("age");
+                Toast.makeText(SQLiteCRUDActivity.this, userid + " , " + name + " , " + age, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -245,7 +264,12 @@ public class ParameterFileListFragment extends ListFragment {
         mAdapter = new ParameterFileListAdapter(getActivity(),
                 R.layout.fragment_fs_parameterfile_list,
                 null, FsParamTbl.ABSTRACT, to, 0,
-                10, R.layout.fragment_fs_parameterfile_list_activated);
+                10, R.layout.fragment_fs_parameterfile_list_activated,
+                R.id.checkable, new ParameterFileListAdapter.CheckedInfo() {
+            public boolean isItemChecked(int position) {
+                return getListView().isItemChecked(position);
+            }
+        });
 
         setListAdapter(mAdapter);
     }
