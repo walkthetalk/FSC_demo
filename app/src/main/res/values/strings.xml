@@ -47,6 +47,9 @@
     <string name="fs_svc_real_time_adjust_subtitle">Realtime Adjust</string>
     <string name="fs_svc_real_time_adjust_result">Realtime Adjust</string>
 
+    <!-- misc menu -->
+    <string name="action_delete">delete</string>
+
     <!-- misc -->
     <string name="fs_svc_icon_desc">Fusion Splice Service Icon Description</string>
     <string name="title_parameterfile_list">Parameter Files</string>

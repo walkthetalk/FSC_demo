@@ -30,27 +30,39 @@ public class FsParamTbl {
     public static void onCreate(SQLiteDatabase database) {
         database.execSQL(CREATE_TBL);
 
-        String tmp1 = "INSERT INTO " + TBL_NAME + "("
-                    + COL_ID + "," + COL_NAME + "," + COL_MODE + "," + COL_FIBER_TYPE + ") VALUES("
-                    + "1, 'test1', 3, 7" + ");";
-        String tmp2 = "INSERT INTO " + TBL_NAME + "("
-                + COL_ID + "," + COL_NAME + "," + COL_MODE + "," + COL_FIBER_TYPE + ") VALUES("
-                + "3, 'test3', 2, 5" + ");";
-        String tmp3 = "INSERT INTO " + TBL_NAME + "("
-                + COL_ID + "," + COL_NAME + "," + COL_MODE + "," + COL_FIBER_TYPE + ") VALUES("
-                + "7, 'test7', 5, 6" + ");";
-        database.execSQL(tmp1);
-        database.execSQL(tmp2);
-        database.execSQL(tmp3);
+        /// just for test TODO: delete it
+        String insertHeader = "INSERT INTO " + TBL_NAME + "("
+                + COL_ID + "," + COL_NAME + "," + COL_MODE + "," + COL_FIBER_TYPE + ") VALUES(";
+        String insertTail = ");";
+
+        database.execSQL(insertHeader + "1, 'test1', 3, 7" + insertTail);
+        database.execSQL(insertHeader + "2, 'test2', 3, 7" + insertTail);
+        database.execSQL(insertHeader + "4, 'test4', 3, 7" + insertTail);
+        database.execSQL(insertHeader + "10, 'test10', 3, 7" + insertTail);
+        database.execSQL(insertHeader + "21, 'test21', 3, 7" + insertTail);
+        database.execSQL(insertHeader + "22, 'test22', 3, 7" + insertTail);
+        database.execSQL(insertHeader + "25, 'test25', 3, 7" + insertTail);
+        database.execSQL(insertHeader + "29, 'test29', 3, 7" + insertTail);
+        database.execSQL(insertHeader + "33, 'test33', 3, 7" + insertTail);
+        database.execSQL(insertHeader + "36, 'test36', 3, 7" + insertTail);
+        database.execSQL(insertHeader + "40, 'test40', 3, 7" + insertTail);
     }
 
-    public static void onUpgrade(SQLiteDatabase database,
+    public static void onUpgrade(SQLiteDatabase db,
                                  int oldVersion, int newVersion) {
         Log.w(FsParamTbl.class.getName(), "Upgrading database from version "
                 + oldVersion + " to " + newVersion
                 + ", which will destroy all old data");
-        database.execSQL("DROP TABLE IF EXISTS " + TBL_NAME);
-        onCreate(database);
+        db.execSQL("DROP TABLE IF EXISTS " + TBL_NAME);
+        onCreate(db);
+    }
+
+    public static void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.w(FsParamTbl.class.getName(), "Downgrading database from version "
+                + oldVersion + " to " + newVersion
+                + ", which will destroy all old data");
+        db.execSQL("DROP TABLE IF EXISTS " + TBL_NAME);
+        onCreate(db);
     }
 }
 
