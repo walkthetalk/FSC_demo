@@ -141,17 +141,17 @@ public class ParameterFileListFragment extends ListFragment {
             }
         });
 
-        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
             @SuppressWarnings("unchecked")
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                ListView listView = (ListView) parent;
-                HashMap<String, String> map = (HashMap<String, String>) listView.getItemAtPosition(position);
-                String userid = map.get("userid");
-                String name = map.get("name");
-                String age = map.get("age");
-                Toast.makeText(SQLiteCRUDActivity.this, userid + " , " + name + " , " + age, Toast.LENGTH_LONG).show();
+                Log.i("LISTEN ITEM CLICK ", String.valueOf(position));
+                //ListView listView = (ListView) parent;
+                //ParameterFileListAdapter.ViewHolder holder =
+                //        (ParameterFileListAdapter.ViewHolder)view.getTag();
+                //((Checkable)holder.checkable).setChecked(true);//listView.isItemChecked(position));
+                //Toast.makeText(SQLiteCRUDActivity.this, userid + " , " + name + " , " + age, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -264,12 +264,9 @@ public class ParameterFileListFragment extends ListFragment {
         mAdapter = new ParameterFileListAdapter(getActivity(),
                 R.layout.fragment_fs_parameterfile_list,
                 null, FsParamTbl.ABSTRACT, to, 0,
-                10, R.layout.fragment_fs_parameterfile_list_activated,
-                R.id.checkable, new ParameterFileListAdapter.CheckedInfo() {
-            public boolean isItemChecked(int position) {
-                return getListView().isItemChecked(position);
-            }
-        });
+                R.id.checkableChild,
+                R.id.fs_parameterfile_icon, R.drawable.ic_activated, R.drawable.ic_blank,
+                10);
 
         setListAdapter(mAdapter);
     }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.ll.fsc_demo.widgets.CheckableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -40,12 +41,17 @@
         android:layout_toEndOf="@id/fs_parameterfile_mode"
         android:layout_below="@+id/fs_parameterfile_name" />
 
+    <!-- no ripple effect and not clickable
+    -->
     <CheckBox
-        android:id="@+id/checkable"
+        android:id="@+id/checkableChild"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
-        android:focusable="false" />
+        android:focusable="false"
+        android:clickable="false"
+        android:longClickable="false"
+        android:background="@android:color/transparent" />
 
-</RelativeLayout>
+</com.example.ll.fsc_demo.widgets.CheckableLayout>
