@@ -2,6 +2,7 @@ package com.example.ll.fsc_demo.parameterfile;
 
 import android.app.Activity;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
@@ -63,7 +64,7 @@ public class ParameterFileListFragment extends ListFragment {
         /**
          * Callback for when an item has been selected.
          */
-        public void onItemSelected(String id);
+        public void onItemSelected(long id);
     }
 
     /**
@@ -72,7 +73,7 @@ public class ParameterFileListFragment extends ListFragment {
      */
     private static Callbacks sDummyCallbacks = new Callbacks() {
         @Override
-        public void onItemSelected(String id) {
+        public void onItemSelected(long id) {
         }
     };
 
@@ -87,7 +88,16 @@ public class ParameterFileListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        fillData();
+        fillData(FsContentProvider.URI_PATH_FSPARAMS,
+                FsParamTbl.ABSTRACT,
+                R.layout.fragment_fs_parameterfile_list, new int[] {
+                        R.id.fs_parameterfile_number,
+                        R.id.fs_parameterfile_name,
+                        R.id.fs_parameterfile_mode,
+                        R.id.fs_parameterfile_fiber_type,
+                },
+                R.id.checkableChild,
+                R.id.fs_parameterfile_icon);
     }
 
     @Override
@@ -141,6 +151,7 @@ public class ParameterFileListFragment extends ListFragment {
             }
         });
 
+        /*
         getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
             @SuppressWarnings("unchecked")
             @Override
@@ -154,6 +165,7 @@ public class ParameterFileListFragment extends ListFragment {
                 //Toast.makeText(SQLiteCRUDActivity.this, userid + " , " + name + " , " + age, Toast.LENGTH_LONG).show();
             }
         });
+        */
 
         /*
         getListView().setOnItemClickListener(new OnItemClickListener() {
@@ -197,7 +209,7 @@ public class ParameterFileListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(id);
     }
 
     @Override
@@ -234,20 +246,13 @@ public class ParameterFileListFragment extends ListFragment {
     /**
      * fill data using simple cursor adapter
      */
-    private void fillData() {
-        int[] to = new int[] {
-                R.id.fs_parameterfile_number,
-                R.id.fs_parameterfile_name,
-                R.id.fs_parameterfile_mode,
-                R.id.fs_parameterfile_fiber_type,
-        };
-
+    private void fillData(final String uri, final String[] from, int layout, int[] to, int checker, int icon) {
         getLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<Cursor>() {
             @Override
             public Loader<Cursor> onCreateLoader(int var1, Bundle var2) {
                 CursorLoader cursorLoader = new CursorLoader(getActivity(),
-                        FsContentProvider.CONTENT_URI,
-                        FsParamTbl.ABSTRACT, null, null, null);
+                        Uri.parse(uri),
+                        from, null, null, null);
                 return cursorLoader;
             }
 
@@ -262,10 +267,9 @@ public class ParameterFileListFragment extends ListFragment {
             }
         });
         mAdapter = new ParameterFileListAdapter(getActivity(),
-                R.layout.fragment_fs_parameterfile_list,
-                null, FsParamTbl.ABSTRACT, to, 0,
-                R.id.checkableChild,
-                R.id.fs_parameterfile_icon, R.drawable.ic_activated, R.drawable.ic_blank,
+                layout,
+                null, from, to, 0,
+                checker, icon, R.drawable.ic_activated, R.drawable.ic_blank,
                 10);
 
         setListAdapter(mAdapter);

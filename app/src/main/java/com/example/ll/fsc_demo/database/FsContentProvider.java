@@ -3,38 +3,43 @@ package com.example.ll.fsc_demo.database;
 /**
  * Created by ll on 4/7/15.
  */
-    import java.util.Arrays;
-    import java.util.HashSet;
+import java.util.Arrays;
+import java.util.HashSet;
 
-    import android.content.ContentProvider;
-    import android.content.ContentResolver;
-    import android.content.ContentValues;
-    import android.content.UriMatcher;
-    import android.database.Cursor;
-    import android.database.sqlite.SQLiteDatabase;
-    import android.database.sqlite.SQLiteQueryBuilder;
-    import android.net.Uri;
-    import android.text.TextUtils;
+import android.content.ContentProvider;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.UriMatcher;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
+import android.net.Uri;
+import android.text.TextUtils;
 
 public class FsContentProvider extends ContentProvider {
 
     private FsDbHelper mDB;
 
-    // used for the UriMacher
-    private static final int TODOS = 10;
-    private static final int TODO_ID = 20;
     private static final String AUTHORITY = "com.example.ll.fsc_demo.database";
-    private static final String BASE_PATH = "fsparams";
+    private static final String URI_BASEPATH = "content://" + AUTHORITY + "/";
 
-    public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
-    public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/todos";
-    public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/todo";
+    private static final int URI_ID_FSPARAMS = 10;
+    private static final int URI_ID_FSPARAM = 20;
+    private static final String URI_BASEPATH_FSPARAMS = "fsparam";
+
+    private static final int URI_ID_HEATPARAMS = 30;
+    private static final int URI_ID_HEATPARAM = 40;
+    private static final String URI_BASEPATH_HEATPARAMS = "heat";
+
+    public static final String URI_PATH_FSPARAMS = URI_BASEPATH + URI_BASEPATH_FSPARAMS;
+    public static final String URI_PATH_HEATPARAMS = URI_BASEPATH + URI_BASEPATH_HEATPARAMS;
 
     private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-
     static {
-        sURIMatcher.addURI(AUTHORITY, BASE_PATH, TODOS);
-        sURIMatcher.addURI(AUTHORITY, BASE_PATH + "/#", TODO_ID);
+        sURIMatcher.addURI(AUTHORITY, URI_BASEPATH_FSPARAMS, URI_ID_FSPARAMS);
+        sURIMatcher.addURI(AUTHORITY, URI_BASEPATH_FSPARAMS + "/#", URI_ID_FSPARAM);
+        sURIMatcher.addURI(AUTHORITY, URI_BASEPATH_HEATPARAMS, URI_ID_HEATPARAMS);
+        sURIMatcher.addURI(AUTHORITY, URI_BASEPATH_HEATPARAMS + "/#", URI_ID_HEATPARAM);
     }
 
     @Override
@@ -52,27 +57,34 @@ public class FsContentProvider extends ContentProvider {
 
         // Uisng SQLiteQueryBuilder instead of query() method
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-
-        // check if the caller has requested a column which does not exists
-        checkColumns(projection);
-
-        // Set the table
-        queryBuilder.setTables(FsParamTbl.TBL_NAME);
-
-        int uriType = sURIMatcher.match(uri);
-        switch (uriType) {
-            case TODOS:
+        switch (sURIMatcher.match(uri)) {
+            case URI_ID_FSPARAMS:
+                checkColumns(projection, FsParamTbl.FULL);
+                queryBuilder.setTables(FsParamTbl.TBL_NAME);
                 break;
-            case TODO_ID:
+            case URI_ID_FSPARAM:
+                checkColumns(projection, FsParamTbl.FULL);
+                queryBuilder.setTables(FsParamTbl.TBL_NAME);
+                // adding the ID to the original query
+                queryBuilder.appendWhere(FsParamTbl.COL_ID + "="
+                        + uri.getLastPathSegment());
+                break;
+            case URI_ID_HEATPARAMS:
+                checkColumns(projection, HeatParamTbl.FULL);
+                queryBuilder.setTables(HeatParamTbl.TBL_NAME);
+                break;
+            case URI_ID_HEATPARAM:
+                checkColumns(projection, HeatParamTbl.FULL);
+                queryBuilder.setTables(HeatParamTbl.TBL_NAME);
                 // adding the ID to the original query
                 queryBuilder.appendWhere(FsParamTbl.COL_ID + "="
                         + uri.getLastPathSegment());
                 break;
             default:
-                throw new IllegalArgumentException("Unknown URI: " + uri);
+                throw new IllegalArgumentException("Unknown URI FOR QUERY: " + uri);
         }
 
-        SQLiteDatabase db = mDB.getWritableDatabase();
+        SQLiteDatabase db = mDB.getReadableDatabase();
         Cursor cursor = queryBuilder.query(db, projection, selection,
                 selectionArgs, null, null, sortOrder);
         // make sure that potential listeners are getting notified
@@ -83,24 +95,44 @@ public class FsContentProvider extends ContentProvider {
 
     @Override
     public String getType(Uri uri) {
-        return null;
+        String ret = null;
+        switch (sURIMatcher.match(uri)) {
+            case URI_ID_FSPARAMS:
+                ret = ContentResolver.CURSOR_DIR_BASE_TYPE + URI_BASEPATH_FSPARAMS;
+                break;
+            case URI_ID_FSPARAM:
+                ret = ContentResolver.CURSOR_ITEM_BASE_TYPE + URI_BASEPATH_FSPARAMS;
+                break;
+            case URI_ID_HEATPARAMS:
+                ret = ContentResolver.CURSOR_DIR_BASE_TYPE + URI_BASEPATH_HEATPARAMS;
+                break;
+            case URI_ID_HEATPARAM:
+                ret = ContentResolver.CURSOR_ITEM_BASE_TYPE + URI_BASEPATH_HEATPARAMS;
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown URI FOR GETTYPE: " + uri);
+        }
+
+        return ret;
     }
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        int uriType = sURIMatcher.match(uri);
-        SQLiteDatabase sqlDB = mDB.getWritableDatabase();
-        int rowsDeleted = 0;
-        long id = 0;
-        switch (uriType) {
-            case TODOS:
-                id = sqlDB.insert(FsParamTbl.TBL_NAME, null, values);
+        final SQLiteDatabase sqlDB = mDB.getWritableDatabase();
+        String tbl = null;
+        switch (sURIMatcher.match(uri)) {
+            case URI_ID_FSPARAMS:
+                tbl = FsParamTbl.TBL_NAME;
+                break;
+            case URI_ID_HEATPARAMS:
+                tbl = HeatParamTbl.TBL_NAME;
                 break;
             default:
-                throw new IllegalArgumentException("Unknown URI: " + uri);
+                throw new IllegalArgumentException("Unknown URI FOR INSERT: " + uri);
         }
+        final long id = sqlDB.insert(FsParamTbl.TBL_NAME, null, values);
         getContext().getContentResolver().notifyChange(uri, null);
-        return Uri.parse(BASE_PATH + "/" + id);
+        return Uri.parse(uri.toString() + "/" + id);
     }
 
     @Override
@@ -108,13 +140,14 @@ public class FsContentProvider extends ContentProvider {
         int uriType = sURIMatcher.match(uri);
         SQLiteDatabase sqlDB = mDB.getWritableDatabase();
         int rowsDeleted = 0;
+        String id = null;
         switch (uriType) {
-            case TODOS:
+            case URI_ID_FSPARAMS:
                 rowsDeleted = sqlDB.delete(FsParamTbl.TBL_NAME, selection,
                         selectionArgs);
                 break;
-            case TODO_ID:
-                String id = uri.getLastPathSegment();
+            case URI_ID_FSPARAM:
+                id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
                     rowsDeleted = sqlDB.delete(FsParamTbl.TBL_NAME,
                             FsParamTbl.COL_ID + "=" + id,
@@ -126,8 +159,25 @@ public class FsContentProvider extends ContentProvider {
                             selectionArgs);
                 }
                 break;
+            case URI_ID_HEATPARAMS:
+                rowsDeleted = sqlDB.delete(HeatParamTbl.TBL_NAME, selection,
+                        selectionArgs);
+                break;
+            case URI_ID_HEATPARAM:
+                id = uri.getLastPathSegment();
+                if (TextUtils.isEmpty(selection)) {
+                    rowsDeleted = sqlDB.delete(HeatParamTbl.TBL_NAME,
+                            FsParamTbl.COL_ID + "=" + id,
+                            null);
+                } else {
+                    rowsDeleted = sqlDB.delete(HeatParamTbl.TBL_NAME,
+                            FsParamTbl.COL_ID + "=" + id
+                                    + " and " + selection,
+                            selectionArgs);
+                }
+                break;
             default:
-                throw new IllegalArgumentException("Unknown URI: " + uri);
+                throw new IllegalArgumentException("Unknown URI FOR DELETE: " + uri);
         }
         getContext().getContentResolver().notifyChange(uri, null);
         return rowsDeleted;
@@ -140,15 +190,16 @@ public class FsContentProvider extends ContentProvider {
         int uriType = sURIMatcher.match(uri);
         SQLiteDatabase sqlDB = mDB.getWritableDatabase();
         int rowsUpdated = 0;
+        String id = null;
         switch (uriType) {
-            case TODOS:
+            case URI_ID_FSPARAMS:
                 rowsUpdated = sqlDB.update(FsParamTbl.TBL_NAME,
                         values,
                         selection,
                         selectionArgs);
                 break;
-            case TODO_ID:
-                String id = uri.getLastPathSegment();
+            case URI_ID_FSPARAM:
+                id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
                     rowsUpdated = sqlDB.update(FsParamTbl.TBL_NAME,
                             values,
@@ -163,19 +214,40 @@ public class FsContentProvider extends ContentProvider {
                             selectionArgs);
                 }
                 break;
+            case URI_ID_HEATPARAMS:
+                rowsUpdated = sqlDB.update(HeatParamTbl.TBL_NAME,
+                        values,
+                        selection,
+                        selectionArgs);
+                break;
+            case URI_ID_HEATPARAM:
+                id = uri.getLastPathSegment();
+                if (TextUtils.isEmpty(selection)) {
+                    rowsUpdated = sqlDB.update(HeatParamTbl.TBL_NAME,
+                            values,
+                            FsParamTbl.COL_ID + "=" + id,
+                            null);
+                } else {
+                    rowsUpdated = sqlDB.update(HeatParamTbl.TBL_NAME,
+                            values,
+                            FsParamTbl.COL_ID + "=" + id
+                                    + " and "
+                                    + selection,
+                            selectionArgs);
+                }
+                break;
             default:
-                throw new IllegalArgumentException("Unknown URI: " + uri);
+                throw new IllegalArgumentException("Unknown URI FOR UPDATE: " + uri);
         }
-        getContext().getContentResolver().notifyChange(uri, null);
+
+        if (rowsUpdated > 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
         return rowsUpdated;
     }
 
-    private void checkColumns(String[] projection) {
-        String[] available = { FsParamTbl.COL_ID,
-                FsParamTbl.COL_NAME,
-                FsParamTbl.COL_MODE,
-                FsParamTbl.COL_FIBER_TYPE,
-        };
+    private void checkColumns(String[] projection, String[] available) {
         if (projection != null) {
             HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
             HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));

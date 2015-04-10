@@ -86,13 +86,13 @@ public class ParameterFileListActivity extends ActionBarActivity
      * indicating that the item with the given ID was selected.
      */
     @Override
-    public void onItemSelected(String id) {
+    public void onItemSelected(long id) {
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ParameterFileDetailFragment.ARG_ITEM_ID, id);
+            arguments.putLong(ParameterFileDetailFragment.ARG_ITEM_ID, id);
             ParameterFileDetailFragment fragment = new ParameterFileDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

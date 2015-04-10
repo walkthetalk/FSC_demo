@@ -18,16 +18,19 @@ public class FsDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         FsParamTbl.onCreate(db);
+        HeatParamTbl.onCreate(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
         FsParamTbl.onUpgrade(db, oldVersion, newVersion);
+        HeatParamTbl.onUpgrade(db, oldVersion, newVersion);
     }
 
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         FsParamTbl.onDowngrade(db, oldVersion, newVersion);
+        HeatParamTbl.onDowngrade(db, oldVersion, newVersion);
     }
 }
