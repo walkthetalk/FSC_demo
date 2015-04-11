@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.ll.fsc_demo.widgets.CheckableLayout
+<com.example.ll.fsc_demo.widgets.CheckableRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -54,4 +54,4 @@
         android:longClickable="false"
         android:background="@android:color/transparent" />
 
-</com.example.ll.fsc_demo.widgets.CheckableLayout>
+</com.example.ll.fsc_demo.widgets.CheckableRelativeLayout>

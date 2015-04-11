@@ -1,5 +1,5 @@
 <resources>
-    <declare-styleable name="CheckableLayout">
+    <declare-styleable name="CheckableRelativeLayout">
         <attr name="checkableChild" format="reference" />
     </declare-styleable>
 </resources>

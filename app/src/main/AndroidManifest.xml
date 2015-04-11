@@ -32,10 +32,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".parameterfile.ParameterFileListActivity" />
         </activity>
+
         <provider
             android:name=".database.FsContentProvider"
             android:authorities="com.example.ll.fsc_demo.database" >
         </provider>
+
     </application>
 
 </manifest>

@@ -49,7 +49,7 @@ public class ParameterFileDetailActivity extends ActionBarActivity {
                     getIntent().getStringExtra(ParameterFileDetailFragment.ARG_ITEM_ID));
             ParameterFileDetailFragment fragment = new ParameterFileDetailFragment();
             fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
+            getFragmentManager().beginTransaction()
                     .add(R.id.parameterfile_detail_container, fragment)
                     .commit();
         }

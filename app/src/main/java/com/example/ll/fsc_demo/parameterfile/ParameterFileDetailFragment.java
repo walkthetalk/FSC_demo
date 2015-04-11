@@ -1,14 +1,15 @@
 package com.example.ll.fsc_demo.parameterfile;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 
 import com.example.ll.fsc_demo.R;
+import com.example.ll.fsc_demo.database.FsContentProvider;
+import com.example.ll.fsc_demo.database.FsParamTbl;
 import com.example.ll.fsc_demo.dummy.DummyContent;
 
 /**
@@ -17,7 +18,7 @@ import com.example.ll.fsc_demo.dummy.DummyContent;
  * in two-pane mode (on tablets) or a {@link ParameterFileDetailActivity}
  * on handsets.
  */
-public class ParameterFileDetailFragment extends Fragment {
+public class ParameterFileDetailFragment extends PreferenceFragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -41,23 +42,67 @@ public class ParameterFileDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            fillData(FsContentProvider.URI_PATH_FSPARAMS + "/" + String.valueOf(getArguments().getLong(ARG_ITEM_ID)),
+                    FsParamTbl.ABSTRACT,
+                    R.layout.fragment_fs_parameterfile_list, new int[] {
+                            R.id.fs_parameterfile_number,
+                            R.id.fs_parameterfile_name,
+                            R.id.fs_parameterfile_mode,
+                            R.id.fs_parameterfile_fiber_type,
+                    },
+                    R.id.checkableChild,
+                    R.id.fs_parameterfile_icon);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_parameterfile_detail, container, false);
+        View ret = super.onCreateView(inflater, container, savedInstanceState);
+        //View rootView = inflater.inflate(R.xml.prefs_fs_parameterfile, container, false);
 
+        addPreferencesFromResource(R.xml.prefs_fs_parameterfile);
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.parameterfile_detail)).setText(mItem.content);
+            // TODO ((TextView) rootView.findViewById(R.id.parameterfile_detail)).setText(mItem.content);
         }
 
-        return rootView;
+        return ret;
+    }
+
+    /**
+     * fill data using simple cursor adapter
+     */
+    private void fillData(final String uri, final String[] from, int layout, int[] to, int checker, int icon) {
+        /*
+        getLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<Cursor>() {
+            @Override
+            public Loader<Cursor> onCreateLoader(int var1, Bundle var2) {
+                CursorLoader cursorLoader = new CursorLoader(getActivity(),
+                        Uri.parse(uri),
+                        from, null, null, null);
+                return cursorLoader;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<Cursor> var1, Cursor var2) {
+                mAdapter.swapCursor(var2);
+
+                setListShown(true);
+            }
+
+            @Override
+            public void onLoaderReset(Loader<Cursor> var1) {
+                mAdapter.swapCursor(null);
+            }
+        });
+        mAdapter = new ParameterFileListAdapter(getActivity(),
+                layout,
+                null, from, to, 0,
+                checker, icon, R.drawable.ic_activated, R.drawable.ic_blank,
+                10);
+
+        setListAdapter(mAdapter);
+        */
     }
 }

@@ -2,10 +2,7 @@ package com.example.ll.fsc_demo.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Paint;
-import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Checkable;
@@ -14,26 +11,25 @@ import android.widget.RelativeLayout;
 import com.example.ll.fsc_demo.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * TODO: document your custom view class.
  */
-public class CheckableLayout extends RelativeLayout implements Checkable {
+public class CheckableRelativeLayout extends RelativeLayout implements Checkable {
     private int mCheckableChild = NO_ID;
     private ArrayList<Checkable> mCheckables = new ArrayList<>();
 
-    public CheckableLayout(Context context) {
+    public CheckableRelativeLayout(Context context) {
         super(context);
         init(null, 0);
     }
 
-    public CheckableLayout(Context context, AttributeSet attrs) {
+    public CheckableRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs, 0);
     }
 
-    public CheckableLayout(Context context, AttributeSet attrs, int defStyle) {
+    public CheckableRelativeLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(attrs, defStyle);
     }
@@ -41,11 +37,11 @@ public class CheckableLayout extends RelativeLayout implements Checkable {
     private void init(AttributeSet attrs, int defStyle) {
         // Load attributes
         final TypedArray a = getContext().obtainStyledAttributes(
-                attrs, R.styleable.CheckableLayout, defStyle, 0);
+                attrs, R.styleable.CheckableRelativeLayout, defStyle, 0);
 
-        if (a.hasValue(R.styleable.CheckableLayout_checkableChild)) {
+        if (a.hasValue(R.styleable.CheckableRelativeLayout_checkableChild)) {
             mCheckableChild = a.getResourceId(
-                    R.styleable.CheckableLayout_checkableChild, mCheckableChild);
+                    R.styleable.CheckableRelativeLayout_checkableChild, mCheckableChild);
         }
     }
 

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <PreferenceCategory
+        android:layout="@layout/prefs_category"
+        android:title="第一个模块的标题" >
+
+        <!-- 设置单选模块 -->
+        <CheckBoxPreference
+            android:persistent="false"
+            android:icon="@drawable/ic_dust_check"
+            android:key="checkbox_preference"
+            android:layout="@layout/prefs_item"
+            android:summary="整个布局都是自定义的，包括图标、文字、点击效果和单选按钮"
+            android:title="标题"
+            android:widgetLayout="@layout/prefs_checkbox" />
+
+        <MultiSelectListPreference
+            android:persistent="false"
+            android:layout="@layout/prefs_item"
+            android:entries="@array/floatColor"
+            android:entryValues="@array/floatColor_value"
+            android:key="multSelect_preference"
+            android:summary="点击可以选择多个选项"
+            android:title="多选列表" />
+
+        <RingtonePreference
+            android:persistent="false"
+            android:layout="@layout/prefs_item"
+            android:key="ringtone_preference"
+            android:summary="点击选择铃声"
+            android:title="铃声选择列表" />
+
+        <SwitchPreference
+            android:persistent="false"
+            android:layout="@layout/prefs_item"
+            android:key="switch_preference"
+            android:summaryOff="已关闭"
+            android:summaryOn="已开启"
+            android:switchTextOff="close"
+            android:switchTextOn="open"
+            android:title="开关" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:layout="@layout/prefs_category"
+        android:title="第二个模块的标题" >
+
+        <!-- 设置输入框模块 -->
+        <EditTextPreference
+            android:persistent="false"
+            android:layout="@layout/prefs_item"
+            android:dialogIcon="@drawable/ic_dust_check"
+            android:dialogTitle="dialog_title_edittext_preference"
+            android:key="edittext_preference"
+            android:negativeButtonText="cancel"
+            android:positiveButtonText="ok"
+            android:title="文本输入" />
+
+        <!-- 选择列表模块 -->
+        <ListPreference
+            android:persistent="false"
+            android:layout="@layout/prefs_item"
+            android:dialogTitle="dialog_title_list_preference"
+            android:entries="@array/floatColor"
+            android:entryValues="@array/floatColor_value"
+            android:key="list_preference"
+            android:summary="点击后会弹出一个单选列表来选择数据"
+            android:title="列表选择框" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

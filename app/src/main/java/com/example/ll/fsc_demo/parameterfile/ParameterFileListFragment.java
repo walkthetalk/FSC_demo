@@ -1,20 +1,24 @@
 package com.example.ll.fsc_demo.parameterfile;
 
 import android.app.Activity;
+import android.app.ListFragment;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v7.internal.widget.AdapterViewCompat;
+//import android.support.v4.app.ListFragment;
+//import android.support.v4.app.LoaderManager;
+//import android.support.v4.content.CursorLoader;
+//import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Checkable;
 import android.widget.ListView;
@@ -37,7 +41,6 @@ import com.example.ll.fsc_demo.dummy.DummyContent;
 public class ParameterFileListFragment extends ListFragment {
 
     private ParameterFileListAdapter mAdapter;
-
     /**
      * The serialization (saved instance state) Bundle key representing the
      * activated item position. Only used on tablets.
@@ -103,6 +106,8 @@ public class ParameterFileListFragment extends ListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        super.setListShownNoAnimation(false);
 
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         getListView().setMultiChoiceModeListener(new ListView.MultiChoiceModeListener() {
@@ -259,6 +264,8 @@ public class ParameterFileListFragment extends ListFragment {
             @Override
             public void onLoadFinished(Loader<Cursor> var1, Cursor var2) {
                 mAdapter.swapCursor(var2);
+
+                setListShown(true);
             }
 
             @Override

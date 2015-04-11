@@ -56,7 +56,7 @@ public class ParameterFileListActivity extends ActionBarActivity
 
             // In two-pane mode, list items should be given the
             // 'activated' state when touched.
-            ((ParameterFileListFragment) getSupportFragmentManager()
+            ((ParameterFileListFragment) getFragmentManager()
                     .findFragmentById(R.id.parameterfile_list))
                     .setActivateOnItemClick(true);
         }
@@ -95,7 +95,7 @@ public class ParameterFileListActivity extends ActionBarActivity
             arguments.putLong(ParameterFileDetailFragment.ARG_ITEM_ID, id);
             ParameterFileDetailFragment fragment = new ParameterFileDetailFragment();
             fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
+            getFragmentManager().beginTransaction()
                     .replace(R.id.parameterfile_detail_container, fragment)
                     .commit();
 
