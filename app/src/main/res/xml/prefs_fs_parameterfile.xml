@@ -67,30 +67,21 @@
         android:key="fsp_kerf_limit"
         android:title="@string/fsp_kerf_limit"
         android:summary="@string/fsp_kerf_limit"
-        app:min="0.1"
-        app:max="3.0"
-        app:step="0.1"
-        app:unit="°" />
+        app:max="30" />
 
     <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
         android:persistent="false"
         android:key="fsp_loss_limit"
         android:title="@string/fsp_loss_limit"
         android:summary="@string/fsp_loss_limit"
-        app:min="0.01"
-        app:max="0.10"
-        app:step="0.01"
-        app:unit="db" />
+        app:max="10" />
 
     <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
         android:persistent="false"
         android:key="fsp_core_angle_limit"
         android:title="@string/fsp_core_angle_limit"
         android:summary="@string/fsp_core_angle_limit"
-        app:min="0.1"
-        app:max="10"
-        app:step="0.1"
-        app:unit="°" />
+        app:max="100" />
 <!--
     <string name="clean_time">Clean Arc Time</string>
     <string name="fusion_gap">Fusion Gap</string>

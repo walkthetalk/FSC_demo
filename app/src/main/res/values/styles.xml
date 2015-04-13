@@ -1,4 +1,18 @@
 <resources>
+    <style name="Holo.Preference" parent="Base.V21.Theme.AppCompat">
+        <item name="android:layout">@layout/preference_holo</item>
+    </style>
+    <style name="Holo.PreferenceSeekBar" parent="Base.V21.Theme.AppCompat">
+        <item name="android:layout">@layout/preference_widget_seekbar</item>
+    </style>
+    <style name="Holo.PreferenceDialog" parent="Base.V21.Theme.AppCompat">
+        <item name="android:negativeButtonText">@android:string/cancel</item>
+        <item name="android:positiveButtonText">@android:string/ok</item>
+    </style>
+    <style name="Holo.PreferenceDialog.SeekBarDialogPreference" parent="Holo.PreferenceDialog">
+        <item name="android:dialogLayout">@layout/preference_dialog_seekbar</item>
+    </style>
+
     <style name="AppTheme.ActionMode" parent="Base.Widget.AppCompat.ActionMode">
         <item name="background">@android:color/holo_red_dark</item>
         <item name="backgroundSplit">@android:color/black</item>
@@ -8,6 +22,10 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="actionModeStyle">@style/AppTheme.ActionMode</item>
         <item name="windowActionModeOverlay">true</item>
+
+
+        <item name="seekBarDialogPreferenceStyle">@style/Holo.PreferenceDialog.SeekBarDialogPreference</item>
+        <item name="seekBarPreferenceStyle">@style/Holo.PreferenceSeekBar</item>
         <!-- Customize your theme here. -->
         <!-- Set theme colors from http://www.google.com/design/spec/style/color.html#color-color-palette-->
         <!-- colorPrimary is used for the default action bar background -->

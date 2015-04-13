@@ -3,10 +3,15 @@
         <attr name="checkableChild" format="reference" />
     </declare-styleable>
 
+    <attr name="max" format="integer" />
+
+    <attr name="seekBarDialogPreferenceStyle" format="reference"/>
     <declare-styleable name="SeekBarDialogPreference">
-        <attr name="max" format="float" />
-        <attr name="min" format="float" />
-        <attr name="step" format="float" />
-        <attr name="unit" format="string" />
+        <attr name="max"/>
+    </declare-styleable>
+
+    <attr name="seekBarPreferenceStyle" format="reference"/>
+    <declare-styleable name="SeekBarPreference">
+        <attr name="max"/>
     </declare-styleable>
 </resources>

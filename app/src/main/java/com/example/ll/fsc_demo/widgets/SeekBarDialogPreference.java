@@ -1,138 +1,179 @@
 package com.example.ll.fsc_demo.widgets;
 
 import android.content.Context;
-import android.content.DialogInterface;
-
 import android.content.res.TypedArray;
-
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.preference.DialogPreference;
-
 import android.util.AttributeSet;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.SeekBar;
-import android.widget.TextView;
 
 import com.example.ll.fsc_demo.R;
 
-/**
- * The SeekBarDialogPreference class is a DialogPreference based and provides a
- * seekbar preference.
- * @author Casper Wakkers
- */
-public class SeekBarDialogPreference extends
-        DialogPreference implements SeekBar.OnSeekBarChangeListener {
-    // Layout widgets.
-    private SeekBar seekBar = null;
-    private TextView valueText = null;
+public class SeekBarDialogPreference extends DialogPreference {
+    private static class SavedState extends BaseSavedState {
+        @SuppressWarnings("unused")
+        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
 
-    // Custom xml attributes.
-    private float maximumValue = 0;
-    private float minimumValue = 0;
-    private float stepSize = 0;
-    private String units = null;
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
 
-    private float value = 0;
+        protected int mValue, mMaxValue;
 
-    /**
-     * The SeekBarDialogPreference constructor.
-     * @param context of this preference.
-     * @param attrs custom xml attributes.
-     */
-    public SeekBarDialogPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+        public SavedState(Parcel source) {
+            super(source);
+            mValue = source.readInt();
+            mMaxValue = source.readInt();
+        }
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarDialogPreference);
-        maximumValue = a.getFloat(R.styleable.SeekBarDialogPreference_max, 0);
-        minimumValue = a.getFloat(R.styleable.SeekBarDialogPreference_min, 0);
-        stepSize = a.getFloat(R.styleable.SeekBarDialogPreference_step, 1);
-        units = a.getString(R.styleable.SeekBarDialogPreference_unit);
-        a.recycle();
+        public SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeInt(mValue);
+            dest.writeInt(mMaxValue);
+        }
     }
 
-    public SeekBarDialogPreference(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
-    }
-
-    public SeekBarDialogPreference(Context context, AttributeSet attrs) {
-        this(context, attrs, android.R.attr.dialogPreferenceStyle);
-    }
+    private final SeekBar mSeekBar;
+    private int mValue = Integer.MIN_VALUE, mMaxValue = Integer.MIN_VALUE;
 
     public SeekBarDialogPreference(Context context) {
         this(context, null);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected View onCreateDialogView() {
-        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+    public SeekBarDialogPreference(Context context, AttributeSet attrs) {
+        this(context, attrs, R.attr.seekBarDialogPreferenceStyle);
+    }
 
-        View view = layoutInflater.inflate(
-                R.layout.seekbardialogpreference, null);
+    public SeekBarDialogPreference(Context context, AttributeSet attrs,
+                                   int defStyle) {
+        super(context, attrs, defStyle);
+        context = getContext();
+        TypedArray a = context.obtainStyledAttributes(attrs,
+                R.styleable.SeekBarDialogPreference, defStyle,
+                R.style.Holo_PreferenceDialog_SeekBarDialogPreference);
+        int maxValue = a.getInt(R.styleable.SeekBarDialogPreference_max, 100);
+        a.recycle();
+        mSeekBar = onCreateSeekBar(context);
+        setMaxValue(maxValue);
+    }
 
-        seekBar = (SeekBar)view.findViewById(R.id.seekbar);
-        valueText = (TextView)view.findViewById(R.id.valueText);
+    public int getMaxValue() {
+        return mMaxValue;
+    }
 
-        Log.i("HEHE ", String.valueOf(value) + "  set to " + String.valueOf((int) ((value - minimumValue) / stepSize)) + "  max is " + String.valueOf((int) ((maximumValue - minimumValue) / stepSize)));
-/*
-        value = getPersistedFloat(minimumValue);
+    public SeekBar getSeekBar() {
+        return mSeekBar;
+    }
 
-        if (value < minimumValue) {
-            value = minimumValue;
+    public int getValue() {
+        return mValue;
+    }
+
+    @Override
+    protected void onBindDialogView(View view) {
+        super.onBindDialogView(view);
+        synchronized (mSeekBar) {
+            ViewParent oldParent = mSeekBar.getParent();
+            if (oldParent != view) {
+                if (oldParent != null) {
+                    ((ViewGroup) oldParent).removeView(mSeekBar);
+                }
+                ((ViewGroup) view).addView(mSeekBar);
+            }
         }
-        else if (value > maximumValue) {
-            value = maximumValue;
+    }
+
+    protected SeekBar onCreateSeekBar(Context context) {
+        return (SeekBar) LayoutInflater.from(context).inflate(R.layout.preference_dialog_seekbar_widget, null);
+    }
+
+    @Override
+    protected void onDialogClosed(boolean positiveResult) {
+        super.onDialogClosed(positiveResult);
+        final int value;
+        synchronized (mSeekBar) {
+            value = mSeekBar.getProgress();
         }
-*/
-        seekBar.setIndeterminate(false);
-        seekBar.setOnSeekBarChangeListener(this);
-        seekBar.setKeyProgressIncrement(1);
-        seekBar.setMax((int) ((maximumValue - minimumValue) / stepSize));
-        Log.i("HEHE ", seekBar.isIndeterminate() ? "ERROR" : "OK");
-        seekBar.setProgress((int) ((value - minimumValue) / stepSize));
-
-        Log.i("HEHE get progress ", String.valueOf(seekBar.getProgress()) + " get max is " + String.valueOf(seekBar.getMax()));
-
-        return view;
-    }
-    /**
-     * {@inheritDoc}
-     */
-    public void onProgressChanged(SeekBar seek, int newValue,
-                                  boolean fromTouch) {
-        // Round the value to the closest integer value.
-        value = newValue * stepSize + minimumValue;
-
-        // Set the valueText text.
-        valueText.setText(String.valueOf(value) +
-                (units == null ? "" : units));
-
-        callChangeListener(value);
-    }
-    /**
-     * {@inheritDoc}
-     */
-    public void onStartTrackingTouch(SeekBar seek) {
-    }
-    /**
-     * {@inheritDoc}
-     */
-    public void onStopTrackingTouch(SeekBar seek) {
-    }
-    /**
-     * {@inheritDoc}
-     */
-    public void onClick(DialogInterface dialog, int which) {
-        // if the positive button is clicked, we persist the value.
-        if (which == DialogInterface.BUTTON_POSITIVE) {
-                Log.i("HEHE CLICK ", String.valueOf(value));
-                persistFloat(value);
+        if (positiveResult && callChangeListener(value)) {
+            setValue(value);
         }
+    }
 
-        super.onClick(dialog, which);
+    @Override
+    protected Integer onGetDefaultValue(TypedArray a, int index) {
+        return a.getInt(index, 0);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (state == null || !(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+        SavedState ss = (SavedState) state;
+        super.onRestoreInstanceState(ss.getSuperState());
+        setValue(ss.mValue);
+        setMaxValue(ss.mMaxValue);
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        final Parcelable superState = super.onSaveInstanceState();
+        if (isPersistent()) {
+            return superState;
+        }
+        final SavedState myState = new SavedState(superState);
+        myState.mValue = mValue;
+        myState.mMaxValue = mMaxValue;
+        return myState;
+    }
+
+    @Override
+    protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+        int def = defaultValue instanceof Integer ? (Integer) defaultValue
+                : defaultValue == null ? 0 : Integer.parseInt(defaultValue
+                .toString());
+        setValue(restoreValue ? getPersistedInt(def) : def);
+    }
+
+    public void setMaxValue(int maxValue) {
+        if (mMaxValue == maxValue) {
+            return;
+        }
+        final boolean wasBlocking = shouldDisableDependents();
+        mMaxValue = maxValue;
+        mSeekBar.setMax(maxValue);
+        if (shouldDisableDependents() != wasBlocking) {
+            notifyDependencyChange(!wasBlocking);
+        }
+    }
+
+    public void setValue(int value) {
+        if (mValue == value) {
+            return;
+        }
+        final boolean wasBlocking = shouldDisableDependents();
+        mValue = value;
+        mSeekBar.setProgress(value);
+        persistInt(value);
+        if (shouldDisableDependents() != wasBlocking) {
+            notifyDependencyChange(!wasBlocking);
+        }
     }
 }
