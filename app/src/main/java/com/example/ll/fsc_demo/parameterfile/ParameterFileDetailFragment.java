@@ -42,6 +42,7 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
+            /*
             fillData(FsContentProvider.URI_PATH_FSPARAMS + "/" + String.valueOf(getArguments().getLong(ARG_ITEM_ID)),
                     FsParamTbl.ABSTRACT,
                     R.layout.fragment_fs_parameterfile_list, new int[] {
@@ -52,6 +53,7 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
                     },
                     R.id.checkableChild,
                     R.id.fs_parameterfile_icon);
+                    */
         }
     }
 

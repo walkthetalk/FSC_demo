@@ -1,64 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <PreferenceCategory
-        android:title="第一个模块的标题" >
 
-        <!-- 设置单选模块 -->
-        <CheckBoxPreference
-            android:persistent="false"
-            android:icon="@drawable/ic_dust_check"
-            android:key="checkbox_preference"
-            android:summary="整个布局都是自定义的，包括图标、文字、点击效果和单选按钮"
-            android:title="标题" />
+    <EditTextPreference
+        android:persistent="false"
+        android:key="fsp_name"
+        android:title="@string/fsp_name"
+        android:summary="Name"
+        android:dialogIcon="@drawable/ic_dust_check"
+        android:dialogTitle="@string/fsp_name"
+        android:negativeButtonText="@android:string/cancel"
+        android:positiveButtonText="@android:string/ok" />
 
-        <MultiSelectListPreference
-            android:persistent="false"
-            android:entries="@array/floatColor"
-            android:entryValues="@array/floatColor_value"
-            android:key="multSelect_preference"
-            android:summary="点击可以选择多个选项"
-            android:title="多选列表" />
+    <ListPreference
+        android:persistent="false"
+        android:key="fsp_mode"
+        android:title="@string/fsp_mode"
+        android:summary="@string/fsp_mode"
+        android:dialogTitle="@string/fsp_mode"
+        android:entries="@array/fsp_mode"
+        android:entryValues="@array/fsp_mode_value" />
 
-        <RingtonePreference
-            android:persistent="false"
-            android:key="ringtone_preference"
-            android:summary="点击选择铃声"
-            android:title="铃声选择列表" />
+    <ListPreference
+        android:persistent="false"
+        android:key="fsp_fiber_type"
+        android:title="@string/fsp_fiber_type"
+        android:summary="@string/fsp_fiber_type"
+        android:dialogTitle="@string/fsp_fiber_type"
+        android:entries="@array/fsp_fiber_type"
+        android:entryValues="@array/fsp_fiber_type_value" />
 
-        <SwitchPreference
-            android:persistent="false"
-            android:key="switch_preference"
-            android:summaryOff="已关闭"
-            android:summaryOn="已开启"
-            android:switchTextOff="close"
-            android:switchTextOn="open"
-            android:title="开关" />
-    </PreferenceCategory>
+    <ListPreference
+        android:persistent="false"
+        android:key="fsp_align_mode"
+        android:title="@string/fsp_align_mode"
+        android:summary="@string/fsp_align_mode"
+        android:dialogTitle="@string/fsp_align_mode"
+        android:entries="@array/fsp_align_mode"
+        android:entryValues="@array/fsp_align_mode_value" />
 
-    <PreferenceCategory
-        android:title="第二个模块的标题" >
+    <SwitchPreference
+        android:persistent="false"
+        android:key="fsp_auto_focus"
+        android:title="@string/fsp_auto_focus" />
 
-        <EditTextPreference
-            android:persistent="false"
-            android:dialogIcon="@drawable/ic_dust_check"
-            android:dialogTitle="dialog_title_edittext_preference"
-            android:key="edittext_preference"
-            android:negativeButtonText="cancel"
-            android:positiveButtonText="ok"
-            android:title="文本输入" />
+    <SwitchPreference
+        android:persistent="false"
+        android:key="fsp_ecf_redress"
+        android:title="@string/fsp_ecf_redress" />
 
-        <!-- 选择列表模块 -->
-        <ListPreference
-            android:persistent="false"
-            android:dialogTitle="dialog_title_list_preference"
-            android:entries="@array/floatColor"
-            android:entryValues="@array/floatColor_value"
-            android:key="list_preference"
-            android:summary="点击后会弹出一个单选列表来选择数据"
-            android:title="列表选择框" />
-    </PreferenceCategory>
+    <SwitchPreference
+        android:persistent="false"
+        android:key="fsp_auto_mag"
+        android:title="@string/fsp_auto_mag" />
+
+    <SwitchPreference
+        android:persistent="false"
+        android:key="fsp_tension_test"
+        android:title="@string/fsp_tension_test" />
+
+    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+        android:persistent="false"
+        android:key="fsp_kerf_limit"
+        android:title="@string/fsp_kerf_limit"
+        android:summary="@string/fsp_kerf_limit"
+        app:min="0.1"
+        app:max="3.0"
+        app:step="0.1"
+        app:unit="°" />
+
+    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+        android:persistent="false"
+        android:key="fsp_loss_limit"
+        android:title="@string/fsp_loss_limit"
+        android:summary="@string/fsp_loss_limit"
+        app:min="0.01"
+        app:max="0.10"
+        app:step="0.01"
+        app:unit="db" />
+
+    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+        android:persistent="false"
+        android:key="fsp_core_angle_limit"
+        android:title="@string/fsp_core_angle_limit"
+        android:summary="@string/fsp_core_angle_limit"
+        app:min="0.1"
+        app:max="10"
+        app:step="0.1"
+        app:unit="°" />
+<!--
+    <string name="clean_time">Clean Arc Time</string>
+    <string name="fusion_gap">Fusion Gap</string>
+    <string name="fusion_position">Fusion Position</string>
+    <string name="prefuse_mag">Prefuse Power</string>
+    <string name="prefuse_time">Prefuse Time</string>
+    <string name="fusion_overlap">Overlap</string>
+    <string name="arc1_mag">Arc 1 Power</string>
+    <string name="arc1_time">Arc 1 Time</string>
+    <string name="arc2_mag">Arc 2 Power</string>
+    <string name="arc2_time">Arc 2 Time</string>
+    <string name="arc2_on_time">Arc 2 On-Time</string>
+    <string name="arc2_off_time">Arc 2 Off-Time</string>
+    <string name="manual_arc_time">Manual Reinforce Arc Time</string>
+    <string name="taper_splice">Taper Splice</string>
+    <string name="taper_wait">Taper Wait Time</string>
+    <string name="taper_speed">Taper Speed</string>
+    <string name="taper_length">Taper Length</string>
+    <string name="loss_est_mode">Loss Estimate Mode</string>
+    <string name="left_mfd">Left Fiber MFD</string>
+    <string name="right_mfd">Right Fiber MFD</string>
+    <string name="min_loss">Minimum Loss</string>
+    <string name="syntropy_bend_coefficient">Core Syntropy Bend Coefficient</string>
+    <string name="opposite_bend_coefficient">Core Opposite Bend Coefficient</string>
+    <string name="mfd_mismatch_coefficient">MFD Mismatch Coefficient</string>
+    -->
 
 </PreferenceScreen>

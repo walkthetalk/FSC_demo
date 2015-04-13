@@ -45,8 +45,8 @@ public class ParameterFileDetailActivity extends ActionBarActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ParameterFileDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(ParameterFileDetailFragment.ARG_ITEM_ID));
+            arguments.putLong(ParameterFileDetailFragment.ARG_ITEM_ID,
+                    getIntent().getLongExtra(ParameterFileDetailFragment.ARG_ITEM_ID, 0));
             ParameterFileDetailFragment fragment = new ParameterFileDetailFragment();
             fragment.setArguments(arguments);
             getFragmentManager().beginTransaction()

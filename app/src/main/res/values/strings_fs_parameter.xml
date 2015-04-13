@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fsp_name">Name</string>
+    <string name="fsp_mode">Splice Mode</string>
+    <string name="fsp_fiber_type">Fiber Type</string>
+    <string name="fsp_align_mode">Align Mode</string>
+    <string name="fsp_auto_focus">Auto Focus</string>
+    <string name="fsp_ecf_redress">ECF</string>
+    <string name="fsp_auto_mag">Auto Arc Power</string>
+    <string name="fsp_tension_test">Tension Test</string>
+    <string name="fsp_kerf_limit">Kerf Limit</string>
+    <string name="fsp_loss_limit">Loss Limit</string>
+    <string name="fsp_core_angle_limit">Fiber Core Angle Limit</string>
+    <string name="fsp_clean_time">Clean Arc Time</string>
+    <string name="fsp_fusion_gap">Fusion Gap</string>
+    <string name="fsp_fusion_position">Fusion Position</string>
+    <string name="fsp_prefuse_mag">Prefuse Power</string>
+    <string name="fsp_prefuse_time">Prefuse Time</string>
+    <string name="fsp_fusion_overlap">Overlap</string>
+    <string name="fsp_arc1_mag">Arc 1 Power</string>
+    <string name="fsp_arc1_time">Arc 1 Time</string>
+    <string name="fsp_arc2_mag">Arc 2 Power</string>
+    <string name="fsp_arc2_time">Arc 2 Time</string>
+    <string name="fsp_arc2_on_time">Arc 2 On-Time</string>
+    <string name="fsp_arc2_off_time">Arc 2 Off-Time</string>
+    <string name="fsp_manual_arc_time">Manual Reinforce Arc Time</string>
+    <string name="fsp_taper_splice">Taper Splice</string>
+    <string name="fsp_taper_wait">Taper Wait Time</string>
+    <string name="fsp_taper_speed">Taper Speed</string>
+    <string name="fsp_taper_length">Taper Length</string>
+    <string name="fsp_loss_est_mode">Loss Estimate Mode</string>
+    <string name="fsp_left_mfd">Left Fiber MFD</string>
+    <string name="fsp_right_mfd">Right Fiber MFD</string>
+    <string name="fsp_min_loss">Minimum Loss</string>
+    <string name="fsp_syntropy_bend_coefficient">Core Syntropy Bend Coefficient</string>
+    <string name="fsp_opposite_bend_coefficient">Core Opposite Bend Coefficient</string>
+    <string name="fsp_mfd_mismatch_coefficient">MFD Mismatch Coefficient</string>
+
+    <string-array name="fsp_mode">
+        <item>auto</item>
+        <item>calibrate</item>
+        <item>normal</item>
+        <item>special</item>
+    </string-array>
+    <string-array name="fsp_mode_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="fsp_fiber_type">
+        <item>SM</item>
+        <item>DS</item>
+        <item>NZ</item>
+        <item>MM</item>
+    </string-array>
+    <string-array name="fsp_fiber_type_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="fsp_align_mode">
+        <item>fine</item>
+        <item>clad</item>
+        <item>core</item>
+        <item>manual</item>
+    </string-array>
+    <string-array name="fsp_align_mode_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+</resources>

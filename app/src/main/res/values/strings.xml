@@ -9,44 +9,6 @@
 
     <string name="action_settings">Settings</string>
 
-    <!-- fusion splice service related strings -->
-    <string name="fs_svc_arc_adjust_title">Arc Adjust</string>
-    <string name="fs_svc_arc_adjust_subtitle">Arc Adjust</string>
-    <string name="fs_svc_arc_adjust_result">Arc Adjust</string>
-
-    <string name="fs_svc_fusion_splice_title">Fusion Splice</string>
-    <string name="fs_svc_fusion_splice_subtitle">Fusion Splice</string>
-    <string name="fs_svc_fusion_splice_result">Fusion Splice Result</string>
-    <string name="fs_svc_fusion_splice_param">Fusion Splice Param</string>
-
-    <string name="fs_svc_heat_title">Heat</string>
-    <string name="fs_svc_heat_subtitle">Heat</string>
-    <string name="fs_svc_heat_result">Heat</string>
-
-    <string name="fs_svc_dust_check_title">Dust Check</string>
-    <string name="fs_svc_dust_check_subtitle">Dust Check</string>
-    <string name="fs_svc_dust_check_result">Dust Check</string>
-
-    <string name="fs_svc_full_dust_check_title">Full Dust Check</string>
-    <string name="fs_svc_full_dust_check_subtitle">Full Dust Check</string>
-    <string name="fs_svc_full_dust_check_result">Dust Check</string>
-
-    <string name="fs_svc_regular_test_title">Regular Test</string>
-    <string name="fs_svc_regular_test_subtitle">Regular Test</string>
-    <string name="fs_svc_regular_test_result">Regular Test</string>
-
-    <string name="fs_svc_regular_debug_title">Regular Debug</string>
-    <string name="fs_svc_regular_debug_subtitle">Regular Debug</string>
-    <string name="fs_svc_regular_debug_result">Regular Debug</string>
-
-    <string name="fs_svc_stabilize_electrode_title">Stabilize Electrode</string>
-    <string name="fs_svc_stabilize_electrode_subtitle">Stabilize Electrode</string>
-    <string name="fs_svc_stabilize_electrode_result">Stabilize Electrode</string>
-
-    <string name="fs_svc_real_time_adjust_title">Realtime Adjust</string>
-    <string name="fs_svc_real_time_adjust_subtitle">Realtime Adjust</string>
-    <string name="fs_svc_real_time_adjust_result">Realtime Adjust</string>
-
     <!-- misc menu -->
     <string name="action_delete">delete</string>
 
