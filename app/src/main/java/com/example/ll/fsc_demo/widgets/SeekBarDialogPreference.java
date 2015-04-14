@@ -66,7 +66,7 @@ public class SeekBarDialogPreference extends DialogPreference {
         context = getContext();
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.SeekBarDialogPreference, defStyle,
-                R.style.Holo_PreferenceDialog_SeekBarDialogPreference);
+                R.style.Holo_SeekBarDialogPreference);
         int maxValue = a.getInt(R.styleable.SeekBarDialogPreference_max, 100);
         a.recycle();
         mSeekBar = onCreateSeekBar(context);

@@ -62,11 +62,6 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
     }
 
     @Override
-    public CharSequence getSummary() {
-        return null;
-    }
-
-    @Override
     protected void onBindView(View view) {
         super.onBindView(view);
         SeekBar seekBar = (SeekBar) view.findViewById(R.id.seekbar);

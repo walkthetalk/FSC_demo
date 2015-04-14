@@ -74,4 +74,18 @@
         <item>2</item>
         <item>3</item>
     </string-array>
+
+    <string-array name="fsp_loss_est_mode">
+        <item>Close</item>
+        <item>Fine</item>
+        <item>Core</item>
+        <item>Cladding</item>
+    </string-array>
+
+    <string-array name="fsp_loss_est_mode_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
 </resources>
