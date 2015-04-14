@@ -7,7 +7,7 @@ import android.util.Log;
  * Created by ll on 4/10/15.
  */
 public class HeatParamTbl {
-    public static final String TBL_NAME = "fusion_splice_param";
+    public static final String TBL_NAME = "heat_param";
     public static final String COL_ID = "_id";
     public static final String COL_NAME = "name";
     public static final String COL_MATERIAL = "mode";
@@ -53,7 +53,7 @@ public class HeatParamTbl {
         Log.w(FsParamTbl.class.getName(), "Upgrading database from version "
                 + oldVersion + " to " + newVersion
                 + ", which will destroy all old data");
-        db.execSQL("DROP TABLE IF EXISTS " + TBL_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TBL_NAME + ";");
         onCreate(db);
     }
 
@@ -61,7 +61,7 @@ public class HeatParamTbl {
         Log.w(FsParamTbl.class.getName(), "Downgrading database from version "
                 + oldVersion + " to " + newVersion
                 + ", which will destroy all old data");
-        db.execSQL("DROP TABLE IF EXISTS " + TBL_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TBL_NAME + ";");
         onCreate(db);
     }
 }

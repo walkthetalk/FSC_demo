@@ -53,7 +53,7 @@ public class FsParamTbl {
         Log.w(FsParamTbl.class.getName(), "Upgrading database from version "
                 + oldVersion + " to " + newVersion
                 + ", which will destroy all old data");
-        db.execSQL("DROP TABLE IF EXISTS " + TBL_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TBL_NAME + ";");
         onCreate(db);
     }
 
@@ -61,7 +61,7 @@ public class FsParamTbl {
         Log.w(FsParamTbl.class.getName(), "Downgrading database from version "
                 + oldVersion + " to " + newVersion
                 + ", which will destroy all old data");
-        db.execSQL("DROP TABLE IF EXISTS " + TBL_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TBL_NAME + ";");
         onCreate(db);
     }
 }
