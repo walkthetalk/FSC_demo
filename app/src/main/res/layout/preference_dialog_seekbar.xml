@@ -6,13 +6,13 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@android:id/title"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+android:id/title"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@android:id/summary"
+        android:id="@+android:id/summary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
