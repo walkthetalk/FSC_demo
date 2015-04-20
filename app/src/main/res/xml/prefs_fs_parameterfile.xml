@@ -8,7 +8,7 @@
     <EditTextPreference
         android:key="fsp_name"
         android:title="@string/fsp_name"
-        android:summary="Name"
+        android:summary="maybe %s"
         android:dialogIcon="@drawable/ic_dust_check"
         android:dialogTitle="@string/fsp_name"
         android:negativeButtonText="@android:string/cancel"

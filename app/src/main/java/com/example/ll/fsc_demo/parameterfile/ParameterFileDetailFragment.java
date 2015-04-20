@@ -12,6 +12,7 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,11 +114,25 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
 
                 for (int i = 1; i < var2.getColumnCount(); ++i) {
                     String tmp = var2.getColumnName(i);
-                    Preference pref = getPreferenceScreen().findPreference("fsp_" + tmp);
+                    final Preference pref = getPreferenceScreen().findPreference("fsp_" + tmp);
                     switch (var2.getType(i)) {
                         case Cursor.FIELD_TYPE_STRING:
+                            String newVal = var2.getString(i);
+                            Preference.OnPreferenceChangeListener listener = new Preference.OnPreferenceChangeListener() {
+                                private String mFormat = pref.getSummary().toString();
+                                @Override
+                                public boolean onPreferenceChange(Preference preference, Object newValue)
+                                {
+                                    if (newValue instanceof String) {
+                                        preference.setSummary(String.format(mFormat, (String) newValue));
+                                    }
+                                    return true;
+                                }
+                            };
                             if (pref instanceof EditTextPreference) {
-                                ((EditTextPreference) pref).setText(var2.getString(i));
+                                ((EditTextPreference) pref).setText(newVal);
+                                listener.onPreferenceChange(pref, newVal);
+                                pref.setOnPreferenceChangeListener(listener);
                             }
                             break;
                     }
