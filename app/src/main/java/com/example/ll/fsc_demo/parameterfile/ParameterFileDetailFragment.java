@@ -9,9 +9,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +40,60 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
+
+    private static HashMap<String, ParamInitor> mInitor;
+    static {
+        mInitor = new HashMap<>();
+        mInitor.put(FsParamTbl.COL_NAME, new ParamInitor() {
+            @Override
+            public void init(Cursor cursor, PreferenceScreen screen) {
+                final String key = FsParamTbl.COL_NAME;
+                final int i = cursor.getColumnIndex(key);
+                final Preference pref = screen.findPreference("fsp_" + key);
+                final String newVal = cursor.getString(i);
+                Preference.OnPreferenceChangeListener listener = new Preference.OnPreferenceChangeListener() {
+                    private String mFormat = pref.getSummary().toString();
+                    @Override
+                    public boolean onPreferenceChange(Preference preference, Object newValue)
+                    {
+                        preference.setSummary(String.format(mFormat, (String) newValue));
+                        return true;
+                    }
+                };
+                if (pref instanceof EditTextPreference) {
+                    ((EditTextPreference) pref).setText(newVal);
+                    listener.onPreferenceChange(pref, newVal);
+                    pref.setOnPreferenceChangeListener(listener);
+                }
+            }
+        });
+
+        mInitor.put(FsParamTbl.COL_MODE, new ParamInitor() {
+            @Override
+            public void init(Cursor cursor, PreferenceScreen screen) {
+                final String key = FsParamTbl.COL_MODE;
+                final int i = cursor.getColumnIndex(key);
+                final Preference pref = screen.findPreference("fsp_" + key);
+                final String newVal = cursor.getString(i);
+                if (pref instanceof ListPreference) {
+                    ((ListPreference) pref).setValue(newVal);
+                }
+            }
+        });
+
+        mInitor.put(FsParamTbl.COL_FIBER_TYPE, new ParamInitor() {
+            @Override
+            public void init(Cursor cursor, PreferenceScreen screen) {
+                final String key = FsParamTbl.COL_FIBER_TYPE;
+                final int i = cursor.getColumnIndex(key);
+                final Preference pref = screen.findPreference("fsp_" + key);
+                final String newVal = cursor.getString(i);
+                if (pref instanceof ListPreference) {
+                    ((ListPreference) pref).setValue(newVal);
+                }
+            }
+        });
+    }
 
     /**
      * The dummy content this fragment is presenting.
@@ -112,30 +168,10 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
 
                 var2.moveToFirst();
 
-                for (int i = 1; i < var2.getColumnCount(); ++i) {
-                    String tmp = var2.getColumnName(i);
-                    final Preference pref = getPreferenceScreen().findPreference("fsp_" + tmp);
-                    switch (var2.getType(i)) {
-                        case Cursor.FIELD_TYPE_STRING:
-                            String newVal = var2.getString(i);
-                            Preference.OnPreferenceChangeListener listener = new Preference.OnPreferenceChangeListener() {
-                                private String mFormat = pref.getSummary().toString();
-                                @Override
-                                public boolean onPreferenceChange(Preference preference, Object newValue)
-                                {
-                                    if (newValue instanceof String) {
-                                        preference.setSummary(String.format(mFormat, (String) newValue));
-                                    }
-                                    return true;
-                                }
-                            };
-                            if (pref instanceof EditTextPreference) {
-                                ((EditTextPreference) pref).setText(newVal);
-                                listener.onPreferenceChange(pref, newVal);
-                                pref.setOnPreferenceChangeListener(listener);
-                            }
-                            break;
-                    }
+                for (HashMap.Entry<String, ParamInitor> entry : mInitor.entrySet()) {
+                    String key = entry.getKey();
+                    ParamInitor value = entry.getValue();
+                    value.init(var2, getPreferenceScreen());
                 }
 
                 var2.close();
@@ -151,6 +187,9 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
                 //mAdapter.swapCursor(null);
             }
         });
+    }
 
+    private interface ParamInitor {
+        void init(Cursor cursor, PreferenceScreen screen);
     }
 }

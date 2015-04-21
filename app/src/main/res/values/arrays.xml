@@ -1,17 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="floatColor">
-        <item>丰台区</item>
-        <item>石景山区</item>
-        <item>海淀区</item>
-        <item>漳州市</item>
-        <item>朝阳区</item>
+    <string-array name="fsp_mode">
+        <item>@string/fsp_mode_auto</item>
+        <item>@string/fsp_mode_calibrate</item>
+        <item>@string/fsp_mode_normal</item>
+        <item>@string/fsp_mode_special</item>
     </string-array>
-    <string-array name="floatColor_value">
-        <item>丰台区</item>
-        <item>石景山区</item>
-        <item>海淀区</item>
-        <item>漳州市</item>
-        <item>朝阳区</item>
+    <string-array name="fsp_mode_value">
+        <item>auto</item>
+        <item>calibrate</item>
+        <item>normal</item>
+        <item>special</item>
+    </string-array>
+
+    <string-array name="fsp_fiber_type">
+        <item>@string/fsp_fiber_type_sm</item>
+        <item>@string/fsp_fiber_type_ds</item>
+        <item>@string/fsp_fiber_type_nz</item>
+        <item>@string/fsp_fiber_type_mm</item>
+    </string-array>
+    <string-array name="fsp_fiber_type_value">
+        <item>SM</item>
+        <item>DS</item>
+        <item>NZ</item>
+        <item>MM</item>
+    </string-array>
+
+    <string-array name="fsp_align_mode">
+        <item>@string/fsp_align_mode_fine</item>
+        <item>@string/fsp_align_mode_clad</item>
+        <item>@string/fsp_align_mode_core</item>
+        <item>@string/fsp_align_mode_manual</item>
+    </string-array>
+    <string-array name="fsp_align_mode_value">
+        <item>find</item>
+        <item>clad</item>
+        <item>core</item>
+        <item>manual</item>
+    </string-array>
+
+    <string-array name="fsp_loss_est_mode">
+        <item>@string/fsp_loss_est_mode_close</item>
+        <item>@string/fsp_loss_est_mode_fine</item>
+        <item>@string/fsp_loss_est_mode_core</item>
+        <item>@string/fsp_loss_est_mode_cladding</item>
+    </string-array>
+
+    <string-array name="fsp_loss_est_mode_value">
+        <item>close</item>
+        <item>fine</item>
+        <item>core</item>
+        <item>cladding</item>
     </string-array>
 </resources>
