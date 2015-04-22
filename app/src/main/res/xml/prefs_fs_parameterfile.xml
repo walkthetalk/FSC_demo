@@ -4,171 +4,190 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <PreferenceCategory
+        android:title="@string/fsp_cat_base">
 
-    <EditTextPreference
-        android:key="fsp_name"
-        android:title="@string/fsp_name"
-        android:summary="maybe %s"
-        android:dialogIcon="@drawable/ic_dust_check"
-        android:dialogTitle="@string/fsp_name"
-        android:negativeButtonText="@android:string/cancel"
-        android:positiveButtonText="@android:string/ok" />
+        <EditTextPreference
+            android:key="fsp_name"
+            android:title="@string/fsp_name"
+            android:summary="%s"
+            android:dialogIcon="@drawable/ic_dust_check"
+            android:dialogTitle="@string/fsp_name"
+            android:negativeButtonText="@android:string/cancel"
+            android:positiveButtonText="@android:string/ok" />
 
-    <ListPreference
-        android:key="fsp_mode"
-        android:title="@string/fsp_mode"
-        android:summary="haha %s"
-        android:dialogTitle="@string/fsp_mode"
-        android:entries="@array/fsp_mode"
-        android:entryValues="@array/fsp_mode_value" />
+        <ListPreference
+            android:key="fsp_mode"
+            android:title="@string/fsp_mode"
+            android:summary="%s"
+            android:dialogTitle="@string/fsp_mode"
+            android:entries="@array/fsp_mode"
+            android:entryValues="@array/fsp_mode_value" />
 
-    <ListPreference
-        android:key="fsp_fiber_type"
-        android:title="@string/fsp_fiber_type"
-        android:summary="heihei %s"
-        android:dialogTitle="@string/fsp_fiber_type"
-        android:entries="@array/fsp_fiber_type"
-        android:entryValues="@array/fsp_fiber_type_value" />
+        <ListPreference
+            android:key="fsp_fiber_type"
+            android:title="@string/fsp_fiber_type"
+            android:summary="%s"
+            android:dialogTitle="@string/fsp_fiber_type"
+            android:entries="@array/fsp_fiber_type"
+            android:entryValues="@array/fsp_fiber_type_value" />
 
-    <ListPreference
-        android:key="fsp_align_mode"
-        android:title="@string/fsp_align_mode"
-        android:summary="%s"
-        android:dialogTitle="@string/fsp_align_mode"
-        android:entries="@array/fsp_align_mode"
-        android:entryValues="@array/fsp_align_mode_value" />
+        <ListPreference
+            android:key="fsp_align_mode"
+            android:title="@string/fsp_align_mode"
+            android:summary="%s"
+            android:dialogTitle="@string/fsp_align_mode"
+            android:entries="@array/fsp_align_mode"
+            android:entryValues="@array/fsp_align_mode_value" />
 
-    <SwitchPreference
-        android:key="fsp_auto_focus"
-        android:title="@string/fsp_auto_focus" />
+        <SwitchPreference
+            android:key="fsp_auto_focus"
+            android:title="@string/fsp_auto_focus" />
 
-    <SwitchPreference
-        android:key="fsp_ecf_redress"
-        android:title="@string/fsp_ecf_redress" />
+        <SwitchPreference
+            android:key="fsp_ecf_redress"
+            android:title="@string/fsp_ecf_redress" />
 
-    <SwitchPreference
-        android:key="fsp_auto_mag"
-        android:title="@string/fsp_auto_mag" />
+        <SwitchPreference
+            android:key="fsp_auto_mag"
+            android:title="@string/fsp_auto_mag" />
 
-    <SwitchPreference
-        android:key="fsp_tension_test"
-        android:title="@string/fsp_tension_test" />
+        <SwitchPreference
+            android:key="fsp_tension_test"
+            android:title="@string/fsp_tension_test" />
 
-    <com.example.ll.fsc_demo.widgets.SeekBarPreference
-        android:key="fsp_kerf_limit"
-        android:title="@string/fsp_kerf_limit"
-        android:summary="@string/fsp_kerf_limit"
-        app:max="30" />
+    </PreferenceCategory>
 
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_loss_limit"
-        android:title="@string/fsp_loss_limit"
-        android:summary="@string/fsp_loss_limit" />
+    <PreferenceCategory
+        android:title="@string/fsp_cat_limit" >
 
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_core_angle_limit"
-        android:title="@string/fsp_core_angle_limit" />
+        <com.example.ll.fsc_demo.widgets.SeekBarPreference
+            android:key="fsp_kerf_limit"
+            android:title="@string/fsp_kerf_limit"
+            android:summary="@string/fsp_kerf_limit"
+            app:max="30" />
 
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_clean_time"
-        android:title="@string/fsp_clean_time" />
-
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_fusion_gap"
-        android:title="@string/fsp_fusion_gap" />
-
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_fusion_position"
-        android:title="@string/fsp_fusion_position" />
-
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_fusion_position"
-        android:title="@string/fsp_fusion_position" />
-
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_prefuse_mag"
-        android:title="@string/fsp_prefuse_mag" />
-
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_prefuse_time"
-        android:title="@string/fsp_prefuse_time" />
-
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_fusion_overlap"
-        android:title="@string/fsp_fusion_overlap" />
-
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_arc1_mag"
-        android:title="@string/fsp_arc1_mag" />
-
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_arc1_time"
-        android:title="@string/fsp_arc1_time" />
-
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_arc2_mag"
-        android:title="@string/fsp_arc2_mag" />
-
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_arc2_time"
-        android:title="@string/fsp_arc2_time" />
-
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_arc2_on_time"
-        android:title="@string/fsp_arc2_on_time" />
-
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_arc2_off_time"
-        android:title="@string/fsp_arc2_off_time" />
-
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_manual_arc_time"
-        android:title="@string/fsp_manual_arc_time" />
-
-    <SwitchPreference
-        android:key="fsp_taper_splice"
-        android:title="@string/fsp_taper_splice" />
-
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_taper_wait"
-        android:title="@string/fsp_taper_wait" />
-
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_taper_speed"
-        android:title="@string/fsp_taper_speed" />
-
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_taper_length"
-        android:title="@string/fsp_taper_length" />
-
-    <ListPreference
-        android:key="fsp_loss_est_mode"
-        android:title="@string/fsp_loss_est_mode"
-        android:summary="%s"
-        android:dialogTitle="@string/fsp_loss_est_mode"
-        android:entries="@array/fsp_loss_est_mode"
-        android:entryValues="@array/fsp_loss_est_mode_value" />
-
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_left_mfd"
-        android:title="@string/fsp_left_mfd" />
         <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_right_mfd"
-        android:title="@string/fsp_right_mfd" />
+            android:key="fsp_loss_limit"
+            android:title="@string/fsp_loss_limit"
+            android:summary="@string/fsp_loss_limit" />
 
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_min_loss"
-        android:title="@string/fsp_min_loss" />
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_core_angle_limit"
+            android:title="@string/fsp_core_angle_limit" />
+    </PreferenceCategory>
 
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_syntropy_bend_coefficient"
-        android:title="@string/fsp_syntropy_bend_coefficient" />
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_opposite_bend_coefficient"
-        android:title="@string/fsp_opposite_bend_coefficient" />
-    <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
-        android:key="fsp_mfd_mismatch_coefficient"
-        android:title="@string/fsp_mfd_mismatch_coefficient" />
+    <PreferenceCategory
+        android:title="@string/fsp_cat_arc" >
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_clean_time"
+            android:title="@string/fsp_clean_time" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_fusion_gap"
+            android:title="@string/fsp_fusion_gap" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_fusion_position"
+            android:title="@string/fsp_fusion_position" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_fusion_position"
+            android:title="@string/fsp_fusion_position" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_prefuse_mag"
+            android:title="@string/fsp_prefuse_mag" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_prefuse_time"
+            android:title="@string/fsp_prefuse_time" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_fusion_overlap"
+            android:title="@string/fsp_fusion_overlap" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_arc1_mag"
+            android:title="@string/fsp_arc1_mag" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_arc1_time"
+            android:title="@string/fsp_arc1_time" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_arc2_mag"
+            android:title="@string/fsp_arc2_mag" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_arc2_time"
+            android:title="@string/fsp_arc2_time" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_arc2_on_time"
+            android:title="@string/fsp_arc2_on_time" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_arc2_off_time"
+            android:title="@string/fsp_arc2_off_time" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_manual_arc_time"
+            android:title="@string/fsp_manual_arc_time" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/fsp_cat_taper" >
+        <SwitchPreference
+            android:key="fsp_taper_splice"
+            android:title="@string/fsp_taper_splice" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_taper_wait"
+            android:title="@string/fsp_taper_wait" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_taper_speed"
+            android:title="@string/fsp_taper_speed" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_taper_length"
+            android:title="@string/fsp_taper_length" />
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/fsp_cat_loss" >
+        <ListPreference
+            android:key="fsp_loss_est_mode"
+            android:title="@string/fsp_loss_est_mode"
+            android:summary="%s"
+            android:dialogTitle="@string/fsp_loss_est_mode"
+            android:entries="@array/fsp_loss_est_mode"
+            android:entryValues="@array/fsp_loss_est_mode_value" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_left_mfd"
+            android:title="@string/fsp_left_mfd" />
+            <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_right_mfd"
+            android:title="@string/fsp_right_mfd" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_min_loss"
+            android:title="@string/fsp_min_loss" />
+
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_syntropy_bend_coefficient"
+            android:title="@string/fsp_syntropy_bend_coefficient" />
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_opposite_bend_coefficient"
+            android:title="@string/fsp_opposite_bend_coefficient" />
+        <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
+            android:key="fsp_mfd_mismatch_coefficient"
+            android:title="@string/fsp_mfd_mismatch_coefficient" />
+    </PreferenceCategory>
 
 
 </PreferenceScreen>
