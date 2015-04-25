@@ -1,16 +1,23 @@
 package com.example.ll.fsc_demo.widgets;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.DialogPreference;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.Window;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.example.ll.fsc_demo.R;
 
@@ -59,13 +66,14 @@ public class SeekBarDialogPreference extends DialogPreference {
         }
     }
 
-    private final SeekBar mSeekBar;
-
     private int mMin = 0;
     private int mMax = 1;
     private int mProgress = 0;
     private int mStep = 1;
     private int mRatio = 1;
+
+    private int mChangedProgress = 0;   /// only used by dialog pass value to parent
+    private TextView mSummaryView;
 
     public SeekBarDialogPreference(Context context) {
         this(context, null);
@@ -79,8 +87,6 @@ public class SeekBarDialogPreference extends DialogPreference {
                                    int defStyle) {
         super(context, attrs, defStyle);
         context = getContext();
-        mSeekBar = onCreateSeekBar(context);
-
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.SeekBarDialogPreference, defStyle,
                 R.style.Holo_SeekBarDialogPreference);
@@ -93,32 +99,53 @@ public class SeekBarDialogPreference extends DialogPreference {
     }
 
     @Override
-    protected void onBindDialogView(View view) {
-        super.onBindDialogView(view);
-        synchronized (mSeekBar) {
-            ViewParent oldParent = mSeekBar.getParent();
-            if (oldParent != view) {
-                if (oldParent != null) {
-                    ((ViewGroup) oldParent).removeView(mSeekBar);
-                }
-                ((ViewGroup) view).addView(mSeekBar);
-            }
-        }
+    protected void onBindView(View view) {
+        super.onBindView(view);
+        mSummaryView = (TextView) view.findViewById(android.R.id.summary);
     }
 
-    protected SeekBar onCreateSeekBar(Context context) {
-        return (SeekBar) LayoutInflater.from(context).inflate(R.layout.preference_dialog_seekbar_widget, null);
+    @Override
+    protected void onBindDialogView(View view) {
+        super.onBindDialogView(view);
+
+        final View dialogSummaryView = view.findViewById(android.R.id.summary);
+        if (dialogSummaryView != null) {
+            ((TextView)dialogSummaryView).setText(getSummary());
+        }
+
+        final View dialogSeekbarView = view.findViewById(R.id.seekbar);
+        if (dialogSeekbarView instanceof SeekBar) {
+            Log.d("FIND SEEKBAR ", " HAHA ");
+            final SeekBar skb = ((SeekBar) dialogSeekbarView);
+            skb.setMax(toAbsProgress(mMax));
+            skb.setProgress(toAbsProgress(mProgress));
+            skb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                final private TextView mSummaryView = (TextView)dialogSummaryView;
+                private boolean mTouching = false;
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    if (fromUser) {
+                        mSummaryView.setText(getSummary(toRealProgress(progress)));
+                        mChangedProgress = toRealProgress(progress);
+                    }
+                }
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                    mTouching = true;
+                }
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    mTouching = false;
+                }
+            });
+        }
     }
 
     @Override
     protected void onDialogClosed(boolean positiveResult) {
         super.onDialogClosed(positiveResult);
-        final int value;
-        synchronized (mSeekBar) {
-            value = toRealProgress(mSeekBar.getProgress());
-        }
-        if (positiveResult && callChangeListener(value)) {
-            setProgress(value);
+        if (positiveResult) {
+            setProgress(mChangedProgress);
         }
     }
 
@@ -166,6 +193,24 @@ public class SeekBarDialogPreference extends DialogPreference {
         setProgress(restoreValue ? getPersistedInt(def) : def);
     }
 
+    @Override
+    public CharSequence getSummary() {
+        return getSummary(mProgress);
+    }
+
+    private CharSequence getSummary(int progress) {
+        CharSequence tmp = super.getSummary();
+        if (TextUtils.isEmpty(tmp)) {
+            return null;
+        }
+        return String.format(tmp.toString(), ((float) progress / mRatio));
+    }
+
+    @Override
+    public void setSummary(CharSequence summary) {
+        super.setSummary(summary);
+    }
+
     public void setMax(int max) {
         if (max == mMax) {
             return;
@@ -173,7 +218,6 @@ public class SeekBarDialogPreference extends DialogPreference {
 
         final boolean wasBlocking = shouldDisableDependents();
         mMax = max;
-        mSeekBar.setMax(toAbsProgress(mMax));
         if (shouldDisableDependents() != wasBlocking) {
             notifyDependencyChange(!wasBlocking);
         }
@@ -187,7 +231,6 @@ public class SeekBarDialogPreference extends DialogPreference {
 
         final boolean wasBlocking = shouldDisableDependents();
         mMin = min;
-        mSeekBar.setMax(toAbsProgress(mMax));
         if (shouldDisableDependents() != wasBlocking) {
             notifyDependencyChange(!wasBlocking);
         }
@@ -205,7 +248,6 @@ public class SeekBarDialogPreference extends DialogPreference {
 
         final boolean wasBlocking = shouldDisableDependents();
         mStep = step;
-        mSeekBar.setMax(toAbsProgress(mMax));
         if (shouldDisableDependents() != wasBlocking) {
             notifyDependencyChange(!wasBlocking);
         }
@@ -219,7 +261,6 @@ public class SeekBarDialogPreference extends DialogPreference {
 
         final boolean wasBlocking = shouldDisableDependents();
         mRatio = ratio;
-        mSeekBar.setMax(toAbsProgress(mMax));
         if (shouldDisableDependents() != wasBlocking) {
             notifyDependencyChange(!wasBlocking);
         }
@@ -241,14 +282,20 @@ public class SeekBarDialogPreference extends DialogPreference {
         if (progress == mProgress) {
             return;
         }
-        final boolean wasBlocking = shouldDisableDependents();
-        mProgress = progress;
-        mSeekBar.setProgress(toAbsProgress(mProgress));
-        persistInt(mProgress);
-        if (shouldDisableDependents() != wasBlocking) {
-            notifyDependencyChange(!wasBlocking);
+
+        if (callChangeListener(progress)) {
+
+            final boolean wasBlocking = shouldDisableDependents();
+            mProgress = progress;
+            if (mSummaryView != null) {
+                mSummaryView.setText(getSummary());
+            }
+            persistInt(mProgress);
+            if (shouldDisableDependents() != wasBlocking) {
+                notifyDependencyChange(!wasBlocking);
+            }
+            notifyChanged();
         }
-        notifyChanged();
     }
     private int toRealProgress(int abs) {
         return abs * mStep + mMin;

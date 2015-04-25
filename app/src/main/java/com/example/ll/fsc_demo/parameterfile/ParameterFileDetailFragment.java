@@ -100,20 +100,7 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
             final int i = cursor.getColumnIndex(key);
             final Preference pref = screen.findPreference("fsp_" + key);
             final int newVal = cursor.getInt(i);
-            Preference.OnPreferenceChangeListener listener = new Preference.OnPreferenceChangeListener() {
-                private String mFormat = pref.getSummary().toString();
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue)
-                {
-                    int val = (Integer)newValue;
-                    int ratio = ((SeekBarDialogPreference)preference).getRatio();
-                    preference.setSummary(String.format(mFormat, ((float)val) / ratio));
-                    return true;
-                }
-            };
             ((SeekBarDialogPreference) pref).setProgress(newVal);
-            listener.onPreferenceChange(pref, newVal);
-            pref.setOnPreferenceChangeListener(listener);
         }
     };
 

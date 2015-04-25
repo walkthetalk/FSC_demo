@@ -15,6 +15,11 @@
         android:id="@+android:id/summary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="?android:attr/textColorSecondary" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:padding="20dip"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekbar" />
 </LinearLayout>
