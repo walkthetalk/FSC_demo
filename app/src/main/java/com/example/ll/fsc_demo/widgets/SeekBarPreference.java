@@ -108,7 +108,13 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
     @Override
     public CharSequence getSummary() {
         CharSequence tmp = super.getSummary();
-        return String.format(tmp.toString(), ((float)mProgress / mRatio));
+
+        if (mRatio == 1) {
+            return String.format(tmp.toString(), mProgress);
+        }
+        else {
+            return String.format(tmp.toString(), ((float) mProgress / mRatio));
+        }
     }
 
     @Override

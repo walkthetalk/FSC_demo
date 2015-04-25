@@ -7,7 +7,7 @@
     <PreferenceCategory
         android:title="@string/fsp_cat_base">
 
-        <EditTextPreference
+        <com.example.ll.fsc_demo.widgets.ExtEditTextPreference
             android:persistent="false"
             android:key="fsp_name"
             android:title="@string/fsp_name"
@@ -73,7 +73,7 @@
             android:persistent="false"
             android:key="fsp_kerf_limit"
             android:title="@string/fsp_kerf_limit"
-            android:summary="%.1f"
+            android:summary="%.1f°"
             app:min="10"
             app:max="1000"
             app:step="10"
@@ -83,7 +83,7 @@
             android:persistent="false"
             android:key="fsp_loss_limit"
             android:title="@string/fsp_loss_limit"
-            android:summary="%.2f"
+            android:summary="%.2fdb"
             app:min="10"
             app:max="1000"
             app:step="10"
@@ -92,7 +92,12 @@
         <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
             android:persistent="false"
             android:key="fsp_core_angle_limit"
-            android:title="@string/fsp_core_angle_limit" />
+            android:title="@string/fsp_core_angle_limit"
+            android:summary="%.1f°"
+            app:min="10"
+            app:max="1000"
+            app:step="10"
+            app:ratio="100" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -101,7 +106,11 @@
         <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
             android:persistent="false"
             android:key="fsp_clean_time"
-            android:title="@string/fsp_clean_time" />
+            android:title="@string/fsp_clean_time"
+            android:summary="%dms"
+            app:min="10"
+            app:max="1000"
+            app:step="10" />
 
         <com.example.ll.fsc_demo.widgets.SeekBarDialogPreference
             android:persistent="false"

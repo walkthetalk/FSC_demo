@@ -203,7 +203,12 @@ public class SeekBarDialogPreference extends DialogPreference {
         if (TextUtils.isEmpty(tmp)) {
             return null;
         }
-        return String.format(tmp.toString(), ((float) progress / mRatio));
+        if (mRatio == 1) {
+            return String.format(tmp.toString(), progress);
+        }
+        else {
+            return String.format(tmp.toString(), ((float) progress / mRatio));
+        }
     }
 
     @Override

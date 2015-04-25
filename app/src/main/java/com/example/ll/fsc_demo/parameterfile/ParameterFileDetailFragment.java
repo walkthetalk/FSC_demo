@@ -69,20 +69,7 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
             final int i = cursor.getColumnIndex(key);
             final Preference pref = screen.findPreference("fsp_" + key);
             final String newVal = cursor.getString(i);
-            Preference.OnPreferenceChangeListener listener = new Preference.OnPreferenceChangeListener() {
-                private String mFormat = pref.getSummary().toString();
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue)
-                {
-                    preference.setSummary(String.format(mFormat, (String) newValue));
-                    return true;
-                }
-            };
-            if (pref instanceof EditTextPreference) {
-                ((EditTextPreference) pref).setText(newVal);
-                listener.onPreferenceChange(pref, newVal);
-                pref.setOnPreferenceChangeListener(listener);
-            }
+            ((EditTextPreference) pref).setText(newVal);
         }
     };
     private static ParamInitor mSeekbarInitor = new ParamInitor() {
@@ -116,6 +103,7 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
         mInitor.put(FsParamTbl.COL_TENSION_TEST, mSwitchInitor);
         mInitor.put(FsParamTbl.COL_KERF_LIMIT, mSeekbarInitor);
         mInitor.put(FsParamTbl.COL_LOSS_LIMIT, mSeedbarDialogInitor);
+        mInitor.put(FsParamTbl.COL_CORE_ANGLE_LIMIT, mSeedbarDialogInitor);
     }
 
     /**
