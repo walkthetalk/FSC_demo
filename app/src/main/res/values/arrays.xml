@@ -33,7 +33,7 @@
         <item>@string/fsp_align_mode_manual</item>
     </string-array>
     <string-array name="fsp_align_mode_value">
-        <item>find</item>
+        <item>fine</item>
         <item>clad</item>
         <item>core</item>
         <item>manual</item>

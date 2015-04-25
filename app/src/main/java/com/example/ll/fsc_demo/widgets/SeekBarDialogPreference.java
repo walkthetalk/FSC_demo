@@ -29,12 +29,19 @@ public class SeekBarDialogPreference extends DialogPreference {
             }
         };
 
-        protected int mValue, mMaxValue;
+        int min;
+        int max;
+        int step;
+        int ratio;
+        int progress;
 
         public SavedState(Parcel source) {
             super(source);
-            mValue = source.readInt();
-            mMaxValue = source.readInt();
+            progress = source.readInt();
+            min = source.readInt();
+            max = source.readInt();
+            step = source.readInt();
+            ratio = source.readInt();
         }
 
         public SavedState(Parcelable superState) {
@@ -44,13 +51,21 @@ public class SeekBarDialogPreference extends DialogPreference {
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
-            dest.writeInt(mValue);
-            dest.writeInt(mMaxValue);
+            dest.writeInt(progress);
+            dest.writeInt(min);
+            dest.writeInt(max);
+            dest.writeInt(step);
+            dest.writeInt(ratio);
         }
     }
 
     private final SeekBar mSeekBar;
-    private int mValue = Integer.MIN_VALUE, mMaxValue = Integer.MIN_VALUE;
+
+    private int mMin = 0;
+    private int mMax = 1;
+    private int mProgress = 0;
+    private int mStep = 1;
+    private int mRatio = 1;
 
     public SeekBarDialogPreference(Context context) {
         this(context, null);
@@ -64,25 +79,17 @@ public class SeekBarDialogPreference extends DialogPreference {
                                    int defStyle) {
         super(context, attrs, defStyle);
         context = getContext();
+        mSeekBar = onCreateSeekBar(context);
+
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.SeekBarDialogPreference, defStyle,
                 R.style.Holo_SeekBarDialogPreference);
-        int maxValue = a.getInt(R.styleable.SeekBarDialogPreference_max, 100);
+
+        setMin(a.getInt(R.styleable.SeekBarDialogPreference_min, mMin));
+        setMax(a.getInt(R.styleable.SeekBarDialogPreference_max, mMax));
+        setStep(a.getInt(R.styleable.SeekBarDialogPreference_step, mStep));
+        setRatio(a.getInt(R.styleable.SeekBarDialogPreference_ratio, mRatio));
         a.recycle();
-        mSeekBar = onCreateSeekBar(context);
-        setMaxValue(maxValue);
-    }
-
-    public int getMaxValue() {
-        return mMaxValue;
-    }
-
-    public SeekBar getSeekBar() {
-        return mSeekBar;
-    }
-
-    public int getValue() {
-        return mValue;
     }
 
     @Override
@@ -108,10 +115,10 @@ public class SeekBarDialogPreference extends DialogPreference {
         super.onDialogClosed(positiveResult);
         final int value;
         synchronized (mSeekBar) {
-            value = mSeekBar.getProgress();
+            value = toRealProgress(mSeekBar.getProgress());
         }
         if (positiveResult && callChangeListener(value)) {
-            setValue(value);
+            setProgress(value);
         }
     }
 
@@ -126,10 +133,14 @@ public class SeekBarDialogPreference extends DialogPreference {
             super.onRestoreInstanceState(state);
             return;
         }
-        SavedState ss = (SavedState) state;
-        super.onRestoreInstanceState(ss.getSuperState());
-        setValue(ss.mValue);
-        setMaxValue(ss.mMaxValue);
+        SavedState myState = (SavedState) state;
+        super.onRestoreInstanceState(myState.getSuperState());
+        mProgress = myState.progress;
+        mMin = myState.min;
+        mMax = myState.max;
+        mStep = myState.step;
+        mRatio = myState.ratio;
+        notifyChanged();
     }
 
     @Override
@@ -139,8 +150,11 @@ public class SeekBarDialogPreference extends DialogPreference {
             return superState;
         }
         final SavedState myState = new SavedState(superState);
-        myState.mValue = mValue;
-        myState.mMaxValue = mMaxValue;
+        myState.progress = mProgress;
+        myState.max = mMax;
+        myState.min = mMin;
+        myState.step = mStep;
+        myState.ratio = mRatio;
         return myState;
     }
 
@@ -149,31 +163,98 @@ public class SeekBarDialogPreference extends DialogPreference {
         int def = defaultValue instanceof Integer ? (Integer) defaultValue
                 : defaultValue == null ? 0 : Integer.parseInt(defaultValue
                 .toString());
-        setValue(restoreValue ? getPersistedInt(def) : def);
+        setProgress(restoreValue ? getPersistedInt(def) : def);
     }
 
-    public void setMaxValue(int maxValue) {
-        if (mMaxValue == maxValue) {
+    public void setMax(int max) {
+        if (max == mMax) {
             return;
         }
+
         final boolean wasBlocking = shouldDisableDependents();
-        mMaxValue = maxValue;
-        mSeekBar.setMax(maxValue);
+        mMax = max;
+        mSeekBar.setMax(toAbsProgress(mMax));
         if (shouldDisableDependents() != wasBlocking) {
             notifyDependencyChange(!wasBlocking);
         }
+        notifyChanged();
     }
 
-    public void setValue(int value) {
-        if (mValue == value) {
+    public void setMin(int min) {
+        if (min == mMin) {
             return;
         }
+
         final boolean wasBlocking = shouldDisableDependents();
-        mValue = value;
-        mSeekBar.setProgress(value);
-        persistInt(value);
+        mMin = min;
+        mSeekBar.setMax(toAbsProgress(mMax));
         if (shouldDisableDependents() != wasBlocking) {
             notifyDependencyChange(!wasBlocking);
         }
+        notifyChanged();
+    }
+
+    public void setStep(int step) {
+        if (step == 0) {
+            step = 1;
+        }
+
+        if (step == mStep) {
+            return;
+        }
+
+        final boolean wasBlocking = shouldDisableDependents();
+        mStep = step;
+        mSeekBar.setMax(toAbsProgress(mMax));
+        if (shouldDisableDependents() != wasBlocking) {
+            notifyDependencyChange(!wasBlocking);
+        }
+        notifyChanged();
+    }
+
+    public void setRatio(int ratio) {
+        if (ratio == mRatio) {
+            return;
+        }
+
+        final boolean wasBlocking = shouldDisableDependents();
+        mRatio = ratio;
+        mSeekBar.setMax(toAbsProgress(mMax));
+        if (shouldDisableDependents() != wasBlocking) {
+            notifyDependencyChange(!wasBlocking);
+        }
+        notifyChanged();
+    }
+
+    public int getRatio() {
+        return mRatio;
+    }
+
+    public void setProgress(int progress) {
+        if (progress > mMax) {
+            progress = mMax;
+        }
+        if (progress < mMin) {
+            progress = mMin;
+        }
+
+        if (progress == mProgress) {
+            return;
+        }
+        final boolean wasBlocking = shouldDisableDependents();
+        mProgress = progress;
+        mSeekBar.setProgress(toAbsProgress(mProgress));
+        persistInt(mProgress);
+        if (shouldDisableDependents() != wasBlocking) {
+            notifyDependencyChange(!wasBlocking);
+        }
+        notifyChanged();
+    }
+    private int toRealProgress(int abs) {
+        return abs * mStep + mMin;
+    }
+
+    private int toAbsProgress(int real) {
+        return (real - mMin) / mStep;
     }
 }
