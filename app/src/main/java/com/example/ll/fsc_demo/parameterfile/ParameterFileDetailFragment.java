@@ -25,6 +25,7 @@ import com.example.ll.fsc_demo.R;
 import com.example.ll.fsc_demo.database.FsContentProvider;
 import com.example.ll.fsc_demo.database.FsParamTbl;
 import com.example.ll.fsc_demo.dummy.DummyContent;
+import com.example.ll.fsc_demo.widgets.ExtEditTextPreference;
 import com.example.ll.fsc_demo.widgets.SeekBarDialogPreference;
 import com.example.ll.fsc_demo.widgets.SeekBarPreference;
 
@@ -43,68 +44,6 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
-
-    private static HashMap<String, ParamInitor> mInitor;
-    private static ParamInitor mSwitchInitor = new ParamInitor() {
-        @Override
-        public void init(Cursor cursor, PreferenceScreen screen, final String key) {
-            final int i = cursor.getColumnIndex(key);
-            final Preference pref = screen.findPreference("fsp_" + key);
-            final int newVal = cursor.getInt(i);
-            ((SwitchPreference) pref).setChecked(newVal != 0);;
-        }
-    };
-    private static ParamInitor mListInitor = new ParamInitor() {
-        @Override
-        public void init(Cursor cursor, PreferenceScreen screen, final String key) {
-            final int i = cursor.getColumnIndex(key);
-            final Preference pref = screen.findPreference("fsp_" + key);
-            final String newVal = cursor.getString(i);
-            ((ListPreference) pref).setValue(newVal);
-        }
-    };
-    private static ParamInitor mTextInitor = new ParamInitor() {
-        @Override
-        public void init(Cursor cursor, PreferenceScreen screen, final String key) {
-            final int i = cursor.getColumnIndex(key);
-            final Preference pref = screen.findPreference("fsp_" + key);
-            final String newVal = cursor.getString(i);
-            ((EditTextPreference) pref).setText(newVal);
-        }
-    };
-    private static ParamInitor mSeekbarInitor = new ParamInitor() {
-        @Override
-        public void init(Cursor cursor, PreferenceScreen screen, String key) {
-            final int i = cursor.getColumnIndex(key);
-            final Preference pref = screen.findPreference("fsp_" + key);
-            final int newVal = cursor.getInt(i);
-            ((SeekBarPreference) pref).setProgress(newVal);
-        }
-    };
-    private static ParamInitor mSeedbarDialogInitor = new ParamInitor() {
-        @Override
-        public void init(Cursor cursor, PreferenceScreen screen, String key) {
-            final int i = cursor.getColumnIndex(key);
-            final Preference pref = screen.findPreference("fsp_" + key);
-            final int newVal = cursor.getInt(i);
-            ((SeekBarDialogPreference) pref).setProgress(newVal);
-        }
-    };
-
-    static {
-        mInitor = new HashMap<>();
-        mInitor.put(FsParamTbl.COL_NAME, mTextInitor);
-        mInitor.put(FsParamTbl.COL_MODE, mListInitor);
-        mInitor.put(FsParamTbl.COL_FIBER_TYPE, mListInitor);
-        mInitor.put(FsParamTbl.COL_ALIGN_MODE, mListInitor);
-        mInitor.put(FsParamTbl.COL_AUTO_FOCUS, mSwitchInitor);
-        mInitor.put(FsParamTbl.COL_ECF_REDRESS, mSwitchInitor);
-        mInitor.put(FsParamTbl.COL_AUTO_MAG, mSwitchInitor);
-        mInitor.put(FsParamTbl.COL_TENSION_TEST, mSwitchInitor);
-        mInitor.put(FsParamTbl.COL_KERF_LIMIT, mSeekbarInitor);
-        mInitor.put(FsParamTbl.COL_LOSS_LIMIT, mSeedbarDialogInitor);
-        mInitor.put(FsParamTbl.COL_CORE_ANGLE_LIMIT, mSeedbarDialogInitor);
-    }
 
     /**
      * The dummy content this fragment is presenting.
@@ -179,11 +118,28 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
 
                 var2.moveToFirst();
 
-                for (HashMap.Entry<String, ParamInitor> entry : mInitor.entrySet()) {
-                    final String key = entry.getKey();
-                    final ParamInitor value = entry.getValue();
-                    value.init(var2, getPreferenceScreen(), key);
+                /// NOTE don't care id
+                for (int i = 1; i < var2.getColumnCount(); ++i) {
+                    final String key = var2.getColumnName(i);
+                    final Preference pref = getPreferenceScreen().findPreference("fsp_" + key);
+                    if (pref instanceof ExtEditTextPreference) {
+                        ((ExtEditTextPreference)pref).setText(var2.getString(i));
+                    }
+                    else if (pref instanceof SwitchPreference) {
+                        ((SwitchPreference)pref).setChecked(var2.getInt(i) == 1);
+                    }
+                    else if (pref instanceof SeekBarPreference) {
+                        ((SeekBarPreference)pref).setProgress(var2.getInt(i));
+                    }
+                    else if (pref instanceof SeekBarDialogPreference) {
+                        ((SeekBarDialogPreference)pref).setProgress(var2.getInt(i));
+                    }
+                    else if (pref instanceof ListPreference) {
+                        ((ListPreference)pref).setValue(var2.getString(i));
+                    }
                 }
+
+                var2.notify();
 
                 var2.close();
 
@@ -198,9 +154,5 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
                 //mAdapter.swapCursor(null);
             }
         });
-    }
-
-    private interface ParamInitor {
-        void init(Cursor cursor, PreferenceScreen screen, final String key);
     }
 }

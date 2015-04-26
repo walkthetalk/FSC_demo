@@ -39,9 +39,9 @@ public class CheckableRelativeLayout extends RelativeLayout implements Checkable
         final TypedArray a = getContext().obtainStyledAttributes(
                 attrs, R.styleable.CheckableRelativeLayout, defStyle, 0);
 
-        if (a.hasValue(R.styleable.CheckableRelativeLayout_checkableChild)) {
+        if (a.hasValue(R.styleable.CheckableRelativeLayout_checkableChildId)) {
             mCheckableChild = a.getResourceId(
-                    R.styleable.CheckableRelativeLayout_checkableChild, mCheckableChild);
+                    R.styleable.CheckableRelativeLayout_checkableChildId, mCheckableChild);
         }
     }
 
