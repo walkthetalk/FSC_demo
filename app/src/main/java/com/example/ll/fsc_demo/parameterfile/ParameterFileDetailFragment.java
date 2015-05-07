@@ -1,6 +1,7 @@
 package com.example.ll.fsc_demo.parameterfile;
 
 import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.content.SharedPreferences;
@@ -50,8 +51,8 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
      */
     private Uri mUri;
     private DummyContent.DummyItem mItem;
-    private HashMap<String, String> mOldContent = new HashMap<>();
-    private HashMap<String, String> mNewContent = new HashMap<>();
+    private ContentValues mOldContent = new ContentValues();
+    private ContentValues mNewContent = new ContentValues();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -96,6 +97,75 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
         return ret;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mNewContent.size() != 0) {
+            getActivity().getContentResolver().update(mUri, mNewContent, null, null);
+            Log.d("DETAIL ", "onStop------------------------");
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("DETAIL ", "onDestroy------------------------");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d("DETAIL ", "onDetach------------------------");
+    }
+
+    private Preference.OnPreferenceChangeListener mTextListener = new Preference.OnPreferenceChangeListener() {
+        @Override
+        public boolean onPreferenceChange(Preference preference, Object newValue) {
+            final String key = preference.getKey().substring("fsp_".length());
+            final String value = (String)newValue;
+            final String oldValue = mOldContent.getAsString(key);
+            if (oldValue.equals(value)) {
+                mNewContent.remove(key);
+            }
+            else {
+                mNewContent.put(key, value);
+            }
+            return true;
+        }
+    };
+
+    private Preference.OnPreferenceChangeListener mSwitchListener = new Preference.OnPreferenceChangeListener() {
+        @Override
+        public boolean onPreferenceChange(Preference preference, Object newValue) {
+            final String key = preference.getKey().substring("fsp_".length());
+            final int value = ((Boolean)newValue) ? 1 : 0;
+            final int oldValue = mOldContent.getAsInteger(key);
+            if (oldValue == value) {
+                mNewContent.remove(key);
+            }
+            else {
+                mNewContent.put(key, value);
+            }
+            return true;
+        }
+    };
+
+    private Preference.OnPreferenceChangeListener mIntListener = new Preference.OnPreferenceChangeListener() {
+        @Override
+        public boolean onPreferenceChange(Preference preference, Object newValue) {
+            final String key = preference.getKey().substring("fsp_".length());
+            final int value = (int)newValue;
+            final int oldValue = mOldContent.getAsInteger(key);
+            if (oldValue == value) {
+                mNewContent.remove(key);
+            }
+            else {
+                mNewContent.put(key, value);
+            }
+            return true;
+        }
+    };
+
     /**
      * fill data using simple cursor adapter
      */
@@ -112,7 +182,7 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
             @Override
             public void onLoadFinished(Loader<Cursor> var1, Cursor var2) {
                 if (var2 == null || var2.getCount() != 1) {
-                    // TODO no any content
+                    // TODO no any content or multiple entries
                     return;
                 }
 
@@ -123,23 +193,40 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
                     final String key = var2.getColumnName(i);
                     final Preference pref = getPreferenceScreen().findPreference("fsp_" + key);
                     if (pref instanceof ExtEditTextPreference) {
+                        final String value = var2.getString(i);
+                        mOldContent.put(key, value);
                         ((ExtEditTextPreference)pref).setText(var2.getString(i));
+                        pref.setOnPreferenceChangeListener(mTextListener);
                     }
                     else if (pref instanceof SwitchPreference) {
+                        final int value = var2.getInt(i);
+                        mOldContent.put(key, value);
                         ((SwitchPreference)pref).setChecked(var2.getInt(i) == 1);
+                        pref.setOnPreferenceChangeListener(mSwitchListener);
                     }
                     else if (pref instanceof SeekBarPreference) {
+                        final int value = var2.getInt(i);
+                        mOldContent.put(key, value);
                         ((SeekBarPreference)pref).setProgress(var2.getInt(i));
+                        pref.setOnPreferenceChangeListener(mIntListener);
                     }
                     else if (pref instanceof SeekBarDialogPreference) {
+                        final int value = var2.getInt(i);
+                        mOldContent.put(key, value);
                         ((SeekBarDialogPreference)pref).setProgress(var2.getInt(i));
+                        pref.setOnPreferenceChangeListener(mIntListener);
                     }
                     else if (pref instanceof ListPreference) {
+                        final String value = var2.getString(i);
+                        mOldContent.put(key, value);
                         ((ListPreference)pref).setValue(var2.getString(i));
+                        pref.setOnPreferenceChangeListener(mTextListener);
+                    }
+                    else {
+                        Log.e("Prefrence type", " unknown");
+                        continue;
                     }
                 }
-
-                var2.notify();
 
                 var2.close();
 

@@ -65,6 +65,7 @@ public class ParameterFileDetailActivity extends ActionBarActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
+            //finish();
             navigateUpTo(new Intent(this, ParameterFileListActivity.class));
             return true;
         }

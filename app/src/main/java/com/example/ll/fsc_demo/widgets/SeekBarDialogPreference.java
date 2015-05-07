@@ -302,6 +302,11 @@ public class SeekBarDialogPreference extends DialogPreference {
             notifyChanged();
         }
     }
+
+    public int getProgress() {
+        return mProgress;
+    }
+
     private int toRealProgress(int abs) {
         return abs * mStep + mMin;
     }

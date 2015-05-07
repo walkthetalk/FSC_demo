@@ -75,7 +75,8 @@ public class ParameterFileListActivity extends ActionBarActivity
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpFromSameTask(this);
+            finish();
+            //NavUtils.navigateUpFromSameTask(this);
             return true;
         }
         return super.onOptionsItemSelected(item);
