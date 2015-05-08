@@ -107,37 +107,37 @@ public class FsParamTbl {
             + ", " +  COL_AUTO_MAG + " BOOLEAN CHECK( " + COL_AUTO_MAG + " IN ( 0, 1 ) ) NOT NULL DEFAULT 0"
             + ", " +  COL_TENSION_TEST + " BOOLEAN CHECK( " + COL_TENSION_TEST + " IN ( 0, 1 ) ) NOT NULL DEFAULT 0"
 
-            + ", " +  COL_KERF_LIMIT + " INTEGER CHECK( " + COL_KERF_LIMIT + " < 1000 ) NOT NULL DEFAULT 200"     // unit: 0.01
-            + ", " +  COL_LOSS_LIMIT + " INTEGER CHECK( " + COL_LOSS_LIMIT + " < 100 ) NOT NULL DEFAULT 3"        // unit: 0.01db
+            + ", " +  COL_KERF_LIMIT + " INTEGER CHECK( " + COL_KERF_LIMIT + " <= 1000 ) NOT NULL DEFAULT 200"     // unit: 0.01
+            + ", " +  COL_LOSS_LIMIT + " INTEGER CHECK( " + COL_LOSS_LIMIT + " <= 100 ) NOT NULL DEFAULT 3"        // unit: 0.01db
             + ", " +  COL_CORE_ANGLE_LIMIT + " INTEGER CHECK( " + COL_CORE_ANGLE_LIMIT + " < 100 ) NOT NULL DEFAULT 10"   // unit: 0.01
 
-            + ", " +  COL_CLEAN_TIME + " INTEGER CHECK( " + COL_CLEAN_TIME + " < 1000 ) NOT NULL DEFAULT 200"     // unit: ms
-            + ", " +  COL_FUSION_GAP + " INTEGER CHECK( " + COL_FUSION_GAP + " < 20 ) NOT NULL DEFAULT 8" // unit: um
+            + ", " +  COL_CLEAN_TIME + " INTEGER CHECK( " + COL_CLEAN_TIME + " <= 1000 ) NOT NULL DEFAULT 200"     // unit: ms
+            + ", " +  COL_FUSION_GAP + " INTEGER CHECK( " + COL_FUSION_GAP + " <= 20 ) NOT NULL DEFAULT 8" // unit: um
             + ", " +  COL_FUSION_POSITION + " INTEGER CHECK( -20 < " + COL_FUSION_POSITION + " AND " + COL_FUSION_POSITION + " < 20 ) NOT NULL DEFAULT 0" // unit: um
-            + ", " +  COL_PREFUSE_MAG + " INTEGER CHECK( " + COL_PREFUSE_MAG + " < 500 ) NOT NULL DEFAULT 100"     // unit: 0.01V
-            + ", " +  COL_PREFUSE_TIME + " INTEGER CHECK( " + COL_PREFUSE_TIME + " < 2000 ) NOT NULL DEFAULT 500"     // unit: ms
-            + ", " +  COL_FUSION_OVERLAP + " INTEGER CHECK( " + COL_FUSION_OVERLAP + " < 20 ) NOT NULL DEFAULT 10"     // unit: um
+            + ", " +  COL_PREFUSE_MAG + " INTEGER CHECK( " + COL_PREFUSE_MAG + " <= 500 ) NOT NULL DEFAULT 100"     // unit: 0.01V
+            + ", " +  COL_PREFUSE_TIME + " INTEGER CHECK( " + COL_PREFUSE_TIME + " <= 2000 ) NOT NULL DEFAULT 500"     // unit: ms
+            + ", " +  COL_FUSION_OVERLAP + " INTEGER CHECK( " + COL_FUSION_OVERLAP + " <= 20 ) NOT NULL DEFAULT 10"     // unit: um
 
-            + ", " +  COL_ARC1_MAG + " INTEGER CHECK( " + COL_ARC1_MAG + " < 500 ) NOT NULL DEFAULT 100"     // unit: 0.01V
-            + ", " +  COL_ARC1_TIME + " INTEGER CHECK( " + COL_ARC1_TIME + " < 2000 ) NOT NULL DEFAULT 500"     // unit: ms
-            + ", " +  COL_ARC2_MAG + " INTEGER CHECK( " + COL_ARC2_MAG + " < 500 ) NOT NULL DEFAULT 100"     // unit: 0.01V
-            + ", " +  COL_ARC2_TIME + " INTEGER CHECK( " + COL_ARC2_TIME + " < 2000 ) NOT NULL DEFAULT 500"     // unit: ms
-            + ", " +  COL_ARC2_ON_TIME + " INTEGER CHECK( " + COL_ARC2_ON_TIME + " < 2000 ) NOT NULL DEFAULT 500"     // unit: ms
-            + ", " +  COL_ARC2_OFF_TIME + " INTEGER CHECK( " + COL_ARC2_OFF_TIME + " < 2000 ) NOT NULL DEFAULT 500"     // unit: ms
-            + ", " +  COL_MANUAL_ARC_TIME + " INTEGER CHECK( " + COL_MANUAL_ARC_TIME + " < 2000 ) NOT NULL DEFAULT 500"     // unit: ms
+            + ", " +  COL_ARC1_MAG + " INTEGER CHECK( " + COL_ARC1_MAG + " <= 500 ) NOT NULL DEFAULT 100"     // unit: 0.01V
+            + ", " +  COL_ARC1_TIME + " INTEGER CHECK( " + COL_ARC1_TIME + " <= 2000 ) NOT NULL DEFAULT 500"     // unit: ms
+            + ", " +  COL_ARC2_MAG + " INTEGER CHECK( " + COL_ARC2_MAG + " <= 500 ) NOT NULL DEFAULT 100"     // unit: 0.01V
+            + ", " +  COL_ARC2_TIME + " INTEGER CHECK( " + COL_ARC2_TIME + " <= 2000 ) NOT NULL DEFAULT 500"     // unit: ms
+            + ", " +  COL_ARC2_ON_TIME + " INTEGER CHECK( " + COL_ARC2_ON_TIME + " <= 2000 ) NOT NULL DEFAULT 500"     // unit: ms
+            + ", " +  COL_ARC2_OFF_TIME + " INTEGER CHECK( " + COL_ARC2_OFF_TIME + " <= 2000 ) NOT NULL DEFAULT 500"     // unit: ms
+            + ", " +  COL_MANUAL_ARC_TIME + " INTEGER CHECK( " + COL_MANUAL_ARC_TIME + " <= 2000 ) NOT NULL DEFAULT 500"     // unit: ms
 
             + ", " +  COL_TAPER_SPLICE + " BOOLEAN CHECK( " + COL_TAPER_SPLICE + " IN ( 0, 1 ) ) NOT NULL DEFAULT 0"
-            + ", " +  COL_TAPER_WAIT + " INTEGER CHECK( " + COL_TAPER_WAIT + " < 2000 ) NOT NULL DEFAULT 500"     // unit: ms
-            + ", " +  COL_TAPER_SPEED + " INTEGER CHECK( " + COL_TAPER_SPEED + " < 100 ) NOT NULL DEFAULT 20"     // unit: 0.01
-            + ", " +  COL_TAPER_LENGTH + " INTEGER CHECK( " + COL_TAPER_LENGTH + " < 100 ) NOT NULL DEFAULT 50"     // unit: um
+            + ", " +  COL_TAPER_WAIT + " INTEGER CHECK( " + COL_TAPER_WAIT + " <= 2000 ) NOT NULL DEFAULT 500"     // unit: ms
+            + ", " +  COL_TAPER_SPEED + " INTEGER CHECK( " + COL_TAPER_SPEED + " <= 100 ) NOT NULL DEFAULT 20"     // unit: 0.01
+            + ", " +  COL_TAPER_LENGTH + " INTEGER CHECK( " + COL_TAPER_LENGTH + " <= 100 ) NOT NULL DEFAULT 50"     // unit: um
 
             + ", " +  COL_LOSS_EST_MODE + " TEXT CHECK( " + COL_LOSS_EST_MODE + " IN ('close', 'fine', 'core', 'cladding') ) NOT NULL DEFAULT 'fine'"
-            + ", " +  COL_LEFT_MFD + " INTEGER CHECK( " + COL_LEFT_MFD + " < 1250 ) NOT NULL DEFAULT 93"     // unit: 0.1um
-            + ", " +  COL_RIGHT_MFD + " INTEGER CHECK( " + COL_RIGHT_MFD + " < 1250 ) NOT NULL DEFAULT 93"     // unit: 0.1um
-            + ", " +  COL_MIN_LOSS + " INTEGER CHECK( " + COL_MIN_LOSS + " < 100 ) NOT NULL DEFAULT 1"        // unit: 0.01db
-            + ", " +  COL_SYNTROPY_BEND_COEFFICIENT + " INTEGER CHECK( " + COL_SYNTROPY_BEND_COEFFICIENT + " < 100 ) NOT NULL DEFAULT 1"        // unit: 0.01
-            + ", " +  COL_OPPOSITE_BEND_COEFFICIENT + " INTEGER CHECK( " + COL_OPPOSITE_BEND_COEFFICIENT + " < 100 ) NOT NULL DEFAULT 1"        // unit: 0.01
-            + ", " +  COL_MFD_MISMATCH_COEFFICIENT + " INTEGER CHECK( " + COL_MFD_MISMATCH_COEFFICIENT + " < 100 ) NOT NULL DEFAULT 1"        // unit: 0.01
+            + ", " +  COL_LEFT_MFD + " INTEGER CHECK( " + COL_LEFT_MFD + " <= 1250 ) NOT NULL DEFAULT 93"     // unit: 0.1um
+            + ", " +  COL_RIGHT_MFD + " INTEGER CHECK( " + COL_RIGHT_MFD + " <= 1250 ) NOT NULL DEFAULT 93"     // unit: 0.1um
+            + ", " +  COL_MIN_LOSS + " INTEGER CHECK( " + COL_MIN_LOSS + " <= 100 ) NOT NULL DEFAULT 1"        // unit: 0.01db
+            + ", " +  COL_SYNTROPY_BEND_COEFFICIENT + " INTEGER CHECK( " + COL_SYNTROPY_BEND_COEFFICIENT + " <= 100 ) NOT NULL DEFAULT 1"        // unit: 0.01
+            + ", " +  COL_OPPOSITE_BEND_COEFFICIENT + " INTEGER CHECK( " + COL_OPPOSITE_BEND_COEFFICIENT + " <= 100 ) NOT NULL DEFAULT 1"        // unit: 0.01
+            + ", " +  COL_MFD_MISMATCH_COEFFICIENT + " INTEGER CHECK( " + COL_MFD_MISMATCH_COEFFICIENT + " <= 100 ) NOT NULL DEFAULT 1"        // unit: 0.01
 
             + ");";
 

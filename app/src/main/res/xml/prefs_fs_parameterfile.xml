@@ -85,7 +85,7 @@
             android:title="@string/fsp_loss_limit"
             android:summary="%.2fdb"
             app:min="10"
-            app:max="1000"
+            app:max="100"
             app:step="10"
             app:ratio="100" />
 

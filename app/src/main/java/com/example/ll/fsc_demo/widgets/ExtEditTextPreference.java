@@ -3,7 +3,6 @@ package com.example.ll.fsc_demo.widgets;
 import android.content.Context;
 import android.preference.EditTextPreference;
 import android.util.AttributeSet;
-import android.widget.EditText;
 
 /**
  * Created by ll on 4/25/15.
@@ -29,9 +28,18 @@ public class ExtEditTextPreference extends EditTextPreference {
     public CharSequence getSummary() {
         final CharSequence format = super.getSummary();
         if (format == null) {
-            return super.getText();
+            return getText();
         } else {
-            return String.format(format.toString(), super.getText());
+            return String.format(format.toString(), getText());
+        }
+    }
+
+    @Override
+    public void setText(String text) {
+        final String oldText = getText();
+        if (!text.equals(oldText)) {
+            super.setText(text);
+            super.notifyChanged();  // notify for self refresh
         }
     }
 }

@@ -56,18 +56,11 @@
             android:maxLines="4" />
 
         <!-- Preference should place its actual preference widget here. -->
-        <LinearLayout android:id="@+android:id/widget_frame"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_below="@android:id/summary"
-            android:layout_alignStart="@android:id/title"
-            android:orientation="vertical" />
-
         <SeekBar android:id="@+id/seekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@android:id/summary"
             android:layout_below="@android:id/summary"
-            android:layout_toEndOf="@android:id/widget_frame"
             android:layout_alignParentEnd="true" />
 
     </RelativeLayout>

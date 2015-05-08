@@ -83,26 +83,17 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
     @Override
     protected void onBindView(View view) {
         super.onBindView(view);
+        mSummaryView = (TextView) view.findViewById(android.R.id.summary);
         SeekBar seekBar = (SeekBar) view.findViewById(R.id.seekbar);
         seekBar.setOnSeekBarChangeListener(this);
         seekBar.setMax(toAbsProgress(mMax));
         seekBar.setProgress(toAbsProgress(mProgress));
         seekBar.setEnabled(isEnabled());
-
-        mSummaryView = (TextView) view.findViewById(android.R.id.summary);
     }
 
     @Override
     protected Integer onGetDefaultValue(TypedArray a, int index) {
         return a.getInt(index, 0);
-    }
-
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress,
-            boolean fromUser) {
-        if (fromUser) {
-            syncProgress(seekBar);
-        }
     }
 
     @Override
@@ -115,11 +106,6 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
         else {
             return String.format(tmp.toString(), ((float) mProgress / mRatio));
         }
-    }
-
-    @Override
-    public void setSummary(CharSequence summary) {
-        super.setSummary(summary);
     }
 
     @Override
@@ -160,6 +146,26 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
     }
 
     @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        if (fromUser) {
+            final int realProgress = toRealProgress(seekBar.getProgress());
+            if (realProgress == mProgress) {
+                return;
+            }
+
+            if (callChangeListener(realProgress)) {
+                mProgress = realProgress;
+                persistInt(realProgress);
+                //notifyChanged(); // NOTE can't notify self
+                mSummaryView.setText(getSummary());
+            }
+            else {
+                seekBar.setProgress(toAbsProgress(mProgress));
+            }
+        }
+    }
+
+    @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
         mTrackingTouch = true;
     }
@@ -167,21 +173,32 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         mTrackingTouch = false;
-        if (toRealProgress(seekBar.getProgress()) != mProgress) {
-            syncProgress(seekBar);
-        }
     }
 
     public void setMax(int max) {
         if (max != mMax) {
+            if (max < mMin) {
+                throw new IllegalArgumentException("max value out of range");
+            }
             mMax = max;
+            if (mProgress > mMax) {
+                mProgress = mMax;
+                callChangeListener(mProgress);
+            }
             notifyChanged();
         }
     }
 
     public void setMin(int min) {
         if (min != mMin) {
+            if (mMax < min) {
+                throw new IllegalArgumentException("min value out of range");
+            }
             mMin = min;
+            if (mProgress < mMin) {
+                mProgress = mMin;
+                callChangeListener(mProgress);
+            }
             notifyChanged();
         }
     }
@@ -205,37 +222,19 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
     }
 
     public void setProgress(int progress) {
-        setProgress(progress, true);
-    }
 
-    private void setProgress(int progress, boolean notifyChanged) {
-        if (progress > mMax) {
-            progress = mMax;
+        if (progress < mMin || mMax < progress) {
+            throw new IllegalArgumentException("progress out of range");
         }
-        if (progress < mMin) {
-            progress = mMin;
+
+        if (progress == mProgress) {
+            return;
         }
-        if (progress != mProgress) {
+
+        if (callChangeListener(progress)) {
             mProgress = progress;
             persistInt(progress);
-            if (notifyChanged) {
-                notifyChanged();
-            }
-        }
-    }
-
-    private void syncProgress(SeekBar seekBar) {
-        final int progress = seekBar.getProgress();
-        final int realProgress = toRealProgress(progress);
-        if (realProgress != mProgress) {
-            if (callChangeListener(realProgress)) {
-                setProgress(realProgress, false);
-                if (mSummaryView != null) {
-                    mSummaryView.setText(getSummary());
-                }
-            } else {
-                seekBar.setProgress(toAbsProgress(mProgress));
-            }
+            notifyChanged();
         }
     }
 

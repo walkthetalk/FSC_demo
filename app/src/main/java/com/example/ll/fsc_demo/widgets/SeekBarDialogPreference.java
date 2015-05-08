@@ -1,21 +1,14 @@
 package com.example.ll.fsc_demo.widgets;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.DialogPreference;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.view.Window;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -73,7 +66,6 @@ public class SeekBarDialogPreference extends DialogPreference {
     private int mRatio = 1;
 
     private int mChangedProgress = 0;   /// only used by dialog pass value to parent
-    private TextView mSummaryView;
 
     public SeekBarDialogPreference(Context context) {
         this(context, null);
@@ -101,7 +93,6 @@ public class SeekBarDialogPreference extends DialogPreference {
     @Override
     protected void onBindView(View view) {
         super.onBindView(view);
-        mSummaryView = (TextView) view.findViewById(android.R.id.summary);
     }
 
     @Override
@@ -115,17 +106,16 @@ public class SeekBarDialogPreference extends DialogPreference {
 
         final View dialogSeekbarView = view.findViewById(R.id.seekbar);
         if (dialogSeekbarView instanceof SeekBar) {
-            Log.d("FIND SEEKBAR ", " HAHA ");
             final SeekBar skb = ((SeekBar) dialogSeekbarView);
             skb.setMax(toAbsProgress(mMax));
             skb.setProgress(toAbsProgress(mProgress));
             skb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                final private TextView mSummaryView = (TextView)dialogSummaryView;
+                final private TextView summaryView = (TextView)dialogSummaryView;
                 private boolean mTouching = false;
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     if (fromUser) {
-                        mSummaryView.setText(getSummary(toRealProgress(progress)));
+                        summaryView.setText(getSummary(toRealProgress(progress)));
                         mChangedProgress = toRealProgress(progress);
                     }
                 }
@@ -292,9 +282,6 @@ public class SeekBarDialogPreference extends DialogPreference {
 
             final boolean wasBlocking = shouldDisableDependents();
             mProgress = progress;
-            if (mSummaryView != null) {
-                mSummaryView.setText(getSummary());
-            }
             persistInt(mProgress);
             if (shouldDisableDependents() != wasBlocking) {
                 notifyDependencyChange(!wasBlocking);
