@@ -7,14 +7,13 @@ import android.os.Parcelable;
 import android.preference.DialogPreference;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.ll.fsc_demo.R;
 
-public class SeekBarDialogPreference extends DialogPreference {
+public class ExtSeekBarDialogPreference extends DialogPreference {
     private static class SavedState extends BaseSavedState {
         @SuppressWarnings("unused")
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
@@ -66,27 +65,34 @@ public class SeekBarDialogPreference extends DialogPreference {
     private int mRatio = 1;
 
     private int mChangedProgress = 0;   /// only used by dialog pass value to parent
+                                        /// TODO maybe we should new a seekbar
+    private CharSequence mSummaryP;
+    private CharSequence mSummaryZ;
+    private CharSequence mSummaryN;
 
-    public SeekBarDialogPreference(Context context) {
+    public ExtSeekBarDialogPreference(Context context) {
         this(context, null);
     }
 
-    public SeekBarDialogPreference(Context context, AttributeSet attrs) {
+    public ExtSeekBarDialogPreference(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.seekBarDialogPreferenceStyle);
     }
 
-    public SeekBarDialogPreference(Context context, AttributeSet attrs,
-                                   int defStyle) {
+    public ExtSeekBarDialogPreference(Context context, AttributeSet attrs,
+                                      int defStyle) {
         super(context, attrs, defStyle);
         context = getContext();
         TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.SeekBarDialogPreference, defStyle,
+                R.styleable.ExtSeekBarDialogPreference, defStyle,
                 R.style.Holo_SeekBarDialogPreference);
+        mSummaryP = a.getString(R.styleable.ExtSeekBarDialogPreference_summaryp);
+        mSummaryZ = a.getString(R.styleable.ExtSeekBarDialogPreference_summaryz);
+        mSummaryN = a.getString(R.styleable.ExtSeekBarDialogPreference_summaryn);
 
-        setMin(a.getInt(R.styleable.SeekBarDialogPreference_min, mMin));
-        setMax(a.getInt(R.styleable.SeekBarDialogPreference_max, mMax));
-        setStep(a.getInt(R.styleable.SeekBarDialogPreference_step, mStep));
-        setRatio(a.getInt(R.styleable.SeekBarDialogPreference_ratio, mRatio));
+        setMin(a.getInt(R.styleable.ExtSeekBarDialogPreference_min, mMin));
+        setMax(a.getInt(R.styleable.ExtSeekBarDialogPreference_max, mMax));
+        setStep(a.getInt(R.styleable.ExtSeekBarDialogPreference_step, mStep));
+        setRatio(a.getInt(R.styleable.ExtSeekBarDialogPreference_ratio, mRatio));
         a.recycle();
     }
 
@@ -190,6 +196,22 @@ public class SeekBarDialogPreference extends DialogPreference {
 
     private CharSequence getSummary(int progress) {
         CharSequence tmp = super.getSummary();
+        if (progress > 0) {
+            if (mSummaryP != null) {
+                tmp = mSummaryP;
+            }
+        }
+        else if (progress < 0) {
+            if (mSummaryN != null) {
+                progress = -progress;
+                tmp = mSummaryN;
+            }
+        }
+        else {
+            if (mSummaryZ != null) {
+                tmp = mSummaryZ;
+            }
+        }
         if (TextUtils.isEmpty(tmp)) {
             return null;
         }

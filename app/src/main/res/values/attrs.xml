@@ -9,20 +9,32 @@
     <attr name="step" format="integer" />
     <attr name="nullsummary" format="string"/>
 
+    <attr name="summaryp" format="string"/>
+    <attr name="summaryz" format="string"/>
+    <attr name="summaryn" format="string"/>
+
     <attr name="seekBarDialogPreferenceStyle" format="reference"/>
-    <declare-styleable name="SeekBarDialogPreference">
+    <declare-styleable name="ExtSeekBarDialogPreference">
         <attr name="max"/>
         <attr name="min"/>
         <attr name="ratio"/>
         <attr name="step"/>
+
+        <attr name="summaryp"/>
+        <attr name="summaryz"/>
+        <attr name="summaryn"/>
     </declare-styleable>
 
     <attr name="seekBarPreferenceStyle" format="reference"/>
-    <declare-styleable name="SeekBarPreference">
+    <declare-styleable name="ExtSeekBarPreference">
         <attr name="max"/>
         <attr name="min"/>
         <attr name="ratio"/>
         <attr name="step"/>
+
+        <attr name="summaryp"/>
+        <attr name="summaryz"/>
+        <attr name="summaryn"/>
     </declare-styleable>
 
     <attr name="extEditTextPreferenceStyle" format="reference"/>

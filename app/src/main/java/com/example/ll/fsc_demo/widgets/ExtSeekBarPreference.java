@@ -7,15 +7,13 @@ import android.os.Parcelable;
 import android.preference.Preference;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.ll.fsc_demo.R;
 
-public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarChangeListener {
+public class ExtSeekBarPreference extends Preference implements SeekBar.OnSeekBarChangeListener {
     private static class SavedState extends BaseSavedState {
         int min;
         int max;
@@ -53,26 +51,33 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
     private int mStep = 1;
     private int mRatio = 1;
 
+    private CharSequence mSummaryP;
+    private CharSequence mSummaryZ;
+    private CharSequence mSummaryN;
+
     private boolean mTrackingTouch;
     private TextView mSummaryView;
 
-    public SeekBarPreference(Context context) {
+    public ExtSeekBarPreference(Context context) {
         this(context, null);
     }
 
-    public SeekBarPreference(Context context, AttributeSet attrs) {
+    public ExtSeekBarPreference(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.seekBarPreferenceStyle);
     }
 
-    public SeekBarPreference(Context context, AttributeSet attrs, int defStyle) {
+    public ExtSeekBarPreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         context = getContext();
         TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.SeekBarPreference, defStyle, 0);
-        setMin(a.getInt(R.styleable.SeekBarPreference_min, mMin));
-        setMax(a.getInt(R.styleable.SeekBarPreference_max, mMax));
-        setStep(a.getInt(R.styleable.SeekBarPreference_step, mStep));
-        setRatio(a.getInt(R.styleable.SeekBarPreference_ratio, mRatio));
+                R.styleable.ExtSeekBarPreference, defStyle, 0);
+        mSummaryP = a.getString(R.styleable.ExtSeekBarPreference_summaryp);
+        mSummaryZ = a.getString(R.styleable.ExtSeekBarPreference_summaryz);
+        mSummaryN = a.getString(R.styleable.ExtSeekBarPreference_summaryn);
+        setMin(a.getInt(R.styleable.ExtSeekBarPreference_min, mMin));
+        setMax(a.getInt(R.styleable.ExtSeekBarPreference_max, mMax));
+        setStep(a.getInt(R.styleable.ExtSeekBarPreference_step, mStep));
+        setRatio(a.getInt(R.styleable.ExtSeekBarPreference_ratio, mRatio));
         a.recycle();
     }
 
@@ -98,13 +103,33 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
 
     @Override
     public CharSequence getSummary() {
+        int progress = mProgress;
         CharSequence tmp = super.getSummary();
-
-        if (mRatio == 1) {
-            return String.format(tmp.toString(), mProgress);
+        if (mProgress > 0) {
+            if (mSummaryP != null) {
+                tmp = mSummaryP;
+            }
+        }
+        else if (mProgress < 0) {
+            if (mSummaryN != null) {
+                progress = -progress;
+                tmp = mSummaryN;
+            }
         }
         else {
-            return String.format(tmp.toString(), ((float) mProgress / mRatio));
+            if (mSummaryZ != null) {
+                tmp = mSummaryZ;
+            }
+        }
+        if (TextUtils.isEmpty(tmp)) {
+            return null;
+        }
+
+        if (mRatio == 1) {
+            return String.format(tmp.toString(), progress);
+        }
+        else {
+            return String.format(tmp.toString(), ((float) progress / mRatio));
         }
     }
 

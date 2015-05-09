@@ -40,14 +40,12 @@
     </string-array>
 
     <string-array name="fsp_loss_est_mode">
-        <item>@string/fsp_loss_est_mode_close</item>
         <item>@string/fsp_loss_est_mode_fine</item>
         <item>@string/fsp_loss_est_mode_core</item>
         <item>@string/fsp_loss_est_mode_cladding</item>
     </string-array>
 
     <string-array name="fsp_loss_est_mode_value">
-        <item>close</item>
         <item>fine</item>
         <item>core</item>
         <item>cladding</item>

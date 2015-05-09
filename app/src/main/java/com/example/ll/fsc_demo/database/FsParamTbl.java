@@ -19,7 +19,6 @@ public class FsParamTbl {
     public static final String COL_TENSION_TEST = "tension_test";
 
     public static final String COL_KERF_LIMIT = "kerf_limit";
-    public static final String COL_LOSS_LIMIT = "loss_limit";
     public static final String COL_CORE_ANGLE_LIMIT = "core_angle_limit";
 
     public static final String COL_CLEAN_TIME = "clean_time";
@@ -41,6 +40,8 @@ public class FsParamTbl {
     public static final String COL_TAPER_SPEED = "taper_speed";
     public static final String COL_TAPER_LENGTH = "taper_length";
 
+    public static final String COL_EST_LOSS = "est_loss";
+    public static final String COL_LOSS_LIMIT = "loss_limit";
     public static final String COL_LOSS_EST_MODE = "loss_est_mode";
     public static final String COL_LEFT_MFD = "left_mfd";
     public static final String COL_RIGHT_MFD = "right_mfd";
@@ -64,7 +65,6 @@ public class FsParamTbl {
             COL_TENSION_TEST,
 
             COL_KERF_LIMIT,
-            COL_LOSS_LIMIT,
             COL_CORE_ANGLE_LIMIT,
 
             COL_CLEAN_TIME,
@@ -86,6 +86,8 @@ public class FsParamTbl {
             COL_TAPER_SPEED,
             COL_TAPER_LENGTH,
 
+            COL_EST_LOSS,
+            COL_LOSS_LIMIT,
             COL_LOSS_EST_MODE,
             COL_LEFT_MFD,
             COL_RIGHT_MFD,
@@ -108,12 +110,11 @@ public class FsParamTbl {
             + ", " +  COL_TENSION_TEST + " BOOLEAN CHECK( " + COL_TENSION_TEST + " IN ( 0, 1 ) ) NOT NULL DEFAULT 0"
 
             + ", " +  COL_KERF_LIMIT + " INTEGER CHECK( " + COL_KERF_LIMIT + " <= 1000 ) NOT NULL DEFAULT 200"     // unit: 0.01
-            + ", " +  COL_LOSS_LIMIT + " INTEGER CHECK( " + COL_LOSS_LIMIT + " <= 100 ) NOT NULL DEFAULT 3"        // unit: 0.01db
             + ", " +  COL_CORE_ANGLE_LIMIT + " INTEGER CHECK( " + COL_CORE_ANGLE_LIMIT + " < 100 ) NOT NULL DEFAULT 10"   // unit: 0.01
 
             + ", " +  COL_CLEAN_TIME + " INTEGER CHECK( " + COL_CLEAN_TIME + " <= 1000 ) NOT NULL DEFAULT 200"     // unit: ms
             + ", " +  COL_FUSION_GAP + " INTEGER CHECK( " + COL_FUSION_GAP + " <= 20 ) NOT NULL DEFAULT 8" // unit: um
-            + ", " +  COL_FUSION_POSITION + " INTEGER CHECK( -20 < " + COL_FUSION_POSITION + " AND " + COL_FUSION_POSITION + " < 20 ) NOT NULL DEFAULT 0" // unit: um
+            + ", " +  COL_FUSION_POSITION + " INTEGER CHECK( -20 < " + COL_FUSION_POSITION + " AND " + COL_FUSION_POSITION + " <= 20 ) NOT NULL DEFAULT 0" // unit: um
             + ", " +  COL_PREFUSE_MAG + " INTEGER CHECK( " + COL_PREFUSE_MAG + " <= 500 ) NOT NULL DEFAULT 100"     // unit: 0.01V
             + ", " +  COL_PREFUSE_TIME + " INTEGER CHECK( " + COL_PREFUSE_TIME + " <= 2000 ) NOT NULL DEFAULT 500"     // unit: ms
             + ", " +  COL_FUSION_OVERLAP + " INTEGER CHECK( " + COL_FUSION_OVERLAP + " <= 20 ) NOT NULL DEFAULT 10"     // unit: um
@@ -131,7 +132,9 @@ public class FsParamTbl {
             + ", " +  COL_TAPER_SPEED + " INTEGER CHECK( " + COL_TAPER_SPEED + " <= 100 ) NOT NULL DEFAULT 20"     // unit: 0.01
             + ", " +  COL_TAPER_LENGTH + " INTEGER CHECK( " + COL_TAPER_LENGTH + " <= 100 ) NOT NULL DEFAULT 50"     // unit: um
 
-            + ", " +  COL_LOSS_EST_MODE + " TEXT CHECK( " + COL_LOSS_EST_MODE + " IN ('close', 'fine', 'core', 'cladding') ) NOT NULL DEFAULT 'fine'"
+            + ", " +  COL_EST_LOSS + " BOOLEAN CHECK( " + COL_EST_LOSS + " IN ( 0, 1 ) ) NOT NULL DEFAULT 1"
+            + ", " +  COL_LOSS_LIMIT + " INTEGER CHECK( " + COL_LOSS_LIMIT + " <= 100 ) NOT NULL DEFAULT 3"        // unit: 0.01db
+            + ", " +  COL_LOSS_EST_MODE + " TEXT CHECK( " + COL_LOSS_EST_MODE + " IN ('fine', 'core', 'cladding') ) NOT NULL DEFAULT 'fine'"
             + ", " +  COL_LEFT_MFD + " INTEGER CHECK( " + COL_LEFT_MFD + " <= 1250 ) NOT NULL DEFAULT 93"     // unit: 0.1um
             + ", " +  COL_RIGHT_MFD + " INTEGER CHECK( " + COL_RIGHT_MFD + " <= 1250 ) NOT NULL DEFAULT 93"     // unit: 0.1um
             + ", " +  COL_MIN_LOSS + " INTEGER CHECK( " + COL_MIN_LOSS + " <= 100 ) NOT NULL DEFAULT 1"        // unit: 0.01db
@@ -157,7 +160,6 @@ public class FsParamTbl {
                 + COL_TENSION_TEST + ","
 
                 + COL_KERF_LIMIT + ","
-                + COL_LOSS_LIMIT + ","
                 + COL_CORE_ANGLE_LIMIT + ","
 
                 + COL_CLEAN_TIME + ","
@@ -179,6 +181,8 @@ public class FsParamTbl {
                 + COL_TAPER_SPEED + ","
                 + COL_TAPER_LENGTH + ","
 
+                + COL_EST_LOSS + ","
+                + COL_LOSS_LIMIT + ","
                 + COL_LOSS_EST_MODE + ","
                 + COL_LEFT_MFD + ","
                 + COL_RIGHT_MFD + ","
@@ -188,22 +192,22 @@ public class FsParamTbl {
                 + COL_MFD_MISMATCH_COEFFICIENT + ") VALUES(";
         String insertTail = ");";
 
-        database.execSQL(insertHeader + "1,  'test1',  'auto',      'SM', 1, 1, 'fine', 1, 0, 200, 3, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
-        database.execSQL(insertHeader + "2,  'test2',  'auto',      'DS', 1, 1, 'fine', 1, 0, 200, 3, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
-        database.execSQL(insertHeader + "4,  'test4',  'auto',      'NZ', 1, 1, 'fine', 1, 0, 200, 3, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
-        database.execSQL(insertHeader + "10, 'test10', 'auto',      'MM', 1, 1, 'fine', 1, 0, 200, 3, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
-        database.execSQL(insertHeader + "21, 'test21', 'calibrate', 'SM', 1, 1, 'fine', 1, 0, 200, 3, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
-        database.execSQL(insertHeader + "22, 'test22', 'calibrate', 'DS', 1, 1, 'fine', 1, 0, 200, 3, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
-        database.execSQL(insertHeader + "25, 'test25', 'calibrate', 'NZ', 1, 1, 'fine', 1, 0, 200, 3, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
-        database.execSQL(insertHeader + "29, 'test29', 'calibrate', 'MM', 1, 1, 'fine', 1, 0, 200, 3, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
-        database.execSQL(insertHeader + "33, 'test33', 'normal',    'SM', 1, 1, 'fine', 1, 0, 200, 3, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
-        database.execSQL(insertHeader + "36, 'test36', 'normal',    'DS', 1, 1, 'fine', 1, 0, 200, 3, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
-        database.execSQL(insertHeader + "40, 'test40', 'normal',    'NZ', 1, 1, 'fine', 1, 0, 200, 3, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
-        database.execSQL(insertHeader + "42, 'test42', 'normal',    'MM', 1, 1, 'fine', 1, 0, 200, 3, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
-        database.execSQL(insertHeader + "45, 'test45', 'special',   'SM', 1, 1, 'fine', 1, 0, 200, 3, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
-        database.execSQL(insertHeader + "46, 'test46', 'special',   'DS', 1, 1, 'fine', 1, 0, 200, 3, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
-        database.execSQL(insertHeader + "48, 'test48', 'special',   'NZ', 1, 1, 'fine', 1, 0, 200, 3, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
-        database.execSQL(insertHeader + "49, 'test49', 'special',   'MM', 1, 1, 'fine', 1, 0, 200, 3, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
+        database.execSQL(insertHeader + "1,  'test1',  'auto',      'SM', 1, 1, 'fine', 1, 0, 200, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, " + "1, 3, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
+        database.execSQL(insertHeader + "2,  'test2',  'auto',      'DS', 1, 1, 'fine', 1, 0, 200, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, " + "1, 3, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
+        database.execSQL(insertHeader + "4,  'test4',  'auto',      'NZ', 1, 1, 'fine', 1, 0, 200, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, " + "1, 3, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
+        database.execSQL(insertHeader + "10, 'test10', 'auto',      'MM', 1, 1, 'fine', 1, 0, 200, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, " + "1, 3, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
+        database.execSQL(insertHeader + "21, 'test21', 'calibrate', 'SM', 1, 1, 'fine', 1, 0, 200, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, " + "1, 3, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
+        database.execSQL(insertHeader + "22, 'test22', 'calibrate', 'DS', 1, 1, 'fine', 1, 0, 200, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, " + "1, 3, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
+        database.execSQL(insertHeader + "25, 'test25', 'calibrate', 'NZ', 1, 1, 'fine', 1, 0, 200, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, " + "1, 3, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
+        database.execSQL(insertHeader + "29, 'test29', 'calibrate', 'MM', 1, 1, 'fine', 1, 0, 200, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, " + "1, 3, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
+        database.execSQL(insertHeader + "33, 'test33', 'normal',    'SM', 1, 1, 'fine', 1, 0, 200, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, " + "1, 3, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
+        database.execSQL(insertHeader + "36, 'test36', 'normal',    'DS', 1, 1, 'fine', 1, 0, 200, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, " + "1, 3, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
+        database.execSQL(insertHeader + "40, 'test40', 'normal',    'NZ', 1, 1, 'fine', 1, 0, 200, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, " + "1, 3, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
+        database.execSQL(insertHeader + "42, 'test42', 'normal',    'MM', 1, 1, 'fine', 1, 0, 200, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, " + "1, 3, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
+        database.execSQL(insertHeader + "45, 'test45', 'special',   'SM', 1, 1, 'fine', 1, 0, 200, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, " + "1, 3, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
+        database.execSQL(insertHeader + "46, 'test46', 'special',   'DS', 1, 1, 'fine', 1, 0, 200, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, " + "1, 3, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
+        database.execSQL(insertHeader + "48, 'test48', 'special',   'NZ', 1, 1, 'fine', 1, 0, 200, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, " + "1, 3, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
+        database.execSQL(insertHeader + "49, 'test49', 'special',   'MM', 1, 1, 'fine', 1, 0, 200, 10, 200, 8, 0, 100, 500, 10, 100, 500, 100, 500, 500, 500, 500, 0, 500, 20, 50, " + "1, 3, 'fine', 93, 93, 1, 1, 1, 1 " + insertTail);
     }
 
     public static void onUpgrade(SQLiteDatabase db,

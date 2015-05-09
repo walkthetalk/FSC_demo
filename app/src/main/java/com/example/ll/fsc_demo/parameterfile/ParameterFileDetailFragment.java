@@ -4,17 +4,12 @@ import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Loader;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,11 +22,8 @@ import com.example.ll.fsc_demo.database.FsContentProvider;
 import com.example.ll.fsc_demo.database.FsParamTbl;
 import com.example.ll.fsc_demo.dummy.DummyContent;
 import com.example.ll.fsc_demo.widgets.ExtEditTextPreference;
-import com.example.ll.fsc_demo.widgets.SeekBarDialogPreference;
-import com.example.ll.fsc_demo.widgets.SeekBarPreference;
-
-import java.util.HashMap;
-import java.util.Hashtable;
+import com.example.ll.fsc_demo.widgets.ExtSeekBarDialogPreference;
+import com.example.ll.fsc_demo.widgets.ExtSeekBarPreference;
 
 /**
  * A fragment representing a single Parameter File detail screen.
@@ -77,11 +69,6 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
         //View rootView = inflater.inflate(R.xml.prefs_fs_parameterfile, container, false);
 
         addPreferencesFromResource(R.xml.prefs_fs_parameterfile);
-        // disable persistent
-        int cnt = getPreferenceScreen().getPreferenceCount();
-        for (int i = 0; i < cnt; ++i) {
-            getPreferenceScreen().getPreference(i).setPersistent(false);
-        }
 
         getPreferenceScreen().setEnabled(false);
 
@@ -204,16 +191,16 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
                         ((SwitchPreference)pref).setChecked(var2.getInt(i) == 1);
                         pref.setOnPreferenceChangeListener(mSwitchListener);
                     }
-                    else if (pref instanceof SeekBarPreference) {
+                    else if (pref instanceof ExtSeekBarPreference) {
                         final int value = var2.getInt(i);
                         mOldContent.put(key, value);
-                        ((SeekBarPreference)pref).setProgress(var2.getInt(i));
+                        ((ExtSeekBarPreference)pref).setProgress(var2.getInt(i));
                         pref.setOnPreferenceChangeListener(mIntListener);
                     }
-                    else if (pref instanceof SeekBarDialogPreference) {
+                    else if (pref instanceof ExtSeekBarDialogPreference) {
                         final int value = var2.getInt(i);
                         mOldContent.put(key, value);
-                        ((SeekBarDialogPreference)pref).setProgress(var2.getInt(i));
+                        ((ExtSeekBarDialogPreference)pref).setProgress(var2.getInt(i));
                         pref.setOnPreferenceChangeListener(mIntListener);
                     }
                     else if (pref instanceof ListPreference) {
@@ -231,9 +218,6 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
                 var2.close();
 
                 getPreferenceScreen().setEnabled(true);
-                //mAdapter.swapCursor(var2);
-
-                //setListShown(true);
             }
 
             @Override

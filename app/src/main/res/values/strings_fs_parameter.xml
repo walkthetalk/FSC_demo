@@ -11,7 +11,7 @@
     <string name="fsp_auto_mag">Auto Arc Power</string>
     <string name="fsp_tension_test">Tension Test</string>
 
-    <string name="fsp_cat_limit">Limits</string>
+    <string name="fsp_cat_defect">Defect Detect</string>
 
     <string name="fsp_kerf_limit">Kerf Limit</string>
     <string name="fsp_loss_limit">Loss Limit</string>
@@ -22,6 +22,9 @@
     <string name="fsp_clean_time">Clean Arc Time</string>
     <string name="fsp_fusion_gap">Fusion Gap</string>
     <string name="fsp_fusion_position">Fusion Position</string>
+    <string name="fsp_fusion_position_summaryp">Right %dμm</string>
+    <string name="fsp_fusion_position_summaryz">Center</string>
+    <string name="fsp_fusion_position_summaryn">Left %dμm</string>
     <string name="fsp_prefuse_mag">Prefuse Power</string>
     <string name="fsp_prefuse_time">Prefuse Time</string>
     <string name="fsp_fusion_overlap">Overlap</string>
@@ -42,6 +45,7 @@
 
     <string name="fsp_cat_loss">Loss</string>
 
+    <string name="fsp_est_loss">Estimate Loss</string>
     <string name="fsp_loss_est_mode">Loss Estimate Mode</string>
     <string name="fsp_left_mfd">Left Fiber MFD</string>
     <string name="fsp_right_mfd">Right Fiber MFD</string>
@@ -65,7 +69,6 @@
     <string name="fsp_align_mode_core">Core</string>
     <string name="fsp_align_mode_manual">Manual</string>
 
-    <string name="fsp_loss_est_mode_close">Close</string>
     <string name="fsp_loss_est_mode_fine">Fine</string>
     <string name="fsp_loss_est_mode_core">Core</string>
     <string name="fsp_loss_est_mode_cladding">Cladding</string>
