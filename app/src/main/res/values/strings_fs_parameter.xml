@@ -2,6 +2,7 @@
 <resources>
     <string name="fsp_cat_base">Base</string>
 
+    <string name="fsp__id">Id</string>
     <string name="fsp_name">Name</string>
     <string name="fsp_mode">Splice Mode</string>
     <string name="fsp_fiber_type">Fiber Type</string>

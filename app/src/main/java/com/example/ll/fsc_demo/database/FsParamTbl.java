@@ -8,6 +8,8 @@ import android.util.Log;
  */
 public class FsParamTbl {
     public static final String TBL_NAME = "fusion_splice_param";
+    public static final int ROW_LIMIT = 80;
+
     public static final String COL_ID = "_id";
     public static final String COL_NAME = "name";
     public static final String COL_MODE = "mode";
@@ -99,7 +101,7 @@ public class FsParamTbl {
 
     // Database creation SQL statement
     private static final String CREATE_TBL = "create table " + TBL_NAME + "("
-            + "  " +  COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT"
+            + "  " +  COL_ID + " INTEGER CHECK( " + COL_ID + " < " + ROW_LIMIT + ") PRIMARY KEY AUTOINCREMENT"
             + ", " +  COL_NAME + " TEXT NOT NULL"
             + ", " +  COL_MODE + " TEXT CHECK( " + COL_MODE + " IN ('auto', 'calibrate', 'normal', 'special') ) NOT NULL DEFAULT 'auto'"
             + ", " +  COL_FIBER_TYPE + " TEXT CHECK( " + COL_FIBER_TYPE + " IN ('SM', 'DS', 'NZ', 'MM') ) NOT NULL DEFAULT 'SM'"

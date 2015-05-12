@@ -105,6 +105,9 @@ public class ParameterFileListActivity extends ActionBarActivity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, ParameterFileDetailActivity.class);
             detailIntent.putExtra(ParameterFileDetailFragment.ARG_ITEM_ID, id);
+            if (true) { // TODO
+                detailIntent.putExtra(ParameterFileDetailFragment.ARG_IS_NEW, true);
+            }
             startActivity(detailIntent);
         }
     }

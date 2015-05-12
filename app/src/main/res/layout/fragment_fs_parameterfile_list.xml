@@ -15,31 +15,31 @@
         android:layout_height="match_parent"
         android:src="@drawable/ic_blank" />
 
-    <TextView android:id="@+id/fs_parameterfile_number"
+    <TextView android:id="@+id/fsp__id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@android:style/TextAppearance.Large"
         android:layout_toEndOf="@id/fs_parameterfile_icon"
         android:layout_marginEnd="@dimen/activity_horizontal_margin" />
 
-    <TextView android:id="@+id/fs_parameterfile_name"
+    <TextView android:id="@+id/fsp_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceListItem"
-        android:layout_toEndOf="@id/fs_parameterfile_number" />
-    <TextView android:id="@+id/fs_parameterfile_mode"
+        android:layout_toEndOf="@id/fsp__id" />
+    <TextView android:id="@+id/fsp_mode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceListItemSecondary"
-        android:layout_below="@id/fs_parameterfile_name"
-        android:layout_alignStart="@id/fs_parameterfile_name"
+        android:layout_below="@id/fsp_name"
+        android:layout_alignStart="@id/fsp_name"
         android:layout_marginEnd="@dimen/abc_button_padding_horizontal_material" />
-    <TextView android:id="@+id/fs_parameterfile_fiber_type"
+    <TextView android:id="@+id/fsp_fiber_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceListItemSecondary"
-        android:layout_toEndOf="@id/fs_parameterfile_mode"
-        android:layout_below="@+id/fs_parameterfile_name" />
+        android:layout_toEndOf="@id/fsp_mode"
+        android:layout_below="@+id/fsp_name" />
 
     <!-- no ripple effect and not clickable
     -->

@@ -18,16 +18,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.Checkable;
 import android.widget.ListView;
 
 
 import com.example.ll.fsc_demo.R;
 import com.example.ll.fsc_demo.database.FsContentProvider;
 import com.example.ll.fsc_demo.database.FsParamTbl;
-import com.example.ll.fsc_demo.dummy.DummyContent;
 
 /**
  * A list fragment representing a list of Parameter Files. This fragment
@@ -94,10 +90,10 @@ public class ParameterFileListFragment extends ListFragment {
         fillData(FsContentProvider.URI_PATH_FSPARAMS,
                 FsParamTbl.ABSTRACT,
                 R.layout.fragment_fs_parameterfile_list, new int[] {
-                        R.id.fs_parameterfile_number,
-                        R.id.fs_parameterfile_name,
-                        R.id.fs_parameterfile_mode,
-                        R.id.fs_parameterfile_fiber_type,
+                        R.id.fsp__id,
+                        R.id.fsp_name,
+                        R.id.fsp_mode,
+                        R.id.fsp_fiber_type,
                 },
                 R.id.checkableChild,
                 R.id.fs_parameterfile_icon);
@@ -156,31 +152,6 @@ public class ParameterFileListFragment extends ListFragment {
             }
         });
 
-        /*
-        getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
-            @SuppressWarnings("unchecked")
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                Log.i("LISTEN ITEM CLICK ", String.valueOf(position));
-                //ListView listView = (ListView) parent;
-                //ParameterFileListAdapter.ViewHolder holder =
-                //        (ParameterFileListAdapter.ViewHolder)view.getTag();
-                //((Checkable)holder.checkable).setChecked(true);//listView.isItemChecked(position));
-                //Toast.makeText(SQLiteCRUDActivity.this, userid + " , " + name + " , " + age, Toast.LENGTH_LONG).show();
-            }
-        });
-        */
-
-        /*
-        getListView().setOnItemClickListener(new OnItemClickListener() {
-                        
-
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(ChoiceModeMultipleModalActivity.this, "选择了一个item", 300).show();
-            }
-        });
-        */
         // Restore the previously serialized activated item position.
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {

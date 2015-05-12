@@ -9,7 +9,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceGroup;
+import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,10 +23,11 @@ import android.view.ViewGroup;
 import com.example.ll.fsc_demo.R;
 import com.example.ll.fsc_demo.database.FsContentProvider;
 import com.example.ll.fsc_demo.database.FsParamTbl;
-import com.example.ll.fsc_demo.dummy.DummyContent;
 import com.example.ll.fsc_demo.widgets.ExtEditTextPreference;
 import com.example.ll.fsc_demo.widgets.ExtSeekBarDialogPreference;
 import com.example.ll.fsc_demo.widgets.ExtSeekBarPreference;
+
+import java.util.HashSet;
 
 /**
  * A fragment representing a single Parameter File detail screen.
@@ -37,14 +41,20 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_IS_NEW = "is_new";
 
     /**
-     * The dummy content this fragment is presenting.
+     * The contents this fragment is presenting.
      */
-    private Uri mUri;
-    private DummyContent.DummyItem mItem;
-    private ContentValues mOldContent = new ContentValues();
-    private ContentValues mNewContent = new ContentValues();
+    private long mItemId = -1;
+    private boolean mNew = false;
+
+    private String mTblUriBase;
+    private int mRowLimit = -1;
+    private String mPrefKeyPrefix;
+    private String mTblId;
+
+    private final ContentValues mOldContent = new ContentValues();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -57,9 +67,14 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            mUri = Uri.parse(FsContentProvider.URI_PATH_FSPARAMS + "/" + String.valueOf(getArguments().getLong(ARG_ITEM_ID)));
-        }
+        /// prepare all data
+        mItemId = getArguments().getLong(ARG_ITEM_ID, -1);
+        mNew = getArguments().getBoolean(ARG_IS_NEW, false);
+
+        mTblUriBase = FsContentProvider.URI_PATH_FSPARAMS;
+        mRowLimit = FsParamTbl.ROW_LIMIT;
+        mPrefKeyPrefix = "fsp_";
+        mTblId = FsParamTbl.COL_ID;
     }
 
     @Override
@@ -69,17 +84,11 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
         //View rootView = inflater.inflate(R.xml.prefs_fs_parameterfile, container, false);
 
         addPreferencesFromResource(R.xml.prefs_fs_parameterfile);
-
         getPreferenceScreen().setEnabled(false);
 
-        if (mUri != null) {
-            fillData(mUri, FsParamTbl.FULL);
-        }
-
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            // TODO ((TextView) rootView.findViewById(R.id.parameterfile_detail)).setText(mItem.content);
-        }
+        // fill data
+        fillData();
+        fillId();
 
         return ret;
     }
@@ -87,83 +96,89 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
     @Override
     public void onStop() {
         super.onStop();
-        if (mNewContent.size() != 0) {
-            getActivity().getContentResolver().update(mUri, mNewContent, null, null);
-            Log.d("DETAIL ", "onStop------------------------");
+        final ContentValues newContent = new ContentValues();
+        if (mNew) {
+            getFullData(getPreferenceScreen(), newContent);
+            getActivity().getContentResolver().insert(Uri.parse(mTblUriBase), newContent);
+        }
+        else {
+            getIncData(getPreferenceScreen(), newContent);
+            if (newContent.size() != 0) {
+                getActivity().getContentResolver().update(Uri.parse(mTblUriBase + "/" + String.valueOf(mItemId)), newContent, null, null);
+            }
         }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("DETAIL ", "onDestroy------------------------");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.d("DETAIL ", "onDetach------------------------");
     }
 
-    private Preference.OnPreferenceChangeListener mTextListener = new Preference.OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object newValue) {
-            final String key = preference.getKey().substring("fsp_".length());
-            final String value = (String)newValue;
-            final String oldValue = mOldContent.getAsString(key);
-            if (oldValue.equals(value)) {
-                mNewContent.remove(key);
-            }
-            else {
-                mNewContent.put(key, value);
-            }
-            return true;
-        }
-    };
+    private void fillId() {
+        if (mNew) {
+            getLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<Cursor>() {
+                @Override
+                public Loader<Cursor> onCreateLoader(int var1, Bundle var2) {
+                    return new CursorLoader(getActivity(),
+                            Uri.parse(mTblUriBase),
+                            new String[]{"_id"}, null, null, null);
+                }
 
-    private Preference.OnPreferenceChangeListener mSwitchListener = new Preference.OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object newValue) {
-            final String key = preference.getKey().substring("fsp_".length());
-            final int value = ((Boolean)newValue) ? 1 : 0;
-            final int oldValue = mOldContent.getAsInteger(key);
-            if (oldValue == value) {
-                mNewContent.remove(key);
-            }
-            else {
-                mNewContent.put(key, value);
-            }
-            return true;
-        }
-    };
+                @Override
+                public void onLoadFinished(Loader<Cursor> var1, Cursor var2) {
+                    var2.moveToPosition(-1);
+                    HashSet<Integer> set = new HashSet<Integer>();
+                    while (var2.moveToNext()) {
+                        set.add(var2.getInt(0));
+                    }
+                    {
+                        String[] tmp = new String[mRowLimit - set.size()];
+                        int cnt = -1;
+                        for (int i = 1; i <= mRowLimit; ++i) {
+                            if (!set.contains(i)) {
+                                tmp[++cnt] = String.valueOf(i);
+                            }
+                        }
+                        final ListPreference mIdPref = (ListPreference)getPreferenceScreen().findPreference(mPrefKeyPrefix + mTblId);
+                        mIdPref.setEntries(tmp);
+                        mIdPref.setEntryValues(tmp);
+                        mIdPref.setValue(tmp[0]);
+                    }
 
-    private Preference.OnPreferenceChangeListener mIntListener = new Preference.OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object newValue) {
-            final String key = preference.getKey().substring("fsp_".length());
-            final int value = (int)newValue;
-            final int oldValue = mOldContent.getAsInteger(key);
-            if (oldValue == value) {
-                mNewContent.remove(key);
-            }
-            else {
-                mNewContent.put(key, value);
-            }
-            return true;
+                    var2.close();
+                }
+
+                @Override
+                public void onLoaderReset(Loader<Cursor> var1) {
+                    //mAdapter.swapCursor(null);
+                }
+            });
         }
-    };
+        else {
+            final String vs = String.valueOf(mItemId);
+            final ListPreference mIdPref = (ListPreference)getPreferenceScreen().findPreference(mPrefKeyPrefix + mTblId);
+            mIdPref.setEntries(new CharSequence[]{ vs });
+            mIdPref.setEntryValues(new CharSequence[]{vs});
+            mIdPref.setValue(vs);
+            mIdPref.setEnabled(false);
+        }
+    }
 
     /**
      * fill data using simple cursor adapter
      */
-    private void fillData(final Uri uri, final String[] from) {
-        getLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<Cursor>() {
+    private void fillData() {
+        getLoaderManager().initLoader(1, null, new LoaderManager.LoaderCallbacks<Cursor>() {
             @Override
             public Loader<Cursor> onCreateLoader(int var1, Bundle var2) {
-                CursorLoader cursorLoader = new CursorLoader(getActivity(),
-                        uri,
-                        from, null, null, null);
-                return cursorLoader;
+                return new CursorLoader(getActivity(),
+                        Uri.parse(mTblUriBase + "/" + String.valueOf(mItemId)),
+                        null, null, null, null);
             }
 
             @Override
@@ -178,38 +193,28 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
                 /// NOTE don't care id
                 for (int i = 1; i < var2.getColumnCount(); ++i) {
                     final String key = var2.getColumnName(i);
-                    final Preference pref = getPreferenceScreen().findPreference("fsp_" + key);
+                    final Preference pref = getPreferenceScreen().findPreference(mPrefKeyPrefix + key);
                     if (pref instanceof ExtEditTextPreference) {
                         final String value = var2.getString(i);
                         mOldContent.put(key, value);
-                        ((ExtEditTextPreference)pref).setText(var2.getString(i));
-                        pref.setOnPreferenceChangeListener(mTextListener);
-                    }
-                    else if (pref instanceof SwitchPreference) {
+                        ((ExtEditTextPreference) pref).setText(value);
+                    } else if (pref instanceof SwitchPreference) {
                         final int value = var2.getInt(i);
                         mOldContent.put(key, value);
-                        ((SwitchPreference)pref).setChecked(var2.getInt(i) == 1);
-                        pref.setOnPreferenceChangeListener(mSwitchListener);
-                    }
-                    else if (pref instanceof ExtSeekBarPreference) {
+                        ((SwitchPreference) pref).setChecked(value == 1);
+                    } else if (pref instanceof ExtSeekBarPreference) {
                         final int value = var2.getInt(i);
                         mOldContent.put(key, value);
-                        ((ExtSeekBarPreference)pref).setProgress(var2.getInt(i));
-                        pref.setOnPreferenceChangeListener(mIntListener);
-                    }
-                    else if (pref instanceof ExtSeekBarDialogPreference) {
+                        ((ExtSeekBarPreference) pref).setProgress(value);
+                    } else if (pref instanceof ExtSeekBarDialogPreference) {
                         final int value = var2.getInt(i);
                         mOldContent.put(key, value);
-                        ((ExtSeekBarDialogPreference)pref).setProgress(var2.getInt(i));
-                        pref.setOnPreferenceChangeListener(mIntListener);
-                    }
-                    else if (pref instanceof ListPreference) {
+                        ((ExtSeekBarDialogPreference) pref).setProgress(value);
+                    } else if (pref instanceof ListPreference) {
                         final String value = var2.getString(i);
                         mOldContent.put(key, value);
-                        ((ListPreference)pref).setValue(var2.getString(i));
-                        pref.setOnPreferenceChangeListener(mTextListener);
-                    }
-                    else {
+                        ((ListPreference) pref).setValue(value);
+                    } else {
                         Log.e("Prefrence type", " unknown");
                         continue;
                     }
@@ -225,5 +230,81 @@ public class ParameterFileDetailFragment extends PreferenceFragment {
                 //mAdapter.swapCursor(null);
             }
         });
+    }
+
+    private void getFullData(final Preference pref, final ContentValues cv) {
+        if (pref instanceof PreferenceCategory || pref instanceof PreferenceScreen) {
+            final PreferenceGroup pg = (PreferenceGroup) pref;
+            final int cnt = pg.getPreferenceCount();
+            for (int i = 0; i < cnt; ++i) {
+                getFullData(pg.getPreference(i), cv);
+            }
+        }
+        else {
+            final String key = pref.getKey().substring(mPrefKeyPrefix.length());
+            if (pref instanceof ExtEditTextPreference) {
+                cv.put(key, ((ExtEditTextPreference) pref).getText());
+            } else if (pref instanceof SwitchPreference) {
+                cv.put(key, ((SwitchPreference) pref).isChecked() ? 1 : 0);
+            } else if (pref instanceof ExtSeekBarPreference) {
+                cv.put(key, ((ExtSeekBarPreference) pref).getProgress());
+            } else if (pref instanceof ExtSeekBarDialogPreference) {
+                cv.put(key, ((ExtSeekBarDialogPreference) pref).getProgress());
+            } else if (pref instanceof ListPreference) {
+                cv.put(key, ((ListPreference) pref).getValue());
+            } else {
+                Log.e("Prefrence type", " unknown");
+            }
+        }
+
+        return;
+    }
+
+    private void getIncData(final Preference pref, final ContentValues cv) {
+        if (pref instanceof PreferenceCategory || pref instanceof PreferenceScreen) {
+            final PreferenceGroup pg = (PreferenceGroup) pref;
+            final int cnt = pg.getPreferenceCount();
+            for (int i = 0; i < cnt; ++i) {
+                getIncData(pg.getPreference(i), cv);
+            }
+        }
+        else {
+            final String key = pref.getKey().substring(mPrefKeyPrefix.length());
+            if (pref instanceof ExtEditTextPreference) {
+                final String v = ((ExtEditTextPreference)pref).getText();
+                if (!mOldContent.getAsString(key).equals(v)) {
+                    cv.put(key, v);
+                }
+            }
+            else if (pref instanceof SwitchPreference) {
+                final int v = ((SwitchPreference) pref).isChecked() ? 1 : 0;
+                if (mOldContent.getAsInteger(key) != v) {
+                    cv.put(key, v);
+                }
+            }
+            else if (pref instanceof ExtSeekBarPreference) {
+                final int v = ((ExtSeekBarPreference) pref).getProgress();
+                if (mOldContent.getAsInteger(key) != v) {
+                    cv.put(key, v);
+                }
+            }
+            else if (pref instanceof ExtSeekBarDialogPreference) {
+                final int v = ((ExtSeekBarDialogPreference) pref).getProgress();
+                if (mOldContent.getAsInteger(key) != v) {
+                    cv.put(key, v);
+                }
+            }
+            else if (pref instanceof ListPreference) {
+                final String v = ((ListPreference)pref).getValue();
+                if (!mOldContent.getAsString(key).equals(v)) {
+                    cv.put(key, ((ListPreference) pref).getValue());
+                }
+            }
+            else {
+                Log.e("Prefrence type", " unknown");
+            }
+        }
+
+        return;
     }
 }

@@ -47,6 +47,10 @@ public class ParameterFileDetailActivity extends ActionBarActivity {
             Bundle arguments = new Bundle();
             arguments.putLong(ParameterFileDetailFragment.ARG_ITEM_ID,
                     getIntent().getLongExtra(ParameterFileDetailFragment.ARG_ITEM_ID, 0));
+            if (getIntent().hasExtra(ParameterFileDetailFragment.ARG_IS_NEW)) {
+                arguments.putBoolean(ParameterFileDetailFragment.ARG_IS_NEW,
+                        getIntent().getBooleanExtra(ParameterFileDetailFragment.ARG_IS_NEW, false));
+            }
             ParameterFileDetailFragment fragment = new ParameterFileDetailFragment();
             fragment.setArguments(arguments);
             getFragmentManager().beginTransaction()

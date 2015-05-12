@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 public class ParameterFileListAdapter extends SimpleCursorAdapter {
 
     private final int mActId;

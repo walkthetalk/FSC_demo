@@ -7,6 +7,13 @@
     <PreferenceCategory
         android:title="@string/fsp_cat_base">
 
+        <ListPreference
+            android:persistent="false"
+            android:key="fsp__id"
+            android:title="@string/fsp__id"
+            android:summary="%s"
+            android:dialogTitle="@string/fsp__id" />
+
         <com.example.ll.fsc_demo.widgets.ExtEditTextPreference
             android:persistent="false"
             android:key="fsp_name"

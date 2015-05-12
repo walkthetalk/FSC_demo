@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class FsDbHelper extends SQLiteOpenHelper {
     private static String DB_NAME = "fsc.db";
-    private static int DB_VERSION = 1;
+    private static int DB_VERSION = 2;
 
     public FsDbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
