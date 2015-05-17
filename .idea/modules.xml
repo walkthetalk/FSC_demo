@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FSC_demo.iml" filepath="$PROJECT_DIR$/FSC_demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FSC.iml" filepath="$PROJECT_DIR$/FSC.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libs/hellocharts/hellocharts.iml" filepath="$PROJECT_DIR$/libs/hellocharts/hellocharts.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libs/libs.iml" filepath="$PROJECT_DIR$/libs/libs.iml" />
     </modules>
   </component>
 </project>

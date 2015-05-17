@@ -1,12 +1,16 @@
 package com.example.ll.fsc_demo;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.CountDownTimer;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,10 +19,23 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 
 import android.support.v7.widget.Toolbar;
+import android.widget.RelativeLayout;
 
 import com.example.ll.fsc_demo.parameterfile.ParameterFileListActivity;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
+import lecho.lib.hellocharts.gesture.ContainerScrollType;
+import lecho.lib.hellocharts.gesture.ZoomType;
+import lecho.lib.hellocharts.model.ChartData;
+import lecho.lib.hellocharts.model.Line;
+import lecho.lib.hellocharts.model.LineChartData;
+import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.model.Viewport;
+import lecho.lib.hellocharts.view.LineChartView;
 
 
 public class MainActivity extends ActionBarActivity
@@ -141,6 +158,9 @@ public class MainActivity extends ActionBarActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            LineChartView lcv = genChart(inflater.getContext());
+            ((RelativeLayout) rootView).addView(lcv);
+            genTimer(lcv);
             return rootView;
         }
 
@@ -149,6 +169,64 @@ public class MainActivity extends ActionBarActivity
             super.onAttach(activity);
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
+        }
+
+        private void genTimer(final LineChartView mChart) {
+            new CountDownTimer(100000, 1000) {
+                int left = 0;
+                int right = 0;
+                int top = 15;
+                int bottom = 0;
+                final List<PointValue> pvs = ((LineChartData)mChart.getChartData()).getLines().get(0).getValues();
+                public void onTick(long millisUntilFinished) {
+                    this.onFinish();
+                }
+
+                public void onFinish() {
+                    final PointValue newPoint = new PointValue(right, (float) Math.random() * 10);
+                    pvs.add(newPoint);
+
+                    if (left + 10 < right) {
+                        ++left;
+                    }
+                    ++right;
+
+                    mChart.setLineChartData((LineChartData)mChart.getChartData());
+
+                    Log.d("VIEWPORT ", String.valueOf(left) + " " + String.valueOf(top) + " " + String.valueOf(right) + " " + String.valueOf(bottom));
+                    mChart.setCurrentViewportWithAnimation(new Viewport(left, top, right, bottom), 500);
+                    // redraw the chart
+                    //mChart.invalidate();
+                }
+            }.start();
+        }
+
+        private LineChartView genChart(Context context) {
+            LineChartView chart = new LineChartView(context);
+            //chart.setInteractive(true);
+            //chart.setZoomType(ZoomType.VERTICAL);
+            //chart.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
+            chart.setZoomEnabled(false);
+            chart.setScrollEnabled(false);
+            //chart.setViewportCalculationEnabled(false);
+
+
+            List<PointValue> values = new ArrayList<PointValue>();
+            values.add(new PointValue(0, 10));
+
+            //In most cased you can call data model methods in builder-pattern-like manner.
+            Line line = new Line(values).setColor(Color.BLUE).setCubic(true);
+            //line.setStrokeWidth(3);
+            List<Line> lines = new ArrayList<Line>();
+            lines.add(line);
+
+            LineChartData data = new LineChartData();
+            data.setLines(lines);
+            //data.setAxisXBottom(Axis axisX);
+
+            chart.setLineChartData(data);
+
+            return chart;
         }
     }
 
