@@ -27,6 +27,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import lecho.lib.hellocharts.gesture.ContainerScrollType;
+import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
@@ -169,7 +172,7 @@ public class MainActivity extends ActionBarActivity
 
         private void genTimer(final LineChartView mChart) {
             new CountDownTimer(100000, 1000) {
-                int left = 0;
+                int left = -10;
                 int right = 0;
                 int top = 15;
                 int bottom = 0;
@@ -182,15 +185,20 @@ public class MainActivity extends ActionBarActivity
                     final PointValue newPoint = new PointValue(right, (float) Math.random() * 10);
                     pvs.add(newPoint);
 
-                    if (left + 10 < right) {
-                        ++left;
-                    }
                     ++right;
 
+                    //mChart.setVisibility(View.INVISIBLE);
                     mChart.setLineChartData((LineChartData)mChart.getChartData());
-
-                    Log.d("VIEWPORT ", String.valueOf(left) + " " + String.valueOf(top) + " " + String.valueOf(right) + " " + String.valueOf(bottom));
-                    mChart.setCurrentViewportWithAnimation(new Viewport(left, top, right, bottom), 500);
+                    //Log.d("VIEWPORT ", String.valueOf(left) + " " + String.valueOf(top) + " " + String.valueOf(right) + " " + String.valueOf(bottom));
+                    //mChart.cancelDataAnimation();
+                    if (right == 1) {
+                        mChart.setCurrentViewport(new Viewport(-10, top, 0, bottom));
+                    }
+                    if (right == 2) {
+                        mChart.getAnimation()
+                        mChart.setCurrentViewportWithAnimation(new Viewport(110, top, 120, bottom), 120000);
+                    }
+                    //mChart.setVisibility(View.VISIBLE);
                     // redraw the chart
                     //mChart.invalidate();
                 }
@@ -202,10 +210,11 @@ public class MainActivity extends ActionBarActivity
             //chart.setInteractive(true);
             //chart.setZoomType(ZoomType.VERTICAL);
             //chart.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
-            chart.setZoomEnabled(false);
-            chart.setScrollEnabled(false);
-            //chart.setViewportCalculationEnabled(false);
-
+            //chart.setContainerScrollEnabled(false, ContainerScrollType.VERTICAL);
+            //chart.setZoomEnabled(true);
+            //chart.setScrollEnabled(true);
+            chart.setViewportCalculationEnabled(false);
+            chart.setMaximumViewport(new Viewport(-10, 10, 120, 0));
 
             List<PointValue> values = new ArrayList<PointValue>();
             values.add(new PointValue(0, 10));
@@ -218,7 +227,22 @@ public class MainActivity extends ActionBarActivity
 
             LineChartData data = new LineChartData();
             data.setLines(lines);
-            //data.setAxisXBottom(Axis axisX);
+
+            Axis axisX = new Axis(); //X轴
+            axisX.setHasTiltedLabels(true);
+            axisX.setTextColor(Color.BLUE);
+            axisX.setName("采集时间");
+            axisX.setMaxLabelChars(3);
+            final ArrayList<AxisValue> mAxisValues = new ArrayList<AxisValue>();
+            for (int i = 0; i < 120; ++i) {
+                mAxisValues.add(new AxisValue(i).setLabel(String.valueOf(i-10)));
+            }
+            //axisX.setValues(mAxisValues);
+            data.setAxisXBottom(axisX);
+
+            Axis axisY = new Axis();  //Y轴
+            axisY.setMaxLabelChars(7); //默认是3，只能看最后三个数字
+            data.setAxisYLeft(axisY);
 
             chart.setLineChartData(data);
 
