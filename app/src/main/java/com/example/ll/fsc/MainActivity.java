@@ -1,4 +1,4 @@
-package com.example.ll.fsc_demo;
+package com.example.ll.fsc;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,16 +21,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.widget.RelativeLayout;
 
-import com.example.ll.fsc_demo.parameterfile.ParameterFileListActivity;
+import com.example.ll.fsc.parameterfile.ParameterFileListActivity;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
-import lecho.lib.hellocharts.gesture.ContainerScrollType;
-import lecho.lib.hellocharts.gesture.ZoomType;
-import lecho.lib.hellocharts.model.ChartData;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;

@@ -1,4 +1,4 @@
-package com.example.ll.fsc_demo.parameterfile;
+package com.example.ll.fsc.parameterfile;
 
 import android.app.Activity;
 import android.app.ListFragment;
@@ -21,9 +21,9 @@ import android.view.View;
 import android.widget.ListView;
 
 
-import com.example.ll.fsc_demo.R;
-import com.example.ll.fsc_demo.database.FsContentProvider;
-import com.example.ll.fsc_demo.database.FsParamTbl;
+import com.example.ll.fsc.R;
+import com.example.ll.fsc.database.FsContentProvider;
+import com.example.ll.fsc.database.FsParamTbl;
 
 /**
  * A list fragment representing a list of Parameter Files. This fragment

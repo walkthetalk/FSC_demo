@@ -1,4 +1,4 @@
-package com.example.ll.fsc_demo.widgets;
+package com.example.ll.fsc.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.example.ll.fsc_demo.R;
+import com.example.ll.fsc.R;
 
 public class ExtSeekBarDialogPreference extends DialogPreference {
     private static class SavedState extends BaseSavedState {

@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.example.ll.fsc_demo"
+        applicationId "com.example.ll.fsc"
         minSdkVersion 21
         targetSdkVersion 22
         versionCode 1

@@ -1,4 +1,4 @@
-package com.example.ll.fsc_demo;
+package com.example.ll.fsc;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -15,7 +15,7 @@
         android:baselineAligned="false"
         android:divider="?android:attr/dividerHorizontal"
         android:orientation="horizontal"
-        android:showDividers="middle" tools:context="com.example.ll.fsc_demo.parameterfile.ParameterFileListActivity"
+        android:showDividers="middle" tools:context="com.example.ll.fsc.parameterfile.ParameterFileListActivity"
         android:layout_below="@+id/fsc_toolbar">
 
         <!--
@@ -25,7 +25,7 @@
         -->
 
         <fragment android:id="@+id/parameterfile_list"
-            android:name="com.example.ll.fsc_demo.parameterfile.ParameterFileListFragment" android:layout_width="0dp"
+            android:name="com.example.ll.fsc.parameterfile.ParameterFileListFragment" android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             tools:layout="@android:layout/list_content" />

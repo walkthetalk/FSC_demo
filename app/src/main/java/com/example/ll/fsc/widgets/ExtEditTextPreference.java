@@ -1,4 +1,4 @@
-package com.example.ll.fsc_demo.widgets;
+package com.example.ll.fsc.widgets;
 
 import android.content.Context;
 import android.preference.EditTextPreference;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ll.fsc_demo" >
+    package="com.example.ll.fsc" >
 
     <application
         android:allowBackup="true"
@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.ll.fsc.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,25 +17,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".parameterfile.ParameterFileListActivity"
+            android:name="com.example.ll.fsc.parameterfile.ParameterFileListActivity"
             android:label="@string/title_parameterfile_list"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName="com.example.ll.fsc.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.ll.fsc_demo.MainActivity" />
+                android:value="com.example.ll.fsc.MainActivity" />
         </activity>
         <activity
-            android:name=".parameterfile.ParameterFileDetailActivity"
+            android:name="com.example.ll.fsc.parameterfile.ParameterFileDetailActivity"
             android:label="@string/title_parameterfile_detail"
-            android:parentActivityName=".parameterfile.ParameterFileListActivity" >
+            android:parentActivityName="com.example.ll.fsc.parameterfile.ParameterFileListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".parameterfile.ParameterFileListActivity" />
+                android:value="com.example.ll.fsc.parameterfile.ParameterFileListActivity" />
         </activity>
 
         <provider
-            android:name=".database.FsContentProvider"
-            android:authorities="com.example.ll.fsc_demo.database" >
+            android:name="com.example.ll.fsc.database.FsContentProvider"
+            android:authorities="com.example.ll.fsc.database" >
         </provider>
 
     </application>

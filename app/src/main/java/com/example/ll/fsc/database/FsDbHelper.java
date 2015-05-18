@@ -1,4 +1,4 @@
-package com.example.ll.fsc_demo.database;
+package com.example.ll.fsc.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

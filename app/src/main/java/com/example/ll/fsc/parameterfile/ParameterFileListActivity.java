@@ -1,14 +1,13 @@
-package com.example.ll.fsc_demo.parameterfile;
+package com.example.ll.fsc.parameterfile;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.example.ll.fsc_demo.R;
+import com.example.ll.fsc.R;
 
 
 /**

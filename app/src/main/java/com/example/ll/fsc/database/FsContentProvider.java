@@ -1,4 +1,4 @@
-package com.example.ll.fsc_demo.database;
+package com.example.ll.fsc.database;
 
 /**
  * Created by ll on 4/7/15.
@@ -20,7 +20,7 @@ public class FsContentProvider extends ContentProvider {
 
     private FsDbHelper mDB;
 
-    private static final String AUTHORITY = "com.example.ll.fsc_demo.database";
+    private static final String AUTHORITY = "com.example.ll.fsc.database";
     private static final String URI_BASEPATH = "content://" + AUTHORITY + "/";
 
     private static final int URI_ID_FSPARAMS = 10;

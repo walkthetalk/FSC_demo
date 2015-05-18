@@ -1,4 +1,4 @@
-package com.example.ll.fsc_demo.fusionsplice;
+package com.example.ll.fsc.fusionsplice;
 
 /**
  * Created by ll on 4/6/15.

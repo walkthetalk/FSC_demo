@@ -9,12 +9,12 @@
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/parameterfile_list"
-        android:name="com.example.ll.fsc_demo.parameterfile.ParameterFileListFragment"
+        android:name="com.example.ll.fsc.parameterfile.ParameterFileListFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        tools:context="com.example.ll.fsc_demo.parameterfile.ParameterFileListActivity"
+        tools:context="com.example.ll.fsc.parameterfile.ParameterFileListActivity"
         tools:layout="@android:layout/list_content"
         android:layout_below="@+id/fsc_toolbar" />
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.example.ll.fsc_demo.widgets;
+package com.example.ll.fsc.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Checkable;
 import android.widget.RelativeLayout;
 
-import com.example.ll.fsc_demo.R;
+import com.example.ll.fsc.R;
 
 import java.util.ArrayList;
 

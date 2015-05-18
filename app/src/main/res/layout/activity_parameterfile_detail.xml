@@ -11,7 +11,7 @@
         android:id="@+id/parameterfile_detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.ll.fsc_demo.parameterfile.ParameterFileDetailActivity"
+        tools:context="com.example.ll.fsc.parameterfile.ParameterFileDetailActivity"
         tools:ignore="MergeRootFrame"
         android:layout_below="@+id/fsc_toolbar" />
 </RelativeLayout>

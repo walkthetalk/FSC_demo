@@ -1,4 +1,4 @@
-package com.example.ll.fsc_demo;
+package com.example.ll.fsc;
 
 /**
  * Created by ll on 4/5/15.

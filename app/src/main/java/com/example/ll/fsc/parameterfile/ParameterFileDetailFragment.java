@@ -1,4 +1,4 @@
-package com.example.ll.fsc_demo.parameterfile;
+package com.example.ll.fsc.parameterfile;
 
 import android.app.LoaderManager;
 import android.content.ContentValues;
@@ -20,12 +20,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.example.ll.fsc_demo.R;
-import com.example.ll.fsc_demo.database.FsContentProvider;
-import com.example.ll.fsc_demo.database.FsParamTbl;
-import com.example.ll.fsc_demo.widgets.ExtEditTextPreference;
-import com.example.ll.fsc_demo.widgets.ExtSeekBarDialogPreference;
-import com.example.ll.fsc_demo.widgets.ExtSeekBarPreference;
+import com.example.ll.fsc.R;
+import com.example.ll.fsc.database.FsContentProvider;
+import com.example.ll.fsc.database.FsParamTbl;
+import com.example.ll.fsc.widgets.ExtEditTextPreference;
+import com.example.ll.fsc.widgets.ExtSeekBarDialogPreference;
+import com.example.ll.fsc.widgets.ExtSeekBarPreference;
 
 import java.util.HashSet;
 

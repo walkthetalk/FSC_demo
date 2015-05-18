@@ -1,4 +1,4 @@
-package com.example.ll.fsc_demo.parameterfile;
+package com.example.ll.fsc.parameterfile;
 
 /**
  * Created by ll on 4/6/15.
@@ -7,14 +7,10 @@ import android.database.Cursor;
 
 import android.content.Context;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.HashSet;
 
 public class ParameterFileListAdapter extends SimpleCursorAdapter {
 
