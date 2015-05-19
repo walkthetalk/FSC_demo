@@ -1,5 +1,6 @@
 package lecho.lib.hellocharts.animation;
 
+import android.animation.TimeInterpolator;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -12,7 +13,7 @@ public class ChartViewportAnimatorV8 implements ChartViewportAnimator {
 
     final Chart chart;
     final Handler handler;
-    final Interpolator interpolator = new AccelerateDecelerateInterpolator();
+    /*final*/ TimeInterpolator interpolator = new AccelerateDecelerateInterpolator();
     long start;
     boolean isAnimationStarted = false;
     private Viewport startViewport = new Viewport();
@@ -96,4 +97,8 @@ public class ChartViewportAnimatorV8 implements ChartViewportAnimator {
     }
 
 
+    @Override
+    public void setInterpolator(TimeInterpolator value) {
+        interpolator = value;
+    }
 }

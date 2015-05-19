@@ -1,5 +1,6 @@
 package lecho.lib.hellocharts.view;
 
+import android.animation.TimeInterpolator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Build;
@@ -483,4 +484,10 @@ public abstract class AbstractChartView extends View implements Chart {
         this.touchHandler.resetTouchHandler();
     }
 
+    /**
+     * add my own
+     */
+    public void setViewportAnimatorInterpolator(TimeInterpolator value) {
+        viewportAnimator.setInterpolator(value);
+    }
 }

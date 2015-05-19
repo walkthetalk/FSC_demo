@@ -2,6 +2,7 @@ package lecho.lib.hellocharts.animation;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
+import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.SuppressLint;
@@ -92,4 +93,8 @@ public class ChartViewportAnimatorV14 implements ChartViewportAnimator, Animator
         }
     }
 
+    @Override
+    public void setInterpolator(TimeInterpolator value) {
+        animator.setInterpolator(value);
+    }
 }

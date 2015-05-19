@@ -1,5 +1,7 @@
 package lecho.lib.hellocharts.animation;
 
+import android.animation.TimeInterpolator;
+
 import lecho.lib.hellocharts.model.Viewport;
 
 public interface ChartViewportAnimator {
@@ -16,4 +18,5 @@ public interface ChartViewportAnimator {
 
     public void setChartAnimationListener(ChartAnimationListener animationListener);
 
+    public void setInterpolator(TimeInterpolator value);
 }

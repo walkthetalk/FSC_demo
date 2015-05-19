@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 
 import android.support.v7.widget.Toolbar;
+import android.view.animation.LinearInterpolator;
 import android.widget.RelativeLayout;
 
 import com.example.ll.fsc.parameterfile.ParameterFileListActivity;
@@ -33,6 +34,7 @@ import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.model.ValueShape;
 import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.view.LineChartView;
 
@@ -184,23 +186,13 @@ public class MainActivity extends ActionBarActivity
                 public void onFinish() {
                     final PointValue newPoint = new PointValue(right, (float) Math.random() * 10);
                     pvs.add(newPoint);
-
                     ++right;
 
-                    //mChart.setVisibility(View.INVISIBLE);
                     mChart.setLineChartData((LineChartData)mChart.getChartData());
-                    //Log.d("VIEWPORT ", String.valueOf(left) + " " + String.valueOf(top) + " " + String.valueOf(right) + " " + String.valueOf(bottom));
-                    //mChart.cancelDataAnimation();
-                    if (right == 1) {
-                        mChart.setCurrentViewport(new Viewport(-10, top, 0, bottom));
-                    }
-                    if (right == 2) {
-                        mChart.getAnimation()
+                    if (right == 10) {
+                        mChart.setViewportAnimatorInterpolator(new LinearInterpolator());
                         mChart.setCurrentViewportWithAnimation(new Viewport(110, top, 120, bottom), 120000);
                     }
-                    //mChart.setVisibility(View.VISIBLE);
-                    // redraw the chart
-                    //mChart.invalidate();
                 }
             }.start();
         }
@@ -214,13 +206,13 @@ public class MainActivity extends ActionBarActivity
             //chart.setZoomEnabled(true);
             //chart.setScrollEnabled(true);
             chart.setViewportCalculationEnabled(false);
-            chart.setMaximumViewport(new Viewport(-10, 10, 120, 0));
+            chart.setMaximumViewport(new Viewport(-10, 10, 200, 0));
 
             List<PointValue> values = new ArrayList<PointValue>();
             values.add(new PointValue(0, 10));
 
             //In most cased you can call data model methods in builder-pattern-like manner.
-            Line line = new Line(values).setColor(Color.BLUE).setCubic(true);
+            Line line = new Line(values).setColor(Color.BLUE).setCubic(true).setPointRadius(0);
             //line.setStrokeWidth(3);
             List<Line> lines = new ArrayList<Line>();
             lines.add(line);
@@ -245,6 +237,7 @@ public class MainActivity extends ActionBarActivity
             data.setAxisYLeft(axisY);
 
             chart.setLineChartData(data);
+            chart.setCurrentViewport(new Viewport(-10, 10, 0, 0));
 
             return chart;
         }
