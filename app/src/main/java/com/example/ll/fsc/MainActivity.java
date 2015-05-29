@@ -176,7 +176,7 @@ public class MainActivity extends ActionBarActivity
             new CountDownTimer(100000, 1000) {
                 int left = -10;
                 int right = 0;
-                int top = 15;
+                int top = 200;
                 int bottom = 0;
                 final List<PointValue> pvs = ((LineChartData)mChart.getChartData()).getLines().get(0).getValues();
                 public void onTick(long millisUntilFinished) {
@@ -184,12 +184,21 @@ public class MainActivity extends ActionBarActivity
                 }
 
                 public void onFinish() {
-                    final PointValue newPoint = new PointValue(right, (float) Math.random() * 10);
-                    pvs.add(newPoint);
+                    final PointValue p = pvs.get(right);
+                    float value = 0;
+                    if (right < 10) {
+                        value = (float)Math.random() * 2 + right * 16;
+                    }
+                    else if (right < 30) {
+                        value = 160 + (float)Math.random() * 3 - 1.5f;
+                    }
+                    else {
+                        value = 160 - (right + (float)Math.random() - 0.5f - 30) / 20 * 140;
+                    }
+                    p.set(p.getX(), value);
                     ++right;
 
-                    mChart.setLineChartData((LineChartData)mChart.getChartData());
-                    if (right == 10) {
+                    if (right == 4) {
                         mChart.setViewportAnimatorInterpolator(new LinearInterpolator());
                         mChart.setCurrentViewportWithAnimation(new Viewport(110, top, 120, bottom), 120000);
                     }
@@ -206,13 +215,16 @@ public class MainActivity extends ActionBarActivity
             //chart.setZoomEnabled(true);
             //chart.setScrollEnabled(true);
             chart.setViewportCalculationEnabled(false);
-            chart.setMaximumViewport(new Viewport(-10, 10, 200, 0));
+            chart.setMaximumViewport(new Viewport(-10, 200,
+                    120, 0));
 
             List<PointValue> values = new ArrayList<PointValue>();
-            values.add(new PointValue(0, 10));
+            for (int i = 0; i < 120; ++i) {
+                values.add(new PointValue(i, 0));
+            }
 
             //In most cased you can call data model methods in builder-pattern-like manner.
-            Line line = new Line(values).setColor(Color.BLUE).setCubic(true).setPointRadius(0);
+            Line line = new Line(values).setColor(Color.BLUE).setCubic(true).setPointRadius(5);
             //line.setStrokeWidth(3);
             List<Line> lines = new ArrayList<Line>();
             lines.add(line);
@@ -226,10 +238,10 @@ public class MainActivity extends ActionBarActivity
             axisX.setName("采集时间");
             axisX.setMaxLabelChars(3);
             final ArrayList<AxisValue> mAxisValues = new ArrayList<AxisValue>();
-            for (int i = 0; i < 120; ++i) {
-                mAxisValues.add(new AxisValue(i).setLabel(String.valueOf(i-10)));
+            for (int i = -10; i < 120; ++i) {
+                mAxisValues.add(new AxisValue(i).setLabel(i < 0 ? "" : String.valueOf(i)));
             }
-            //axisX.setValues(mAxisValues);
+            axisX.setValues(mAxisValues);
             data.setAxisXBottom(axisX);
 
             Axis axisY = new Axis();  //Y轴
@@ -237,7 +249,7 @@ public class MainActivity extends ActionBarActivity
             data.setAxisYLeft(axisY);
 
             chart.setLineChartData(data);
-            chart.setCurrentViewport(new Viewport(-10, 10, 0, 0));
+            chart.setCurrentViewport(new Viewport(-10, 200, 0, 0));
 
             return chart;
         }
